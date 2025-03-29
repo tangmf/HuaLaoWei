@@ -8,7 +8,7 @@ export default function Navbar() {
 
   return (
     <View style={styles.navbar}>
-      <Link href="/home" style={styles.link} asChild>
+      <Link href="/" style={styles.link} asChild>
         <Pressable style={styles.navItem}>
           <Text style={[styles.navText, currentRoute === "/home" && styles.activeNavText]}>
             Home

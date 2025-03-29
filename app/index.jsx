@@ -202,7 +202,7 @@ const styles = StyleSheet.create({
   },
   map: {
     width: "100%",
-    height: "100%",
+    height: "70%",
     borderRadius: 10,
     overflow: "hidden",
   },
