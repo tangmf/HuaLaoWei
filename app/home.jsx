@@ -107,7 +107,30 @@ export default function Index() {
     <View style={styles.container}>
       {/* Main Content */}
       <View style={styles.content}>
-        
+        {/* Filtering Panel */}
+<View style={styles.filterPanel}>
+  <View style={styles.filterGroup}>
+    <Text style={styles.filterLabel}>Tags:</Text>
+    <Pressable style={styles.filterButton}>
+      <Text style={styles.filterButtonText}>Add</Text>
+    </Pressable>
+  </View>
+
+  <View style={styles.filterGroup}>
+    <Text style={styles.filterLabel}>Severity:</Text>
+    <Pressable style={styles.filterButton}>
+      <Text style={styles.filterButtonText}>Add</Text>
+    </Pressable>
+
+  </View>
+
+  <View style={styles.filterGroup}>
+    <Text style={styles.filterLabel}>Status:</Text>
+    <Pressable style={styles.filterButton}>
+      <Text style={styles.filterButtonText}>Add</Text>
+    </Pressable>
+  </View>
+</View>
           {/* Map Section */}
           {location ? (
             <MapView
@@ -204,6 +227,7 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "70%",
     borderRadius: 10,
+    bottom: 0,
     overflow: "hidden",
   },
   loadingIndicator: {
@@ -300,5 +324,36 @@ const styles = StyleSheet.create({
   lockButtonText: {
     color: "#fff",
     fontSize: 16,
+  },
+  filterPanel: {
+    width: "100%",
+    backgroundColor: "#fff",
+    padding: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: "#ccc",
+    elevation: 2,
+    zIndex: 10, // Ensure it appears above the map
+  },
+  filterGroup: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 10,
+  },
+  filterLabel: {
+    fontSize: 16,
+    fontWeight: "bold",
+    marginRight: 10,
+    color: "#333",
+  },
+  filterButton: {
+    backgroundColor: "#007bff",
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    borderRadius: 5,
+    marginRight: 10,
+  },
+  filterButtonText: {
+    color: "#fff",
+    fontSize: 14,
   },
 });
