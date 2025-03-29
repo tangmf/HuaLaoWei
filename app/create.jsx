@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, Pressable, StyleSheet, Image, FlatList } from "react-native";
+import { View, Text, TextInput, Pressable, Image, FlatList } from "react-native";
 import Navbar from "@/components/Navbar";
 import Header from "@/components/Header";
 
@@ -14,7 +14,7 @@ export default function Create() {
     },
   ]);
 
-  const userProfilePicture = require("@/assets/images/profile-pic.png"); // Replace with your user profile picture path
+  const userProfilePicture = require("@/assets/images/profile-pic.png");
 
   const handleSend = () => {
     if (input.trim() === "") return;
@@ -45,130 +45,48 @@ export default function Create() {
       setMessages((prev) => [...prev, botMessage]);
     }, 1000);
 
-    setInput(""); // Clear input field
+    setInput("");
   };
 
   return (
-    <View style={styles.container}>
-      {/* Header */}
+    <View className="flex-1 bg-white">
       <Header title="Chatbot" />
-      {/* Chat Area */}
+
       <FlatList
         data={messages}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
           <View
-            style={[
-              styles.messageBubble,
-              item.isBot ? styles.botBubble : styles.userBubble,
-            ]}
+            className={`my-1 p-3 rounded-xl max-w-[80%] flex-wrap flex-row items-start space-x-2 ${
+              item.isBot ? "bg-gray-200 self-start" : "bg-blue-500 self-end"
+            }`}
           >
-            {item.isBot ? (
-              <Image
-                source={require("@/assets/images/bot-icon.png")} // Replace with your bot icon path
-                style={styles.messageIcon}
-              />
-            ) : (
-              <Image
-                source={userProfilePicture} // User profile picture
-                style={styles.messageIcon}
-              />
-            )}
+            <Image
+              source={item.isBot ? require("@/assets/images/bot-icon.png") : userProfilePicture}
+              className="w-7 h-7 mt-1"
+            />
             <View>
-              <Text style={styles.messageText}>{item.text}</Text>
-              <Text style={styles.timestamp}>{item.timestamp}</Text>
+              <Text className="text-sm text-black whitespace-pre-line">{item.text}</Text>
+              <Text className="text-[10px] text-gray-600 mt-1">{item.timestamp}</Text>
             </View>
           </View>
         )}
-        contentContainerStyle={styles.chatContainer}
+        contentContainerStyle={{ padding: 10 }}
       />
 
-      {/* Input Area */}
-      <View style={styles.inputContainer}>
+      <View className="flex-row items-center p-3 border-t border-gray-300 bg-gray-100">
         <TextInput
-          style={styles.input}
+          className="flex-1 h-10 border border-gray-300 rounded-full px-4 mr-2 bg-white"
           placeholder="Type here ..."
           value={input}
           onChangeText={setInput}
         />
-        <Pressable style={styles.sendButton} onPress={handleSend}>
-          <Text style={styles.sendButtonText}>↑</Text>
+        <Pressable onPress={handleSend} className="w-10 h-10 bg-blue-500 rounded-full justify-center items-center">
+          <Text className="text-white text-lg">↑</Text>
         </Pressable>
       </View>
 
-      {/* Navbar */}
       <Navbar />
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-  },
-  chatContainer: {
-    padding: 10,
-  },
-  messageBubble: {
-    marginVertical: 5,
-    padding: 10,
-    borderRadius: 10,
-    maxWidth: "80%",
-    flexWrap: "wrap",
-    flexDirection: "column", // Align icon and text in a row
-    alignItems: "center",
-  },
-  botBubble: {
-    backgroundColor: "#f0f0f0",
-    alignSelf: "flex-start",
-  },
-  userBubble: {
-    backgroundColor: "#007bff",
-    alignSelf: "flex-end",
-  },
-  messageText: {
-    color: "#000",
-  },
-  timestamp: {
-    fontSize: 10,
-    color: "#666",
-    marginTop: 5,
-  },
-  messageIcon: {
-    width: 30,
-    height: 30,
-    margin: 10,
-    marginBottom: 20, /* Adjust margin to create space between icon and text */
-  },
-
-  inputContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    padding: 10,
-    borderTopWidth: 1,
-    borderTopColor: "#ccc",
-    backgroundColor: "#f8f8f8", // Solid background color
-  },
-  input: {
-    flex: 1,
-    height: 40,
-    borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 20,
-    paddingHorizontal: 10,
-    marginRight: 10,
-  },
-  sendButton: {
-    backgroundColor: "#007bff",
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  sendButtonText: {
-    color: "#fff",
-    fontSize: 18,
-  },
-});

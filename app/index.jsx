@@ -1,16 +1,13 @@
 import React from "react";
-import { View, Text, Pressable, StyleSheet, Image, ImageBackground } from "react-native";
+import { View, Text, Pressable, Image } from "react-native";
 import * as WebBrowser from "expo-web-browser";
-import { Link } from "expo-router"; // Import Link for navigation
+import { Link } from "expo-router";
 import Background from "@/components/Background";
 
 export default function SignIn() {
   const handleSignIn = async () => {
-    // Replace with your Singpass login URL
-    const singpassLoginUrl = "https://www.singpass.gov.sg/login"; // Example URL
-
+    const singpassLoginUrl = "https://www.singpass.gov.sg/login";
     try {
-      // Open the Singpass login page in a browser
       const result = await WebBrowser.openBrowserAsync(singpassLoginUrl);
       console.log("Login result:", result);
     } catch (error) {
@@ -20,99 +17,53 @@ export default function SignIn() {
 
   return (
     <Background>
-      <View style={styles.container}>
+      <View className="flex-1 justify-center items-center px-6">
+
         {/* Logo */}
         <Image
-          source={require("@/assets/images/icon.png")} // Replace with your app's logo
-          style={styles.logo}
+          source={require("@/assets/images/icon.png")}
+          className="w-[100px] h-[100px] mb-8"
+          resizeMode="contain"
         />
 
         {/* Title */}
-        <Text style={styles.title}>Welcome to HuaLaoWei</Text>
-        <Text style={styles.subtitle}>Sign in with Singpass to continue</Text>
+        <Text className="text-2xl font-semibold text-[#31727c] mb-1 text-center">
+          HuaLaoWei
+        </Text>
 
-        {/* Sign In Button */}
-        <Pressable style={styles.signInButton} onPress={handleSignIn}>
-          <Text style={styles.signInButtonText}>Sign in with Singpass</Text>
-        </Pressable>
+        <Text className="text-sm text-gray-600 mb-10 text-center">
+          Sign in to continue
+        </Text>
 
-        {/* Go to Home Button */}
-        <Link href="/home" style={styles.homeButton} asChild>
-          <Pressable>
-            <Text style={styles.homeButtonText}>Debug</Text>
+        {/* Debug / Primary Button */}
+        <Link href="/home" asChild>
+          <Pressable
+            className="w-full max-w-md bg-[#31727c] py-3 rounded-lg mb-4 flex-row justify-center items-center space-x-2 shadow-sm shadow-black/10"
+          >
+            <Text className="text-white text-base font-medium">
+              Debug
+            </Text>
           </Pressable>
         </Link>
+
+        {/* Login with Singpass */}
+        <Pressable
+          onPress={handleSignIn}
+          className="w-full max-w-md bg-white py-3 rounded-lg mb-4 border border-[#1ea9c0] flex-row justify-center items-center space-x-2"
+        >
+          <Text className="text-[#1ea9c0] text-base font-medium">
+            Login with Singpass
+          </Text>
+        </Pressable>
+
+        {/* Optional: Add this if you want a tertiary link later */}
+        {/* <Pressable onPress={() => {}} className="mt-2">
+          <Text className="text-[#b62f3e] text-sm font-medium">
+            Log in using passcode
+          </Text>
+        </Pressable> */}
+
       </View>
     </Background>
   );
 }
-
-const styles = StyleSheet.create({
-  background: {
-    flex: 1,
-    resizeMode: "cover",
-  },
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(255, 255, 255, 0.8)", // Semi-transparent overlay
-    padding: 20,
-  },
-  logo: {
-    width: 120,
-    height: 120,
-    marginBottom: 20,
-    borderRadius: 60, // Circular logo
-    borderWidth: 2,
-    borderColor: "#007bff",
-  },
-  title: {
-    fontSize: 28,
-    fontWeight: "bold",
-    color: "#333",
-    marginBottom: 10,
-    textAlign: "center",
-  },
-  subtitle: {
-    fontSize: 16,
-    color: "#666",
-    marginBottom: 30,
-    textAlign: "center",
-  },
-  signInButton: {
-    backgroundColor: "#007bff",
-    paddingVertical: 15,
-    paddingHorizontal: 40,
-    borderRadius: 25,
-    alignItems: "center",
-    marginBottom: 20,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 5,
-    elevation: 5,
-  },
-  signInButtonText: {
-    color: "#fff",
-    fontSize: 18,
-    fontWeight: "bold",
-  },
-  homeButton: {
-    backgroundColor: "#28a745",
-    paddingVertical: 15,
-    paddingHorizontal: 40,
-    borderRadius: 25,
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 5,
-    elevation: 5,
-  },
-  homeButtonText: {
-    color: "#fff",
-    fontSize: 18,
-    fontWeight: "bold",
-  },
-});

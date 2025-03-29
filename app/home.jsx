@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Text, View, StyleSheet, ImageBackground, Pressable, Alert, ActivityIndicator, Animated, Dimensions } from "react-native";
+import { Text, View, Image, Pressable, ActivityIndicator, Animated, Dimensions, TextInput } from "react-native";
 import MapView, { Marker, PROVIDER_DEFAULT } from "react-native-maps";
 import * as Location from "expo-location";
 import Navbar from "@/components/Navbar";
@@ -7,13 +7,13 @@ import Header from "@/components/Header";
 
 const { height } = Dimensions.get("window");
 
-export default function Index() {
+export default function Home() {
   const [location, setLocation] = useState(null);
-  const [heading, setHeading] = useState(0); // State to store the device's heading
-  const mapRef = useRef(null); // Reference to the MapView
-  const [hasZoomed, setHasZoomed] = useState(false); // State to track if the map has already zoomed
-  const [isPanelVisible, setIsPanelVisible] = useState(false); // State to control sliding panel visibility
-  const slideAnim = useRef(new Animated.Value(height)).current; // Animation for sliding panel
+  const [heading, setHeading] = useState(0);
+  const mapRef = useRef(null);
+  const [hasZoomed, setHasZoomed] = useState(false);
+  const [isPanelVisible, setIsPanelVisible] = useState(false);
+  const slideAnim = useRef(new Animated.Value(height)).current;
 
   useEffect(() => {
     let locationSubscription;
@@ -22,66 +22,52 @@ export default function Index() {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== "granted") {
-        Alert.alert("Permission Denied", "Location permission is required to use this feature.");
+        alert("Location permission denied");
         return;
       }
 
-      // Watch the user's location and update state
       locationSubscription = await Location.watchPositionAsync(
         {
           accuracy: Location.Accuracy.High,
-          timeInterval: 1000, // Update every 1 second
-          distanceInterval: 1, // Update when the user moves 1 meter
+          timeInterval: 1000,
+          distanceInterval: 1,
         },
         (newLocation) => {
           setLocation(newLocation);
-
-          // Zoom into the marker only once
           if (!hasZoomed && mapRef.current) {
-            mapRef.current.animateToRegion(
-              {
-                latitude: newLocation.coords.latitude,
-                longitude: newLocation.coords.longitude,
-                latitudeDelta: 0.005, // Zoom level
-                longitudeDelta: 0.005, // Zoom level
-              },
-              1000 // Animation duration in milliseconds
-            );
-            setHasZoomed(true); // Mark as zoomed
+            mapRef.current.animateToRegion({
+              latitude: newLocation.coords.latitude,
+              longitude: newLocation.coords.longitude,
+              latitudeDelta: 0.005,
+              longitudeDelta: 0.005,
+            }, 1000);
+            setHasZoomed(true);
           }
         }
       );
 
-      // Watch the device's heading and update state
       headingSubscription = await Location.watchHeadingAsync((newHeading) => {
-        setHeading(newHeading.trueHeading || 0); // Use true heading if available
+        setHeading(newHeading.trueHeading || 0);
       });
     })();
 
-    // Cleanup the subscriptions when the component unmounts
     return () => {
-      if (locationSubscription) {
-        locationSubscription.remove();
-      }
-      if (headingSubscription) {
-        headingSubscription.remove();
-      }
+      if (locationSubscription) locationSubscription.remove();
+      if (headingSubscription) headingSubscription.remove();
     };
   }, [hasZoomed]);
 
   const togglePanel = () => {
     if (isPanelVisible) {
-      // Slide panel down
       Animated.timing(slideAnim, {
         toValue: height,
         duration: 300,
         useNativeDriver: false,
       }).start(() => setIsPanelVisible(false));
     } else {
-      // Slide panel up
       setIsPanelVisible(true);
       Animated.timing(slideAnim, {
-        toValue: height - 300, // Adjust the height of the sliding panel
+        toValue: height - 300,
         duration: 300,
         useNativeDriver: false,
       }).start();
@@ -90,270 +76,109 @@ export default function Index() {
 
   const lockToMarker = () => {
     if (location && mapRef.current) {
-      mapRef.current.animateToRegion(
-        {
-          latitude: location.coords.latitude,
-          longitude: location.coords.longitude,
-          latitudeDelta: 0.005, // Zoom level
-          longitudeDelta: 0.005, // Zoom level
-        },
-        1000 // Animation duration in milliseconds
-      );
+      mapRef.current.animateToRegion({
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+        latitudeDelta: 0.005,
+        longitudeDelta: 0.005,
+      }, 1000);
     }
   };
 
   return (
-    <View style={styles.container}>
+    <View className="flex-1 bg-white">
       <Header title="Home" />
-      {/* Main Content */}
-      <View style={styles.content}>
-        {/* Filtering Panel */}
-<View style={styles.filterPanel}>
-  <View style={styles.filterGroup}>
-    <Text style={styles.filterLabel}>Tags:</Text>
-    <Pressable style={styles.filterButton}>
-      <Text style={styles.filterButtonText}>Add</Text>
-    </Pressable>
-  </View>
 
-  <View style={styles.filterGroup}>
-    <Text style={styles.filterLabel}>Severity:</Text>
-    <Pressable style={styles.filterButton}>
-      <Text style={styles.filterButtonText}>Add</Text>
-    </Pressable>
+      <View className="flex-1 items-center justify-center">
+        <View className="w-full bg-white p-3 border-b border-gray-300 z-10">
+          <View className="flex-row items-center mb-2">
+            <Text className="text-base font-bold text-gray-800 mr-2">Tags:</Text>
+            <Pressable className="bg-blue-500 px-3 py-1 rounded">
+              <Text className="text-white text-sm">Add</Text>
+            </Pressable>
+          </View>
+          <View className="flex-row items-center mb-2">
+            <Text className="text-base font-bold text-gray-800 mr-2">Severity:</Text>
+            <Pressable className="bg-blue-500 px-3 py-1 rounded">
+              <Text className="text-white text-sm">Add</Text>
+            </Pressable>
+          </View>
+          <View className="flex-row items-center">
+            <Text className="text-base font-bold text-gray-800 mr-2">Status:</Text>
+            <Pressable className="bg-blue-500 px-3 py-1 rounded">
+              <Text className="text-white text-sm">Add</Text>
+            </Pressable>
+          </View>
+        </View>
 
-  </View>
-
-  <View style={styles.filterGroup}>
-    <Text style={styles.filterLabel}>Status:</Text>
-    <Pressable style={styles.filterButton}>
-      <Text style={styles.filterButtonText}>Add</Text>
-    </Pressable>
-  </View>
-</View>
-          {/* Map Section */}
-          {location ? (
+        {location ? (
             <MapView
-              ref={mapRef} // Attach the map reference
-              style={styles.map}
-              mapType="satellite" // Set the map type to satellite
-              provider={PROVIDER_DEFAULT} // Use the default provider to avoid Google branding
+              ref={mapRef}
+              style={{ width: "100%", height: "100%" }} 
+              mapType="satellite"
+              provider={PROVIDER_DEFAULT}
               initialRegion={{
                 latitude: location.coords.latitude,
                 longitude: location.coords.longitude,
-                latitudeDelta: 0.005, // Initial zoom level
-                longitudeDelta: 0.005, // Initial zoom level
+                latitudeDelta: 0.005,
+                longitudeDelta: 0.005,
               }}
             >
-              {/* User's Current Location Marker */}
-              <Marker
-                coordinate={{
-                  latitude: location.coords.latitude,
-                  longitude: location.coords.longitude,
-                }}
-              >
-                {/* Triangle Marker with Rotation */}
-                <View
-                  style={[
-                    styles.triangleMarker,
-                    { transform: [{ rotate: `${heading}deg` }] }, // Rotate based on heading
-                  ]}
-                />
-              </Marker>
+            <Marker
+              coordinate={{
+                latitude: location.coords.latitude,
+                longitude: location.coords.longitude,
+              }}
+            >
+              <View
+                className="w-0 h-0 border-l-[10px] border-r-[10px] border-b-[20px] border-l-transparent border-r-transparent border-b-red-500"
+                style={{ transform: [{ rotate: `${heading}deg` }] }}
+              />
+            </Marker>
 
-              {/* Example Marker */}
-              <Marker
-                coordinate={{
-                  latitude: location.coords.latitude + 0.001, // Example marker slightly offset
-                  longitude: location.coords.longitude + 0.001,
-                }}
-                title="Example Marker" // Title for the marker
-  description="This is an example marker with additional details." // Description for the marker
-                onPress={togglePanel} // Show sliding panel when clicked
-              >
-                <View style={styles.exampleMarker} />
-              </Marker>
-            </MapView>
-          ) : (
-            // Loading Indicator
-            <View style={styles.loadingContainer}>
-    <ActivityIndicator size="large" color="#0000ff" />
-    <Text style={styles.loadingText}>Please wait...</Text>
-  </View>
-          )}
-
+            <Marker
+              coordinate={{
+                latitude: location.coords.latitude + 0.001,
+                longitude: location.coords.longitude + 0.001,
+              }}
+              title="Example Marker"
+              description="This is an example marker with additional details."
+              onPress={togglePanel}
+            >
+              <View className="w-5 h-5 bg-blue-500 rounded-full" />
+            </Marker>
+          </MapView>
+        ) : (
+          <View className="flex-1 justify-center items-center">
+            <ActivityIndicator size="large" color="#0000ff" />
+            <Text className="mt-2 text-base text-gray-700">Please wait...</Text>
+          </View>
+        )}
       </View>
 
-{/* Lock Button */}
-<Pressable style={styles.lockButton} onPress={lockToMarker}>
-        <Text style={styles.lockButtonText}>Lock</Text>
+      <Pressable
+        onPress={lockToMarker}
+        className="absolute bottom-20 right-5 bg-blue-500 px-4 py-2 rounded"
+      >
+        <Text className="text-white text-base">Lock</Text>
       </Pressable>
 
-      {/* Sliding Panel */}
-      <Animated.View style={[styles.slidingPanel, { top: slideAnim }]}>
-        <Text style={styles.panelText}>Example Marker Details</Text>
-        <Text style={styles.panelText}>Latitude: {location?.coords.latitude + 0.001}</Text>
-        <Text style={styles.panelText}>Longitude: {location?.coords.longitude + 0.001}</Text>
-        <Pressable style={styles.closeButton} onPress={togglePanel}>
-          <Text style={styles.closeButtonText}>Close</Text>
+      <Animated.View
+        style={{ top: slideAnim }}
+        className="absolute left-0 right-0 h-[300px] bg-white rounded-t-2xl p-5 shadow shadow-black/20"
+      >
+        <Text className="text-base mb-2">Example Marker Details</Text>
+        <Text className="text-base mb-2">Latitude: {location?.coords.latitude + 0.001}</Text>
+        <Text className="text-base mb-2">Longitude: {location?.coords.longitude + 0.001}</Text>
+        <Pressable
+          className="mt-4 p-3 bg-red-500 rounded items-center"
+          onPress={togglePanel}
+        >
+          <Text className="text-white text-base">Close</Text>
         </Pressable>
       </Animated.View>
 
-      {/* Reusable Navbar */}
       <Navbar />
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-  },
-  image: {
-    width: "100%",
-    height: "100%",
-    resizeMode: "cover",
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  content: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  map: {
-    width: "100%",
-    height: "70%",
-    borderRadius: 10,
-    bottom: 0,
-    overflow: "hidden",
-  },
-  loadingIndicator: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  navbar: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    alignItems: "center",
-    height: 60,
-    backgroundColor: "#fff",
-    borderTopWidth: 1,
-    borderTopColor: "#ccc",
-  },
-  navItem: {
-    alignItems: "center",
-  },
-  navText: {
-    fontSize: 16,
-    color: "#333",
-  },
-  link: {
-    padding: 4,
-  },
-  triangleMarker: {
-    width: 0,
-    height: 0,
-    backgroundColor: "transparent",
-    borderStyle: "solid",
-    borderLeftWidth: 10,
-    borderRightWidth: 10,
-    borderBottomWidth: 20,
-    borderLeftColor: "transparent",
-    borderRightColor: "transparent",
-    borderBottomColor: "red", // Change this color to customize the triangle
-  },
-  exampleMarker: {
-    width: 20,
-    height: 20,
-    backgroundColor: "blue",
-    borderRadius: 10,
-  },
-  slidingPanel: {
-    position: "absolute",
-    left: 0,
-    right: 0,
-    height: 300,
-    backgroundColor: "#fff",
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    padding: 20,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: -2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 5,
-    elevation: 5,
-  },
-  panelText: {
-    fontSize: 16,
-    marginBottom: 10,
-  },
-  closeButton: {
-    marginTop: 20,
-    padding: 10,
-    backgroundColor: "red",
-    borderRadius: 5,
-    alignItems: "center",
-  },
-  closeButtonText: {
-    color: "#fff",
-    fontSize: 16,
-  },
-  loadingContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  loadingText: {
-    marginTop: 10,
-    fontSize: 16,
-    color: "#333",
-  },
-  lockButton: {
-    position: "absolute",
-    bottom: 80,
-    right: 20,
-    backgroundColor: "blue",
-    padding: 10,
-    borderRadius: 5,
-    alignItems: "center",
-  },
-  lockButtonText: {
-    color: "#fff",
-    fontSize: 16,
-  },
-  filterPanel: {
-    width: "100%",
-    backgroundColor: "#fff",
-    padding: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: "#ccc",
-    elevation: 2,
-    zIndex: 10, // Ensure it appears above the map
-  },
-  filterGroup: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 10,
-  },
-  filterLabel: {
-    fontSize: 16,
-    fontWeight: "bold",
-    marginRight: 10,
-    color: "#333",
-  },
-  filterButton: {
-    backgroundColor: "#007bff",
-    paddingVertical: 5,
-    paddingHorizontal: 10,
-    borderRadius: 5,
-    marginRight: 10,
-  },
-  filterButtonText: {
-    color: "#fff",
-    fontSize: 14,
-  },
-});
