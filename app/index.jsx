@@ -1,304 +1,120 @@
-import Navbar from "@/components/Navbar";
+import React from "react";
+import { View, Text, Pressable, StyleSheet, Image, ImageBackground } from "react-native";
+import * as WebBrowser from "expo-web-browser";
+import { Link } from "expo-router"; // Import Link for navigation
 
-import React, { useState, useEffect, useRef } from "react";
-import { Text, View, StyleSheet, ImageBackground, Pressable, Alert, ActivityIndicator, Animated, Dimensions } from "react-native";
-import MapView, { Marker, PROVIDER_DEFAULT } from "react-native-maps";
-import * as Location from "expo-location";
-import backgroundimg from "@/assets/images/bgimg.png";
-import { Link } from "expo-router";
+export default function SignIn() {
+  const handleSignIn = async () => {
+    // Replace with your Singpass login URL
+    const singpassLoginUrl = "https://www.singpass.gov.sg/login"; // Example URL
 
-const { height } = Dimensions.get("window");
-
-export default function Index() {
-  const [location, setLocation] = useState(null);
-  const [heading, setHeading] = useState(0); // State to store the device's heading
-  const mapRef = useRef(null); // Reference to the MapView
-  const [hasZoomed, setHasZoomed] = useState(false); // State to track if the map has already zoomed
-  const [isPanelVisible, setIsPanelVisible] = useState(false); // State to control sliding panel visibility
-  const slideAnim = useRef(new Animated.Value(height)).current; // Animation for sliding panel
-
-  useEffect(() => {
-    let locationSubscription;
-    let headingSubscription;
-
-    (async () => {
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== "granted") {
-        Alert.alert("Permission Denied", "Location permission is required to use this feature.");
-        return;
-      }
-
-      // Watch the user's location and update state
-      locationSubscription = await Location.watchPositionAsync(
-        {
-          accuracy: Location.Accuracy.High,
-          timeInterval: 1000, // Update every 1 second
-          distanceInterval: 1, // Update when the user moves 1 meter
-        },
-        (newLocation) => {
-          setLocation(newLocation);
-
-          // Zoom into the marker only once
-          if (!hasZoomed && mapRef.current) {
-            mapRef.current.animateToRegion(
-              {
-                latitude: newLocation.coords.latitude,
-                longitude: newLocation.coords.longitude,
-                latitudeDelta: 0.005, // Zoom level
-                longitudeDelta: 0.005, // Zoom level
-              },
-              1000 // Animation duration in milliseconds
-            );
-            setHasZoomed(true); // Mark as zoomed
-          }
-        }
-      );
-
-      // Watch the device's heading and update state
-      headingSubscription = await Location.watchHeadingAsync((newHeading) => {
-        setHeading(newHeading.trueHeading || 0); // Use true heading if available
-      });
-    })();
-
-    // Cleanup the subscriptions when the component unmounts
-    return () => {
-      if (locationSubscription) {
-        locationSubscription.remove();
-      }
-      if (headingSubscription) {
-        headingSubscription.remove();
-      }
-    };
-  }, [hasZoomed]);
-
-  const togglePanel = () => {
-    if (isPanelVisible) {
-      // Slide panel down
-      Animated.timing(slideAnim, {
-        toValue: height,
-        duration: 300,
-        useNativeDriver: false,
-      }).start(() => setIsPanelVisible(false));
-    } else {
-      // Slide panel up
-      setIsPanelVisible(true);
-      Animated.timing(slideAnim, {
-        toValue: height - 300, // Adjust the height of the sliding panel
-        duration: 300,
-        useNativeDriver: false,
-      }).start();
-    }
-  };
-
-  const lockToMarker = () => {
-    if (location && mapRef.current) {
-      mapRef.current.animateToRegion(
-        {
-          latitude: location.coords.latitude,
-          longitude: location.coords.longitude,
-          latitudeDelta: 0.005, // Zoom level
-          longitudeDelta: 0.005, // Zoom level
-        },
-        1000 // Animation duration in milliseconds
-      );
+    try {
+      // Open the Singpass login page in a browser
+      const result = await WebBrowser.openBrowserAsync(singpassLoginUrl);
+      console.log("Login result:", result);
+    } catch (error) {
+      console.error("Error during Singpass login:", error);
     }
   };
 
   return (
-    <View style={styles.container}>
-      {/* Main Content */}
-      <View style={styles.content}>
-        <ImageBackground source={backgroundimg} style={styles.image}>
-          {/* Map Section */}
-          {location ? (
-            <MapView
-              ref={mapRef} // Attach the map reference
-              style={styles.map}
-              mapType="satellite" // Set the map type to satellite
-              provider={PROVIDER_DEFAULT} // Use the default provider to avoid Google branding
-              initialRegion={{
-                latitude: location.coords.latitude,
-                longitude: location.coords.longitude,
-                latitudeDelta: 0.005, // Initial zoom level
-                longitudeDelta: 0.005, // Initial zoom level
-              }}
-            >
-              {/* User's Current Location Marker */}
-              <Marker
-                coordinate={{
-                  latitude: location.coords.latitude,
-                  longitude: location.coords.longitude,
-                }}
-              >
-                {/* Triangle Marker with Rotation */}
-                <View
-                  style={[
-                    styles.triangleMarker,
-                    { transform: [{ rotate: `${heading}deg` }] }, // Rotate based on heading
-                  ]}
-                />
-              </Marker>
+    <ImageBackground
+      source={require("@/assets/images/bgimg.png")} // Replace with your background image
+      style={styles.background}
+    >
+      <View style={styles.container}>
+        {/* Logo */}
+        <Image
+          source={require("@/assets/images/icon.png")} // Replace with your app's logo
+          style={styles.logo}
+        />
 
-              {/* Example Marker */}
-              <Marker
-                coordinate={{
-                  latitude: location.coords.latitude + 0.001, // Example marker slightly offset
-                  longitude: location.coords.longitude + 0.001,
-                }}
-                title="Example Marker" // Title for the marker
-  description="This is an example marker with additional details." // Description for the marker
-                onPress={togglePanel} // Show sliding panel when clicked
-              >
-                <View style={styles.exampleMarker} />
-              </Marker>
-            </MapView>
-          ) : (
-            // Loading Indicator
-            <View style={styles.loadingContainer}>
-    <ActivityIndicator size="large" color="#0000ff" />
-    <Text style={styles.loadingText}>Please wait...</Text>
-  </View>
-          )}
-        </ImageBackground>
-      </View>
+        {/* Title */}
+        <Text style={styles.title}>Welcome to HuaLaoWei</Text>
+        <Text style={styles.subtitle}>Sign in with Singpass to continue</Text>
 
-{/* Lock Button */}
-<Pressable style={styles.lockButton} onPress={lockToMarker}>
-        <Text style={styles.lockButtonText}>Lock</Text>
-      </Pressable>
-
-      {/* Sliding Panel */}
-      <Animated.View style={[styles.slidingPanel, { top: slideAnim }]}>
-        <Text style={styles.panelText}>Example Marker Details</Text>
-        <Text style={styles.panelText}>Latitude: {location?.coords.latitude + 0.001}</Text>
-        <Text style={styles.panelText}>Longitude: {location?.coords.longitude + 0.001}</Text>
-        <Pressable style={styles.closeButton} onPress={togglePanel}>
-          <Text style={styles.closeButtonText}>Close</Text>
+        {/* Sign In Button */}
+        <Pressable style={styles.signInButton} onPress={handleSignIn}>
+          <Text style={styles.signInButtonText}>Sign in with Singpass</Text>
         </Pressable>
-      </Animated.View>
 
-      {/* Reusable Navbar */}
-      <Navbar />
-    </View>
+        {/* Go to Home Button */}
+        <Link href="/home" style={styles.homeButton} asChild>
+          <Pressable>
+            <Text style={styles.homeButtonText}>Debug</Text>
+          </Pressable>
+        </Link>
+      </View>
+    </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
+  background: {
+    flex: 1,
+    resizeMode: "cover",
+  },
   container: {
     flex: 1,
-  },
-  image: {
-    width: "100%",
-    height: "100%",
-    resizeMode: "cover",
-    flex: 1,
     justifyContent: "center",
     alignItems: "center",
-  },
-  content: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  map: {
-    width: "100%",
-    height: "70%",
-    borderRadius: 10,
-    overflow: "hidden",
-  },
-  loadingIndicator: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  navbar: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    alignItems: "center",
-    height: 60,
-    backgroundColor: "#fff",
-    borderTopWidth: 1,
-    borderTopColor: "#ccc",
-  },
-  navItem: {
-    alignItems: "center",
-  },
-  navText: {
-    fontSize: 16,
-    color: "#333",
-  },
-  link: {
-    padding: 4,
-  },
-  triangleMarker: {
-    width: 0,
-    height: 0,
-    backgroundColor: "transparent",
-    borderStyle: "solid",
-    borderLeftWidth: 10,
-    borderRightWidth: 10,
-    borderBottomWidth: 20,
-    borderLeftColor: "transparent",
-    borderRightColor: "transparent",
-    borderBottomColor: "red", // Change this color to customize the triangle
-  },
-  exampleMarker: {
-    width: 20,
-    height: 20,
-    backgroundColor: "blue",
-    borderRadius: 10,
-  },
-  slidingPanel: {
-    position: "absolute",
-    left: 0,
-    right: 0,
-    height: 300,
-    backgroundColor: "#fff",
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
+    backgroundColor: "rgba(255, 255, 255, 0.8)", // Semi-transparent overlay
     padding: 20,
+  },
+  logo: {
+    width: 120,
+    height: 120,
+    marginBottom: 20,
+    borderRadius: 60, // Circular logo
+    borderWidth: 2,
+    borderColor: "#007bff",
+  },
+  title: {
+    fontSize: 28,
+    fontWeight: "bold",
+    color: "#333",
+    marginBottom: 10,
+    textAlign: "center",
+  },
+  subtitle: {
+    fontSize: 16,
+    color: "#666",
+    marginBottom: 30,
+    textAlign: "center",
+  },
+  signInButton: {
+    backgroundColor: "#007bff",
+    paddingVertical: 15,
+    paddingHorizontal: 40,
+    borderRadius: 25,
+    alignItems: "center",
+    marginBottom: 20,
     shadowColor: "#000",
-    shadowOffset: { width: 0, height: -2 },
+    shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,
     shadowRadius: 5,
     elevation: 5,
   },
-  panelText: {
-    fontSize: 16,
-    marginBottom: 10,
-  },
-  closeButton: {
-    marginTop: 20,
-    padding: 10,
-    backgroundColor: "red",
-    borderRadius: 5,
-    alignItems: "center",
-  },
-  closeButtonText: {
+  signInButtonText: {
     color: "#fff",
-    fontSize: 16,
+    fontSize: 18,
+    fontWeight: "bold",
   },
-  loadingContainer: {
-    flex: 1,
-    justifyContent: "center",
+  homeButton: {
+    backgroundColor: "#28a745",
+    paddingVertical: 15,
+    paddingHorizontal: 40,
+    borderRadius: 25,
     alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
+    elevation: 5,
   },
-  loadingText: {
-    marginTop: 10,
-    fontSize: 16,
-    color: "#333",
-  },
-  lockButton: {
-    position: "absolute",
-    bottom: 80,
-    right: 20,
-    backgroundColor: "blue",
-    padding: 10,
-    borderRadius: 5,
-    alignItems: "center",
-  },
-  lockButtonText: {
+  homeButtonText: {
     color: "#fff",
-    fontSize: 16,
+    fontSize: 18,
+    fontWeight: "bold",
   },
 });

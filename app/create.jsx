@@ -13,6 +13,8 @@ export default function Create() {
     },
   ]);
 
+  const userProfilePicture = require("@/assets/images/profile-pic.png"); // Replace with your user profile picture path
+
   const handleSend = () => {
     if (input.trim() === "") return;
 
@@ -49,7 +51,7 @@ export default function Create() {
     <View style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
-        <Text style={styles.headerText}>New Report</Text>
+        <Text style={styles.headerText}>HuaLaoWei Bot</Text>
       </View>
 
       {/* Chat Area */}
@@ -63,10 +65,15 @@ export default function Create() {
               item.isBot ? styles.botBubble : styles.userBubble,
             ]}
           >
-            {item.isBot && (
+            {item.isBot ? (
               <Image
                 source={require("@/assets/images/bot-icon.png")} // Replace with your bot icon path
                 style={styles.botIcon}
+              />
+            ) : (
+              <Image
+                source={userProfilePicture} // User profile picture
+                style={styles.userIcon}
               />
             )}
             <View>
@@ -76,7 +83,6 @@ export default function Create() {
           </View>
         )}
         contentContainerStyle={styles.chatContainer}
-         // Scroll to the bottom by default
       />
 
       {/* Input Area */}
@@ -123,13 +129,12 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     maxWidth: "80%",
     flexWrap: "wrap",
+    flexDirection: "row", // Align icon and text in a row
+    alignItems: "center",
   },
   botBubble: {
     backgroundColor: "#f0f0f0",
     alignSelf: "flex-start",
-    flexDirection: "row",
-    alignItems: "center",
-    flexWrap: "wrap",
   },
   userBubble: {
     backgroundColor: "#007bff",
@@ -147,6 +152,12 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
     marginRight: 10,
+  },
+  userIcon: {
+    width: 30,
+    height: 30,
+    marginRight: 10,
+    borderRadius: 15, // Make the user icon circular
   },
   inputContainer: {
     flexDirection: "row",
