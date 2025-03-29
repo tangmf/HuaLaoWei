@@ -20,21 +20,21 @@ export default function Index() {
       {/* Bottom Navigation Bar */}
       <View style={styles.navbar}>
 
-        <Link href = "/explore"
+        <Link href = "/index"
         style = {styles.link} asChild>
           <Pressable style={styles.navItem}>
             <Text style={styles.navText}>Home</Text>
           </Pressable>
         </Link>
 
-        <Link href = "/explore"
+        <Link href = "/index"
         style = {styles.link} asChild>
           <Pressable style={styles.navItem}>
             <Text style={styles.navText}>Create</Text>
           </Pressable>
         </Link>
 
-        <Link href = "/explore"
+        <Link href = "/index"
         style = {styles.link} asChild>
           <Pressable style={styles.navItem}>
             <Text style={styles.navText}>Profile</Text>
