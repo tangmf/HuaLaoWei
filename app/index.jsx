@@ -1,15 +1,21 @@
+import Navbar from "@/components/Navbar";
+
 import React, { useState, useEffect, useRef } from "react";
-import { Text, View, StyleSheet, ImageBackground, Pressable, Alert, ActivityIndicator } from "react-native";
+import { Text, View, StyleSheet, ImageBackground, Pressable, Alert, ActivityIndicator, Animated, Dimensions } from "react-native";
 import MapView, { Marker, PROVIDER_DEFAULT } from "react-native-maps";
 import * as Location from "expo-location";
 import backgroundimg from "@/assets/images/bgimg.png";
 import { Link } from "expo-router";
+
+const { height } = Dimensions.get("window");
 
 export default function Index() {
   const [location, setLocation] = useState(null);
   const [heading, setHeading] = useState(0); // State to store the device's heading
   const mapRef = useRef(null); // Reference to the MapView
   const [hasZoomed, setHasZoomed] = useState(false); // State to track if the map has already zoomed
+  const [isPanelVisible, setIsPanelVisible] = useState(false); // State to control sliding panel visibility
+  const slideAnim = useRef(new Animated.Value(height)).current; // Animation for sliding panel
 
   useEffect(() => {
     let locationSubscription;
@@ -65,6 +71,39 @@ export default function Index() {
     };
   }, [hasZoomed]);
 
+  const togglePanel = () => {
+    if (isPanelVisible) {
+      // Slide panel down
+      Animated.timing(slideAnim, {
+        toValue: height,
+        duration: 300,
+        useNativeDriver: false,
+      }).start(() => setIsPanelVisible(false));
+    } else {
+      // Slide panel up
+      setIsPanelVisible(true);
+      Animated.timing(slideAnim, {
+        toValue: height - 300, // Adjust the height of the sliding panel
+        duration: 300,
+        useNativeDriver: false,
+      }).start();
+    }
+  };
+
+  const lockToMarker = () => {
+    if (location && mapRef.current) {
+      mapRef.current.animateToRegion(
+        {
+          latitude: location.coords.latitude,
+          longitude: location.coords.longitude,
+          latitudeDelta: 0.005, // Zoom level
+          longitudeDelta: 0.005, // Zoom level
+        },
+        1000 // Animation duration in milliseconds
+      );
+    }
+  };
+
   return (
     <View style={styles.container}>
       {/* Main Content */}
@@ -99,34 +138,47 @@ export default function Index() {
                   ]}
                 />
               </Marker>
+
+              {/* Example Marker */}
+              <Marker
+                coordinate={{
+                  latitude: location.coords.latitude + 0.001, // Example marker slightly offset
+                  longitude: location.coords.longitude + 0.001,
+                }}
+                title="Example Marker" // Title for the marker
+  description="This is an example marker with additional details." // Description for the marker
+                onPress={togglePanel} // Show sliding panel when clicked
+              >
+                <View style={styles.exampleMarker} />
+              </Marker>
             </MapView>
           ) : (
             // Loading Indicator
-            <ActivityIndicator size="large" color="#0000ff" style={styles.loadingIndicator} />
+            <View style={styles.loadingContainer}>
+    <ActivityIndicator size="large" color="#0000ff" />
+    <Text style={styles.loadingText}>Please wait...</Text>
+  </View>
           )}
         </ImageBackground>
       </View>
 
-      {/* Bottom Navigation Bar */}
-      <View style={styles.navbar}>
-        <Link href="/explore" style={styles.link} asChild>
-          <Pressable style={styles.navItem}>
-            <Text style={styles.navText}>Home</Text>
-          </Pressable>
-        </Link>
+{/* Lock Button */}
+<Pressable style={styles.lockButton} onPress={lockToMarker}>
+        <Text style={styles.lockButtonText}>Lock</Text>
+      </Pressable>
 
-        <Link href="/explore" style={styles.link} asChild>
-          <Pressable style={styles.navItem}>
-            <Text style={styles.navText}>Create</Text>
-          </Pressable>
-        </Link>
+      {/* Sliding Panel */}
+      <Animated.View style={[styles.slidingPanel, { top: slideAnim }]}>
+        <Text style={styles.panelText}>Example Marker Details</Text>
+        <Text style={styles.panelText}>Latitude: {location?.coords.latitude + 0.001}</Text>
+        <Text style={styles.panelText}>Longitude: {location?.coords.longitude + 0.001}</Text>
+        <Pressable style={styles.closeButton} onPress={togglePanel}>
+          <Text style={styles.closeButtonText}>Close</Text>
+        </Pressable>
+      </Animated.View>
 
-        <Link href="/explore" style={styles.link} asChild>
-          <Pressable style={styles.navItem}>
-            <Text style={styles.navText}>Profile</Text>
-          </Pressable>
-        </Link>
-      </View>
+      {/* Reusable Navbar */}
+      <Navbar />
     </View>
   );
 }
@@ -149,8 +201,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   map: {
-    width: "90%",
-    height: "50%",
+    width: "100%",
+    height: "100%",
     borderRadius: 10,
     overflow: "hidden",
   },
@@ -189,5 +241,64 @@ const styles = StyleSheet.create({
     borderLeftColor: "transparent",
     borderRightColor: "transparent",
     borderBottomColor: "red", // Change this color to customize the triangle
+  },
+  exampleMarker: {
+    width: 20,
+    height: 20,
+    backgroundColor: "blue",
+    borderRadius: 10,
+  },
+  slidingPanel: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    height: 300,
+    backgroundColor: "#fff",
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    padding: 20,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: -2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
+    elevation: 5,
+  },
+  panelText: {
+    fontSize: 16,
+    marginBottom: 10,
+  },
+  closeButton: {
+    marginTop: 20,
+    padding: 10,
+    backgroundColor: "red",
+    borderRadius: 5,
+    alignItems: "center",
+  },
+  closeButtonText: {
+    color: "#fff",
+    fontSize: 16,
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  loadingText: {
+    marginTop: 10,
+    fontSize: 16,
+    color: "#333",
+  },
+  lockButton: {
+    position: "absolute",
+    bottom: 80,
+    right: 20,
+    backgroundColor: "blue",
+    padding: 10,
+    borderRadius: 5,
+    alignItems: "center",
+  },
+  lockButtonText: {
+    color: "#fff",
+    fontSize: 16,
   },
 });
