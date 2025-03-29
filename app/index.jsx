@@ -2,6 +2,7 @@ import React from "react";
 import { View, Text, Pressable, StyleSheet, Image, ImageBackground } from "react-native";
 import * as WebBrowser from "expo-web-browser";
 import { Link } from "expo-router"; // Import Link for navigation
+import Background from "@/components/Background";
 
 export default function SignIn() {
   const handleSignIn = async () => {
@@ -18,10 +19,7 @@ export default function SignIn() {
   };
 
   return (
-    <ImageBackground
-      source={require("@/assets/images/bgimg.png")} // Replace with your background image
-      style={styles.background}
-    >
+    <Background>
       <View style={styles.container}>
         {/* Logo */}
         <Image
@@ -45,7 +43,7 @@ export default function SignIn() {
           </Pressable>
         </Link>
       </View>
-    </ImageBackground>
+    </Background>
   );
 }
 

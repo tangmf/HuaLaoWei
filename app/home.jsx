@@ -4,8 +4,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { Text, View, StyleSheet, ImageBackground, Pressable, Alert, ActivityIndicator, Animated, Dimensions } from "react-native";
 import MapView, { Marker, PROVIDER_DEFAULT } from "react-native-maps";
 import * as Location from "expo-location";
-import backgroundimg from "@/assets/images/bgimg.png";
-import { Link } from "expo-router";
+
 
 const { height } = Dimensions.get("window");
 
@@ -108,7 +107,7 @@ export default function Index() {
     <View style={styles.container}>
       {/* Main Content */}
       <View style={styles.content}>
-        <ImageBackground source={backgroundimg} style={styles.image}>
+        
           {/* Map Section */}
           {location ? (
             <MapView
@@ -159,7 +158,7 @@ export default function Index() {
     <Text style={styles.loadingText}>Please wait...</Text>
   </View>
           )}
-        </ImageBackground>
+
       </View>
 
 {/* Lock Button */}
@@ -186,6 +185,7 @@ export default function Index() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "#fff",
   },
   image: {
     width: "100%",

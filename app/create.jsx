@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, Pressable, StyleSheet, Image, FlatList } from "react-native";
 import Navbar from "@/components/Navbar";
+import Background from "@/components/Background";
 
 export default function Create() {
   const [input, setInput] = useState("");
