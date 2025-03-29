@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, Pressable, StyleSheet, Image, FlatList } from "react-native";
 import Navbar from "@/components/Navbar";
-import Background from "@/components/Background";
+import Header from "@/components/Header";
 
 export default function Create() {
   const [input, setInput] = useState("");
@@ -51,10 +51,7 @@ export default function Create() {
   return (
     <View style={styles.container}>
       {/* Header */}
-      <View style={styles.header}>
-        <Text style={styles.headerText}>HuaLaoWei Bot</Text>
-      </View>
-
+      <Header title="Chatbot" />
       {/* Chat Area */}
       <FlatList
         data={messages}
@@ -69,12 +66,12 @@ export default function Create() {
             {item.isBot ? (
               <Image
                 source={require("@/assets/images/bot-icon.png")} // Replace with your bot icon path
-                style={styles.botIcon}
+                style={styles.messageIcon}
               />
             ) : (
               <Image
                 source={userProfilePicture} // User profile picture
-                style={styles.userIcon}
+                style={styles.messageIcon}
               />
             )}
             <View>
@@ -110,17 +107,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
   },
-  header: {
-    height: 60,
-    justifyContent: "center",
-    alignItems: "center",
-    borderBottomWidth: 1,
-    borderBottomColor: "#ccc",
-  },
-  headerText: {
-    fontSize: 20,
-    fontWeight: "bold",
-  },
   chatContainer: {
     padding: 10,
   },
@@ -130,7 +116,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     maxWidth: "80%",
     flexWrap: "wrap",
-    flexDirection: "row", // Align icon and text in a row
+    flexDirection: "column", // Align icon and text in a row
     alignItems: "center",
   },
   botBubble: {
@@ -149,17 +135,13 @@ const styles = StyleSheet.create({
     color: "#666",
     marginTop: 5,
   },
-  botIcon: {
+  messageIcon: {
     width: 30,
     height: 30,
-    marginRight: 10,
+    margin: 10,
+    marginBottom: 20, /* Adjust margin to create space between icon and text */
   },
-  userIcon: {
-    width: 30,
-    height: 30,
-    marginRight: 10,
-    borderRadius: 15, // Make the user icon circular
-  },
+
   inputContainer: {
     flexDirection: "row",
     alignItems: "center",

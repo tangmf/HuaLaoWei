@@ -1,10 +1,9 @@
-import Navbar from "@/components/Navbar";
-
 import React, { useState, useEffect, useRef } from "react";
 import { Text, View, StyleSheet, ImageBackground, Pressable, Alert, ActivityIndicator, Animated, Dimensions } from "react-native";
 import MapView, { Marker, PROVIDER_DEFAULT } from "react-native-maps";
 import * as Location from "expo-location";
-
+import Navbar from "@/components/Navbar";
+import Header from "@/components/Header";
 
 const { height } = Dimensions.get("window");
 
@@ -105,6 +104,7 @@ export default function Index() {
 
   return (
     <View style={styles.container}>
+      <Header title="Home" />
       {/* Main Content */}
       <View style={styles.content}>
         {/* Filtering Panel */}

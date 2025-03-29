@@ -1,6 +1,8 @@
 import React from "react";
-import { View, Text, Image, FlatList, StyleSheet } from "react-native";
+import { View, Text, Image, FlatList, StyleSheet, Pressable } from "react-native";
+import Icon from "react-native-vector-icons/MaterialIcons"; // Import the icon library
 import Navbar from "@/components/Navbar";
+import Header from "@/components/Header";
 
 export default function Profile() {
   const user = {
@@ -15,18 +17,29 @@ export default function Profile() {
     ],
   };
 
-  return (
-    <View style={styles.container}>
-      {/* Header */}
-      <View style={styles.header}>
-        <Text style={styles.headerText}>Profile</Text>
-      </View>
+  const handleSettings = () => {
+    console.log("Open Settings");
+    // Add your settings logic here
+  };
 
+  return (
+   <View style={styles.container}>
+         {/* Header */}
+         <Header title="Profile"/>
       {/* Profile Info */}
       <View style={styles.profileContainer}>
-        <Image source={user.profilePicture} style={styles.profilePicture} />
-        <Text style={styles.username}>{user.username}</Text>
-        <Text style={styles.region}>Region: {user.region}</Text>
+        <View style={styles.profilePictureContainer}>
+          <Image source={user.profilePicture} style={styles.profilePicture} />
+        </View>
+        <View style={styles.infoRow}>
+          <Text style={styles.username}>{user.username}</Text>
+        </View>
+        <View style={styles.infoRow}>
+          <Text style={styles.region}>Region: {user.region}</Text>
+        </View>
+        <Pressable style={styles.settingsButton} onPress={handleSettings}>
+          <Icon name="settings" size={24} color="#007bff" />
+        </Pressable>
       </View>
 
       {/* Posts */}
@@ -55,25 +68,26 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
   },
-  header: {
-    height: 60,
-    justifyContent: "center",
-    alignItems: "center",
-    borderBottomWidth: 1,
-    borderBottomColor: "#ccc",
-  },
-  headerText: {
-    fontSize: 20,
-    fontWeight: "bold",
+  settingsButton: {
+    padding: 5,
   },
   profileContainer: {
     alignItems: "center",
     marginVertical: 20,
   },
+  profilePictureContainer: {
+    position: "relative",
+    alignItems: "center",
+  },
   profilePicture: {
     width: 100,
     height: 100,
     borderRadius: 50,
+    marginBottom: 10,
+  },
+  infoRow: {
+    flexDirection: "row",
+    alignItems: "center",
     marginBottom: 10,
   },
   username: {
@@ -84,7 +98,6 @@ const styles = StyleSheet.create({
   region: {
     fontSize: 16,
     color: "#666",
-    marginTop: 5,
   },
   postsContainer: {
     flex: 1,
