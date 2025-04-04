@@ -6,13 +6,7 @@ import Background from "@/components/Background";
 
 export default function SignIn() {
   const handleSignIn = async () => {
-    const singpassLoginUrl = "https://www.singpass.gov.sg/login";
-    try {
-      const result = await WebBrowser.openBrowserAsync(singpassLoginUrl);
-      console.log("Login result:", result);
-    } catch (error) {
-      console.error("Error during Singpass login:", error);
-    }
+    // Code here to handle sign-in with Huawei cloud
   };
 
   return (

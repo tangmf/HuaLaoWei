@@ -1,0 +1,38 @@
+class Ticket {
+  constructor(id, title, description, location, reporter, severity, tags) {
+    this.id = id; // Unique identifier for the incident
+    this.title = title; // Short title describing the incident
+    this.description = description; // Detailed description of the incident
+    this.location = location; // Object containing latitude, longitude, and address
+    this.reporter = reporter; // Object containing reporter's name and contact info
+    this.severity = severity; // Severity level (e.g., Low, Medium, High)
+    this.status = "Pending"; // Default status (e.g., Pending, In Progress, Resolved)
+    this.timestamp = new Date().toISOString(); // Date and time when the incident was created
+    this.resolvedtimestamp = new Date().toISOString(); // Date and time when the incident is resolved
+    this.tags = tags; // Array of tags to categorize the incident
+  }
+
+  // Method to update the status of the incident
+  updateStatus(newStatus) {
+    this.status = newStatus;
+    console.log(`Incident status updated to: ${newStatus}`);
+  }
+
+  // Method to display incident details
+  getDetails() {
+    return {
+      id: this.id,
+      title: this.title,
+      description: this.description,
+      location: this.location,
+      reporter: this.reporter,
+      severity: this.severity,
+      status: this.status,
+      timestamp: this.timestamp,
+      resolvedtimestamp: this.resolvedtimestamp,
+      tags: this.tags,
+    };
+  }
+}
+
+export default Incident;
