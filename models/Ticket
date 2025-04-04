@@ -3,7 +3,7 @@ class Ticket {
     this.id = id; // Unique identifier for the incident
     this.title = title; // Short title describing the incident
     this.description = description; // Detailed description of the incident
-    this.location = location; // Object containing latitude, longitude, and address
+    this.location = location; // Object containing latitude, longitude, and address (TEMP FIRST, MIGHT USE GEOCODER FOR THIS)
     this.reporter = reporter; // Object containing reporter's name and contact info
     this.severity = severity; // Severity level (e.g., Low, Medium, High)
     this.status = "Pending"; // Default status (e.g., Pending, In Progress, Resolved)
@@ -16,6 +16,7 @@ class Ticket {
   updateStatus(newStatus) {
     this.status = newStatus;
     console.log(`Incident status updated to: ${newStatus}`);
+    // Update db here
   }
 
   // Method to display incident details

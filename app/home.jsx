@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Text, View, Image, Pressable, ActivityIndicator, Animated, Dimensions, TextInput } from "react-native";
-import MapView, { Marker, PROVIDER_DEFAULT } from "react-native-maps";
+import { Text, View, ActivityIndicator, Animated, Dimensions, Pressable } from "react-native";
+import MapView, { Marker } from "react-native-maps";
 import * as Location from "expo-location";
 import Navbar from "@/components/Navbar";
 import Header from "@/components/Header";
@@ -10,11 +10,55 @@ const { height } = Dimensions.get("window");
 export default function Home() {
   const [location, setLocation] = useState(null);
   const [heading, setHeading] = useState(0);
+  const [tickets, setTickets] = useState([]); // State to store tickets
+  const [selectedTicket, setSelectedTicket] = useState(null); // State for the currently viewed ticket
   const mapRef = useRef(null);
   const [hasZoomed, setHasZoomed] = useState(false);
   const [isPanelVisible, setIsPanelVisible] = useState(false);
   const slideAnim = useRef(new Animated.Value(height)).current;
 
+  // Fetch tickets from the database
+  useEffect(() => {
+    const fetchTickets = async () => {
+      try {
+        const response = await fetch("https://your-api-url.com/api/tickets"); // Replace with your API URL
+        const data = await response.json();
+
+        if (data && Array.isArray(data) && data.length > 0) {
+          setTickets(data); // Set tickets if data is valid
+        } else {
+          console.warn("No tickets found or data is invalid.");
+          setTickets([]); // Fallback to an empty array if data is null or invalid
+        }
+      } catch (error) {
+        console.error("Error fetching tickets:", error);
+
+        // Create fallback tickets
+        const fallbackTicket1 = {
+          id: 1,
+          title: "Public Disturbance",
+          description: "Naked men.",
+          latitude: 1.3521,
+          longitude: 103.8198,
+          severity: "High",
+        };
+        const fallbackTicket2 = {
+          id: 2,
+          title: "Public Disturbance",
+          description: "Naked men.",
+          latitude: 1.3421,
+          longitude: 103.8298,
+          severity: "Medium",
+        };
+
+        setTickets([fallbackTicket1, fallbackTicket2]);
+      }
+    };
+
+    fetchTickets();
+  }, []);
+
+  // Get user location and heading
   useEffect(() => {
     let locationSubscription;
     let headingSubscription;
@@ -35,12 +79,15 @@ export default function Home() {
         (newLocation) => {
           setLocation(newLocation);
           if (!hasZoomed && mapRef.current) {
-            mapRef.current.animateToRegion({
-              latitude: newLocation.coords.latitude,
-              longitude: newLocation.coords.longitude,
-              latitudeDelta: 0.005,
-              longitudeDelta: 0.005,
-            }, 1000);
+            mapRef.current.animateToRegion(
+              {
+                latitude: newLocation.coords.latitude,
+                longitude: newLocation.coords.longitude,
+                latitudeDelta: 0.005,
+                longitudeDelta: 0.005,
+              },
+              1000
+            );
             setHasZoomed(true);
           }
         }
@@ -57,17 +104,16 @@ export default function Home() {
     };
   }, [hasZoomed]);
 
-  const togglePanel = () => {
+  const togglePanel = (ticket) => {
     if (isPanelVisible) {
-      Animated.timing(slideAnim, {
-        toValue: height,
-        duration: 300,
-        useNativeDriver: false,
-      }).start(() => setIsPanelVisible(false));
+      // If the panel is already visible, just update the selected ticket
+      setSelectedTicket(ticket);
     } else {
+      // If the panel is not visible, open it and set the selected ticket
+      setSelectedTicket(ticket);
       setIsPanelVisible(true);
       Animated.timing(slideAnim, {
-        toValue: height - 300,
+        toValue: height - 300, // Slide the panel up
         duration: 300,
         useNativeDriver: false,
       }).start();
@@ -76,12 +122,15 @@ export default function Home() {
 
   const lockToMarker = () => {
     if (location && mapRef.current) {
-      mapRef.current.animateToRegion({
-        latitude: location.coords.latitude,
-        longitude: location.coords.longitude,
-        latitudeDelta: 0.005,
-        longitudeDelta: 0.005,
-      }, 1000);
+      mapRef.current.animateToRegion(
+        {
+          latitude: location.coords.latitude,
+          longitude: location.coords.longitude,
+          latitudeDelta: 0.005,
+          longitudeDelta: 0.005,
+        },
+        1000
+      );
     }
   };
 
@@ -90,40 +139,19 @@ export default function Home() {
       <Header title="Home" />
 
       <View className="flex-1 items-center justify-center">
-        <View className="w-full bg-white p-3 border-b border-gray-300 z-10">
-          <View className="flex-row items-center mb-2">
-            <Text className="text-base font-bold text-gray-800 mr-2">Tags:</Text>
-            <Pressable className="bg-blue-500 px-3 py-1 rounded">
-              <Text className="text-white text-sm">Add</Text>
-            </Pressable>
-          </View>
-          <View className="flex-row items-center mb-2">
-            <Text className="text-base font-bold text-gray-800 mr-2">Severity:</Text>
-            <Pressable className="bg-blue-500 px-3 py-1 rounded">
-              <Text className="text-white text-sm">Add</Text>
-            </Pressable>
-          </View>
-          <View className="flex-row items-center">
-            <Text className="text-base font-bold text-gray-800 mr-2">Status:</Text>
-            <Pressable className="bg-blue-500 px-3 py-1 rounded">
-              <Text className="text-white text-sm">Add</Text>
-            </Pressable>
-          </View>
-        </View>
-
         {location ? (
-            <MapView
-              ref={mapRef}
-              style={{ width: "100%", height: "100%" }} 
-              mapType="satellite"
-              provider={PROVIDER_DEFAULT}
-              initialRegion={{
-                latitude: location.coords.latitude,
-                longitude: location.coords.longitude,
-                latitudeDelta: 0.005,
-                longitudeDelta: 0.005,
-              }}
-            >
+          <MapView
+            ref={mapRef}
+            style={{ width: "100%", height: "100%" }}
+            mapType="satellite"
+            initialRegion={{
+              latitude: location.coords.latitude,
+              longitude: location.coords.longitude,
+              latitudeDelta: 0.005,
+              longitudeDelta: 0.005,
+            }}
+          >
+            {/* Display user location */}
             <Marker
               coordinate={{
                 latitude: location.coords.latitude,
@@ -136,17 +164,20 @@ export default function Home() {
               />
             </Marker>
 
-            <Marker
-              coordinate={{
-                latitude: location.coords.latitude + 0.001,
-                longitude: location.coords.longitude + 0.001,
-              }}
-              title="Example Marker"
-              description="This is an example marker with additional details."
-              onPress={togglePanel}
-            >
-              <View className="w-5 h-5 bg-blue-500 rounded-full" />
-            </Marker>
+            {/* Display tickets from the database */}
+            {tickets.map((ticket) => (
+              <Marker
+                key={ticket.id}
+                coordinate={{
+                  latitude: ticket.latitude,
+                  longitude: ticket.longitude,
+                }}
+                title={ticket.title}
+                description={ticket.description}
+                pinColor={ticket.severity === "High" ? "red" : "orange"} // Color based on severity
+                onPress={() => togglePanel(ticket)} // Pass the ticket to the panel
+              />
+            ))}
           </MapView>
         ) : (
           <View className="flex-1 justify-center items-center">
@@ -163,16 +194,26 @@ export default function Home() {
         <Text className="text-white text-base">Lock</Text>
       </Pressable>
 
+      {/* Sliding Panel */}
       <Animated.View
         style={{ top: slideAnim }}
         className="absolute left-0 right-0 h-[300px] bg-white rounded-t-2xl p-5 shadow shadow-black/20"
       >
-        <Text className="text-base mb-2">Example Marker Details</Text>
-        <Text className="text-base mb-2">Latitude: {location?.coords.latitude + 0.001}</Text>
-        <Text className="text-base mb-2">Longitude: {location?.coords.longitude + 0.001}</Text>
+        <Text className="text-base mb-2 font-bold">
+          {selectedTicket ? selectedTicket.title : "No Ticket Selected"}
+        </Text>
+        <Text className="text-base mb-2">
+          Latitude: {selectedTicket?.latitude || "N/A"}
+        </Text>
+        <Text className="text-base mb-2">
+          Longitude: {selectedTicket?.longitude || "N/A"}
+        </Text>
+        <Text className="text-base mb-2">
+          Description: {selectedTicket?.description || "N/A"}
+        </Text>
         <Pressable
           className="mt-4 p-3 bg-red-500 rounded items-center"
-          onPress={togglePanel}
+          onPress={() => togglePanel(null)}
         >
           <Text className="text-white text-base">Close</Text>
         </Pressable>
