@@ -20,6 +20,12 @@ export default function Navbar() {
         </Pressable>
       </Link>
 
+      <Link href="/manualsubmission" asChild>
+        <Pressable className="items-center p-1">
+          <Text className={`text-base ${currentRoute === "/manualsubmission" ? "text-blue-600 font-bold" : "text-gray-800"}`}>Manual Submission</Text>
+        </Pressable>
+      </Link>
+
       <Link href="/profile" asChild>
         <Pressable className="items-center p-1">
           <Text className={`text-base ${currentRoute === "/profile" ? "text-blue-600 font-bold" : "text-gray-800"}`}>Profile</Text>
