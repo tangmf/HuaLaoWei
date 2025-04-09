@@ -1,0 +1,6 @@
+input_csv: "../municipal_reports/us/sf_311.csv"
+output_csv: "us/sf_geospatial.csv"
+city: "san_francisco"
+lat_col: "lat"
+lon_col: "long"
+id_col: "service_request_id"
