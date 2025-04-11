@@ -1,0 +1,121 @@
+us_chicago:
+  country: "us"
+  city: "chicago"
+
+  input_csv: "../municipal_reports/us/municipal_us_chicago_311.csv"
+  output_csv: "us/weather_us_chicago_open-meteo.csv"
+
+  keep_cols: ["sr_number", "boundary_name", "latitude", "longitude", "created_date"] 
+  lat_col: "latitude"
+  lon_col: "longitude"
+  date_col: "created_date"
+
+  hours_before: 23
+  hours_after: 0
+  
+  max_workers: 25
+  max_retries: 3
+  backoff: 2 
+
+  weather_api:
+    query:
+      hourly:
+        - temperature_2m
+        - relative_humidity_2m
+        - precipitation
+        - windspeed_10m
+      daily: null
+      timezone: "UTC"
+
+  air_api:
+    query:
+      hourly:
+        - pm10
+        - pm2_5
+        - carbon_monoxide
+        - nitrogen_dioxide
+        - ozone
+        - sulphur_dioxide
+      timezone: "UTC"
+
+
+us_newyork:
+  country: "us"
+  city: "newyork"
+
+  input_csv: "../municipal_reports/us/municipal_us_newyork_311.csv"
+  output_csv: "us/weather_us_newyork_open-meteo.csv"
+
+  keep_cols: ["unique_key", "boundary_name", "latitude", "longitude", "created_date"] 
+  lat_col: "latitude"
+  lon_col: "longitude"
+  date_col: "created_date"
+
+  hours_before: 23
+  hours_after: 0
+  
+  max_workers: 25
+  max_retries: 3
+  backoff: 2 
+
+  weather_api:
+    query:
+      hourly:
+        - temperature_2m
+        - relative_humidity_2m
+        - precipitation
+        - windspeed_10m
+      daily: null
+      timezone: "UTC"
+
+  air_api:
+    query:
+      hourly:
+        - pm10
+        - pm2_5
+        - carbon_monoxide
+        - nitrogen_dioxide
+        - ozone
+        - sulphur_dioxide
+      timezone: "UTC"
+
+
+us_sanfrancisco:
+  country: "us"
+  city: "sanfrancisco"
+
+  input_csv: "../municipal_reports/us/municipal_us_sanfrancisco_311.csv"
+  output_csv: "us/weather_us_sanfrancisco_open-meteo.csv"
+
+  keep_cols: ["service_request_id", "boundary_name", "lat", "long", "requested_datetime"] 
+  lat_col: "lat"
+  lon_col: "long"
+  date_col: "requested_datetime"
+
+  hours_before: 23
+  hours_after: 0
+  
+  max_workers: 25
+  max_retries: 3
+  backoff: 2 
+
+  weather_api:
+    query:
+      hourly:
+        - temperature_2m
+        - relative_humidity_2m
+        - precipitation
+        - windspeed_10m
+      daily: null
+      timezone: "UTC"
+
+  air_api:
+    query:
+      hourly:
+        - pm10
+        - pm2_5
+        - carbon_monoxide
+        - nitrogen_dioxide
+        - ozone
+        - sulphur_dioxide
+      timezone: "UTC"
