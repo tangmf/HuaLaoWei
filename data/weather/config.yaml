@@ -5,7 +5,8 @@ us_chicago:
   input_csv: "../municipal_reports/us/municipal_us_chicago_311.csv"
   output_csv: "us/weather_us_chicago_open-meteo.csv"
 
-  keep_cols: ["sr_number", "boundary_name", "latitude", "longitude", "created_date"] 
+  keep_cols: ["sr_number", "latitude", "longitude", "created_date"]
+  id_col: "sr_number"
   lat_col: "latitude"
   lon_col: "longitude"
   date_col: "created_date"
@@ -13,8 +14,8 @@ us_chicago:
   hours_before: 23
   hours_after: 0
   
-  max_workers: 25
-  max_retries: 3
+  max_workers: 5
+  max_retries: 10
   backoff: 2 
 
   weather_api:
@@ -43,10 +44,11 @@ us_newyork:
   country: "us"
   city: "newyork"
 
-  input_csv: "../municipal_reports/us/municipal_us_newyork_311.csv"
+  input_csv: "../clusters/us/ccentroids_us_newyork_hdbscan.csv"
   output_csv: "us/weather_us_newyork_open-meteo.csv"
 
-  keep_cols: ["unique_key", "boundary_name", "latitude", "longitude", "created_date"] 
+  keep_cols: ["unique_key", "latitude", "longitude", "created_date"] 
+  id_col: "unique_key"
   lat_col: "latitude"
   lon_col: "longitude"
   date_col: "created_date"
@@ -54,7 +56,7 @@ us_newyork:
   hours_before: 23
   hours_after: 0
   
-  max_workers: 25
+  max_workers: 5
   max_retries: 3
   backoff: 2 
 
@@ -87,7 +89,8 @@ us_sanfrancisco:
   input_csv: "../municipal_reports/us/municipal_us_sanfrancisco_311.csv"
   output_csv: "us/weather_us_sanfrancisco_open-meteo.csv"
 
-  keep_cols: ["service_request_id", "boundary_name", "lat", "long", "requested_datetime"] 
+  keep_cols: ["service_request_id", "lat", "long", "requested_datetime"] 
+  id_col: "service_request_id"
   lat_col: "lat"
   lon_col: "long"
   date_col: "requested_datetime"
@@ -95,7 +98,7 @@ us_sanfrancisco:
   hours_before: 23
   hours_after: 0
   
-  max_workers: 25
+  max_workers: 5
   max_retries: 3
   backoff: 2 
 
