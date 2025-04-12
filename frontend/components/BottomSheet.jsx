@@ -30,7 +30,7 @@ const styles = {
     left: 75,
     height: 48,
     borderRadius: 24,
-    zIndex: 1,
+    zIndex: 4,
   },
 };
 

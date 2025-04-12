@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Text, View, ActivityIndicator, Animated, Dimensions, Pressable } from "react-native";
+import { Text, View, ActivityIndicator, Animated, Dimensions, Pressable, Image } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import * as Location from "expo-location";
 import Navbar from "@/components/Navbar";
@@ -17,6 +17,7 @@ export default function Home() {
   const [hasZoomed, setHasZoomed] = useState(false);
   const [isPanelVisible, setIsPanelVisible] = useState(false);
   const slideAnim = useRef(new Animated.Value(height)).current;
+  const [isFilterPanelVisible, setIsFilterPanelVisible] = useState(false);
 
   // Fetch tickets from the database
   useEffect(() => {
@@ -139,7 +140,94 @@ export default function Home() {
     <View className="flex-1 bg-white">
       
       <Header title="Home" />
-      
+      <Pressable
+  onPress={() => setIsFilterPanelVisible(!isFilterPanelVisible)}
+  style={{
+    position: "absolute",
+    top: 70, // Distance from the top of the screen
+    right: 20, // Distance from the right of the screen
+    backgroundColor: "#007bff", // Blue background
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    borderRadius: 10,
+    zIndex: 10, // Ensure the button is above other elements
+  }}
+>
+  <Text style={{ color: "white", fontSize: 16 }}>Filter</Text>
+</Pressable>
+<Pressable
+        onPress={lockToMarker}
+        style={{
+          position: "absolute",
+    bottom: 100, // Distance from the top of the screen
+    right: 20, // Distance from the right of the screen
+    backgroundColor: "#007bff", // Blue background
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    borderRadius: 10,
+    zIndex: 10, // Ensure the button is above other elements
+        }}
+      >
+        <Image source={require("@/assets/images/lock.png")} style={{width: 40, height: 40 }} />
+      </Pressable>
+
+
+      {/* Filtering Panel */}
+{isFilterPanelVisible && (
+        <Animated.View
+          style={{
+            top: 0,
+            right: 0,
+            height: "30%",
+            backgroundColor: "white",
+            shadowColor: "#000",
+            shadowOffset: { width: -2, height: 0 },
+            shadowOpacity: 0.2,
+            shadowRadius: 5,
+            elevation: 5,
+            padding: 20,
+          }}
+        >
+          <Text style={{ fontSize: 18, fontWeight: "bold", marginBottom: 10 }}>
+            Filter Options
+          </Text>
+          {/* Add filtering options here */}
+
+          <Text>Severity:</Text>
+          <View style={{ flexDirection: "row", marginTop: 10 }}>
+            <Pressable
+              onPress={() => setTickets(tickets.filter(ticket => ticket.severity === "High"))}
+              style={{
+                backgroundColor: "red",
+                padding: 10,
+                borderRadius: 5,
+                marginRight: 10,
+              }}
+            >
+              
+              </Pressable>
+              </View>
+
+
+              <Text>Status:</Text>
+          <View style={{ flexDirection: "row", marginTop: 10 }}>
+            <Pressable
+              onPress={() => setTickets(tickets.filter(ticket => ticket.severity === "High"))}
+              style={{
+                backgroundColor: "red",
+                padding: 10,
+                borderRadius: 5,
+                marginRight: 10,
+              }}
+            >
+              
+              </Pressable>
+              </View>
+         
+          
+
+        </Animated.View>
+      )}
       <View className="flex-1 items-center justify-center">
         
         {location ? (
@@ -193,21 +281,10 @@ export default function Home() {
       </View>
       <View  className="top-0 left-0 right-0 bottom-0">
         <View>
-        <Pressable
-        onPress={lockToMarker}
-        style={{
-          position: "absolute", // Make the button absolutely positioned
-          bottom: 50, // Distance from the bottom of the screen
-          right: 20, // Distance from the right of the screen
-          backgroundColor: "#007bff", // Blue background
-          paddingVertical: 10, // Vertical padding
-          paddingHorizontal: 20, // Horizontal padding
-          borderRadius: 10, // Rounded corners
-        }}
-      >
-        <Text className="text-white text-base">Lock</Text>
-      </Pressable>
+        
+      
         </View>
+        
 
 <BottomSheet selectedTicket ={selectedTicket} >
         </BottomSheet>
