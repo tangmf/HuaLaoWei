@@ -199,40 +199,11 @@ export default function Home() {
         <Text className="text-white text-base">Lock</Text>
       </Pressable>
       </View>
-        
-      
-      
-      {/* Sliding Panel */}
-      <Animated.View
-        style={{ top: slideAnim }}
-        className="absolute left-0 right-0 h-[300px] bg-white rounded-t-2xl p-5 shadow shadow-black/20"
-      >
-        <Text className="text-base mb-2 font-bold">
-          {selectedTicket ? selectedTicket.title : "No Ticket Selected"}
-        </Text>
-        <Text className="text-base mb-2">
-          Latitude: {selectedTicket?.latitude || "N/A"}
-        </Text>
-        <Text className="text-base mb-2">
-          Longitude: {selectedTicket?.longitude || "N/A"}
-        </Text>
-        <Text className="text-base mb-2">
-          Description: {selectedTicket?.description || "N/A"}
-        </Text>
-        <Pressable
-          className="mt-4 p-3 bg-red-500 rounded items-center"
-          onPress={() => togglePanel(null)}
-        >
-          <Text className="text-white text-base">Close</Text>
-        </Pressable>
-      </Animated.View>
       <View  className="top-0 left-0 right-0 bottom-0">
-<BottomSheet>
+
+<BottomSheet selectedTicket ={selectedTicket} >
         </BottomSheet>
       </View>
-        
-     
-      
       <Navbar />
     </View>
     
