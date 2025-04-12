@@ -4,6 +4,7 @@ import MapView, { Marker } from "react-native-maps";
 import * as Location from "expo-location";
 import Navbar from "@/components/Navbar";
 import Header from "@/components/Header";
+import BottomSheet from "@/components/BottomSheet";
 
 const { height } = Dimensions.get("window");
 
@@ -136,13 +137,18 @@ export default function Home() {
 
   return (
     <View className="flex-1 bg-white">
+      
       <Header title="Home" />
-
+      <View>
+        <Text className="text-center text-lg font-bold mt-4">Tags</Text>
+      </View>
+      
       <View className="flex-1 items-center justify-center">
+        
         {location ? (
           <MapView
             ref={mapRef}
-            style={{ width: "100%", height: "100%" }}
+            style={{ width: "100%", height: "100%"}}
             mapType="satellite"
             initialRegion={{
               latitude: location.coords.latitude,
@@ -178,6 +184,7 @@ export default function Home() {
                 onPress={() => togglePanel(ticket)} // Pass the ticket to the panel
               />
             ))}
+            
           </MapView>
         ) : (
           <View className="flex-1 justify-center items-center">
@@ -185,15 +192,16 @@ export default function Home() {
             <Text className="mt-2 text-base text-gray-700">Please wait...</Text>
           </View>
         )}
-      </View>
-
-      <Pressable
+        <Pressable
         onPress={lockToMarker}
-        className="absolute bottom-20 right-5 bg-blue-500 px-4 py-2 rounded"
+        className="bottom-20 bg-blue-500 px-4 py-2 rounded"
       >
         <Text className="text-white text-base">Lock</Text>
       </Pressable>
-
+      </View>
+        
+      
+      
       {/* Sliding Panel */}
       <Animated.View
         style={{ top: slideAnim }}
@@ -218,8 +226,15 @@ export default function Home() {
           <Text className="text-white text-base">Close</Text>
         </Pressable>
       </Animated.View>
-
+      <View  className="top-0 left-0 right-0 bottom-0">
+<BottomSheet>
+        </BottomSheet>
+      </View>
+        
+     
+      
       <Navbar />
     </View>
+    
   );
 }
