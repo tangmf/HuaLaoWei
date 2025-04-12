@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, View, Dimensions, Animated } from "react-native";
+import { Text, View, Dimensions, Animated, ScrollView } from "react-native";
 
 import SlidingUpPanel from "rn-sliding-up-panel";
 
@@ -18,15 +18,10 @@ const styles = {
     position: "relative"
   },
   panelHeader: {
-    height: 50,
+    height: 20,
     backgroundColor: "red",
     justifyContent: "flex-end",
     padding: 10,
-  },
-  textHeader: {
-    fontSize: 20,
-    color: "#FFF",
-    left: 100,
   },
   icon: {
     alignItems: "center",
@@ -52,50 +47,47 @@ const styles = {
 
 class BottomSheet extends React.Component {
     static defaultProps = {
-      draggableRange: { top: height / 2, bottom: 0 } // Reduce the top height to 50% of the screen
+      draggableRange: { top: height / 2, bottom: 0 }, // Reduce the top height to 50% of the screen
     };
   
     _draggedValue = new Animated.Value(180);
   
     render() {
       const { top, bottom } = this.props.draggableRange;
+      const { selectedTicket } = this.props; // Access selectedTicket from props
   
       const backgoundOpacity = this._draggedValue.interpolate({
         inputRange: [bottom, top],
         outputRange: [1, 0],
-        extrapolate: "clamp"
+        extrapolate: "clamp",
       });
   
       const iconTranslateY = this._draggedValue.interpolate({
         inputRange: [bottom, top],
         outputRange: [0, 56],
-        extrapolate: "clamp"
+        extrapolate: "clamp",
       });
   
       const textTranslateY = this._draggedValue.interpolate({
         inputRange: [bottom, top],
         outputRange: [0, 8],
-        extrapolate: "clamp"
+        extrapolate: "clamp",
       });
   
       const textTranslateX = this._draggedValue.interpolate({
         inputRange: [bottom, top],
         outputRange: [0, -112],
-        extrapolate: "clamp"
+        extrapolate: "clamp",
       });
   
       const textScale = this._draggedValue.interpolate({
         inputRange: [bottom, top],
         outputRange: [1, 0.7],
-        extrapolate: "clamp"
+        extrapolate: "clamp",
       });
   
       return (
         <View style={styles.container}>
-            {/*}
-          <Text onPress={() => this._panel.show(360)}>Show panel</Text>
-
-          */}
           <SlidingUpPanel
             ref={(c) => (this._panel = c)}
             draggableRange={this.props.draggableRange}
@@ -106,13 +98,12 @@ class BottomSheet extends React.Component {
           >
             <View style={styles.panel}>
               <Animated.View
-              
                 style={[
                   styles.iconBg,
                   {
                     opacity: backgoundOpacity,
-                    transform: [{ translateY: iconTranslateY }]
-                  }
+                    transform: [{ translateY: iconTranslateY }],
+                  },
                 ]}
               />
               <View style={styles.panelHeader}>
@@ -121,15 +112,30 @@ class BottomSheet extends React.Component {
                     transform: [
                       { translateY: textTranslateY },
                       { translateX: textTranslateX },
-                      { scale: textScale }
-                    ]
+                      { scale: textScale },
+                    ],
                   }}
                 >
-                  <Text style={styles.textHeader}>Sliding Up Panel</Text>
+
                 </Animated.View>
               </View>
               <View style={styles.container}>
-                <Text>Bottom sheet content</Text>
+                {/* Scrollable content */}
+              <ScrollView contentContainerStyle={{ padding: 20 }}>
+                {/* Display selectedTicket details */}
+                {selectedTicket ? (
+                  <>
+                    <Text>Title: {selectedTicket.title || "N/A"}</Text>
+                    <Text>Latitude: {selectedTicket.latitude || "N/A"}</Text>
+                    <Text>Longitude: {selectedTicket.longitude || "N/A"}</Text>
+                    <Text>Severity: {selectedTicket.severity || "N/A"}</Text>
+                    <Text>Status: {selectedTicket.status || "N/A"}</Text>
+                    <Text>Description: {selectedTicket.description || "N/A"}</Text>
+                  </>
+                ) : (
+                  <Text>No ticket selected</Text>
+                )}
+              </ScrollView>
               </View>
             </View>
           </SlidingUpPanel>
