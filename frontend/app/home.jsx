@@ -139,16 +139,13 @@ export default function Home() {
     <View className="flex-1 bg-white">
       
       <Header title="Home" />
-      <View>
-        <Text className="text-center text-lg font-bold mt-4">Tags</Text>
-      </View>
       
       <View className="flex-1 items-center justify-center">
         
         {location ? (
           <MapView
             ref={mapRef}
-            style={{ width: "100%", height: "100%"}}
+            style={{ width: "100%", height: "100%", position: "absolute", bottom: 0}}
             mapType="satellite"
             initialRegion={{
               latitude: location.coords.latitude,
@@ -192,14 +189,25 @@ export default function Home() {
             <Text className="mt-2 text-base text-gray-700">Please wait...</Text>
           </View>
         )}
+        
+      </View>
+      <View  className="top-0 left-0 right-0 bottom-0">
+        <View>
         <Pressable
         onPress={lockToMarker}
-        className="bottom-20 bg-blue-500 px-4 py-2 rounded"
+        style={{
+          position: "absolute", // Make the button absolutely positioned
+          bottom: 50, // Distance from the bottom of the screen
+          right: 20, // Distance from the right of the screen
+          backgroundColor: "#007bff", // Blue background
+          paddingVertical: 10, // Vertical padding
+          paddingHorizontal: 20, // Horizontal padding
+          borderRadius: 10, // Rounded corners
+        }}
       >
         <Text className="text-white text-base">Lock</Text>
       </Pressable>
-      </View>
-      <View  className="top-0 left-0 right-0 bottom-0">
+        </View>
 
 <BottomSheet selectedTicket ={selectedTicket} >
         </BottomSheet>
