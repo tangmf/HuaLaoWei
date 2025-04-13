@@ -1,0 +1,85 @@
+us_chicago:
+  input_csv: "../municipal_reports/us/municipal_us_chicago_311.csv"
+  output_csv: "us/clusters_us_chicago.csv"
+
+  keep_cols: ["sr_number", "latitude", "longitude"]
+  latitude: "latitude"
+  longitude: "longitude"
+
+  output_centroids_csv: "us/ccentroids_us_chicago.csv"
+
+  models:
+    kmeans:
+      label: "cluster_kmeans"
+      params:
+        n_clusters: 3000
+        random_state: 0
+
+    # dbscan:
+    #   label: "cluster_dbscan"
+    #   params:
+    #     eps_km: 0.3
+    #     min_samples: 4
+    #     algorithm: "auto"     # Or "kd_tree"
+    #     metric: "euclidean"   
+
+    hdbscan:
+      label: "cluster_hdbscan"
+      params:
+        min_cluster_size: 10
+        min_samples: 5
+        metric: "haversine"
+
+
+us_newyork:
+  input_csv: "../municipal_reports/us/municipal_us_newyork_311.csv"
+  output_csv: "us/clusters_us_newyork.csv"
+
+  keep_cols: ["unique_key", "latitude", "longitude"]
+  latitude: "latitude"
+  longitude: "longitude"
+
+  output_centroids_csv: "us/ccentroids_us_newyork.csv"
+
+  models:
+    kmeans:
+      label: "cluster_kmeans"
+      params:
+        n_clusters: 4500
+        random_state: 0
+
+    hdbscan:
+      label: "cluster_hdbscan"
+      params:
+        min_cluster_size: 15
+        min_samples: 5
+        metric: haversine
+        use_approximate_predict: true
+        prediction_data: true
+        gen_min_span_tree: false
+        subsample_size: 100000
+
+
+us_sanfrancisco:
+  input_csv: "../municipal_reports/us/municipal_us_sanfrancisco_311.csv"
+  output_csv: "us/clusters_us_sanfrancisco.csv"
+
+  keep_cols: ["service_request_id", "lat", "long"]
+  latitude: "lat"
+  longitude: "long"
+
+  output_centroids_csv: "us/ccentroids_us_sanfrancisco.csv"
+
+  models:
+    kmeans:
+      label: "cluster_kmeans"
+      params:
+        n_clusters: 2500
+        random_state: 0
+
+    hdbscan:
+      label: "cluster_hdbscan"
+      params:
+        min_cluster_size: 10
+        min_samples: 5
+        metric: "haversine"
