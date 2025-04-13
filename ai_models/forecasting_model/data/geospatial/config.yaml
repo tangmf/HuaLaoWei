@@ -1,0 +1,91 @@
+us_chicago:
+  city: chicago
+
+  input_csv: "../municipal_reports/us/municipal_us_chicago_311.csv"
+  output_csv: "us/geospatial_us_chicago.csv"
+
+  keep_cols: ["sr_number", "latitude", "longitude"]
+  latitude: "latitude"
+  longitude: "longitude"
+
+  bounding_box: [40.4774, -74.2591, 40.9176, -73.7004] # Optional
+  radius_m: [200] # Accepts multiple distance count
+
+  poi_tags:
+    commercial:
+      shop: true
+      amenity: ["marketplace", "mall"]
+    residential:
+      landuse: "residential"
+      building: ["apartments", "residential"]
+    facilities:
+      amenity: ["school", "hospital"]
+    recreation:
+      leisure: "park"
+      tourism: true
+    transit:
+      highway: "bus_stop"
+      railway: ["station", "subway_entrance"]
+      public_transport: ["platform", "stop_position"]
+
+
+us_newyork:
+  city: new_york
+
+  input_csv: "../municipal_reports/us/municipal_us_newyork_311.csv"
+  output_csv: "us/geospatial_us_new_york.csv"
+
+  keep_cols: ["unique_key", "latitude", "longitude"]
+  latitude: "latitude"
+  longitude: "longitude"
+
+  bounding_box: [40.4774, -74.2591, 40.9176, -73.7004]
+  radius_m: [200]
+
+  poi_tags:
+    commercial:
+      shop: true
+      amenity: ["marketplace", "mall"]
+    residential:
+      landuse: "residential"
+      building: ["apartments", "residential"]
+    facilities:
+      amenity: ["school", "hospital"]
+    recreation:
+      leisure: "park"
+      tourism: true
+    transit:
+      highway: "bus_stop"
+      railway: ["station", "subway_entrance"]
+      public_transport: ["platform", "stop_position"]
+
+
+us_sanfrancisco:
+  city: sanfrancisco
+
+  input_csv: "../municipal_reports/us/municipal_us_sanfrancisco_311.csv"
+  output_csv: "us/geospatial_us_sanfrancisco.csv"
+
+  keep_cols: ["service_request_id", "lat", "long"]
+  latitude: "lat"
+  longitude: "long"
+
+  bounding_box: [37.6398, -123.1738, 37.9298, -122.2818]
+  radius_m: [200]
+  
+  poi_tags:
+    commercial:
+      shop: true
+      amenity: ["marketplace", "mall"]
+    residential:
+      landuse: "residential"
+      building: ["apartments", "residential"]
+    facilities:
+      amenity: ["school", "hospital"]
+    recreation:
+      leisure: "park"
+      tourism: true
+    transit:
+      highway: "bus_stop"
+      railway: ["station", "subway_entrance"]
+      public_transport: ["platform", "stop_position"]
