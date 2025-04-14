@@ -14,7 +14,6 @@ export default function Navbar() {
         justifyContent: "space-around",
         alignItems: "center",
         height: 70,
-        backgroundColor: "#007bff", // Blue background
         borderRadius: 20, // Rounded rectangle
         marginHorizontal: 20, // Padding from left and right
         marginBottom: 20, // Padding from the bottom
@@ -26,6 +25,7 @@ export default function Navbar() {
         elevation: 5, // Shadow for Android
         zIndex: 10,
       }}
+      className="bg-primary"
     >
       {/* Home Link */}
       <Link href="/home" asChild>
