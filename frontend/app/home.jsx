@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Text, View, ActivityIndicator, Animated, Dimensions, Pressable, Image } from "react-native";
-import MapView, { Marker } from "react-native-maps";
+import MapView, { Marker, Callout } from "react-native-maps";
 import * as Location from "expo-location";
 import Navbar from "@/components/Navbar";
 import Header from "@/components/Header";
@@ -42,7 +42,7 @@ export default function Home() {
           id: 1,
           title: "Public Disturbance",
           description: "Naked men.",
-          latitude: 1.3521,
+          latitude: 1.4521,
           longitude: 103.8198,
           severity: "High",
         };
@@ -54,8 +54,16 @@ export default function Home() {
           longitude: 103.8298,
           severity: "Medium",
         };
+        const fallbackTicket3 = {
+          id: 3,
+          title: "Public Disturbance",
+          description: "Naked men.",
+          latitude: 1.4441,
+          longitude: 103.8048,
+          severity: "Medium",
+        };
 
-        setTickets([fallbackTicket1, fallbackTicket2]);
+        setTickets([fallbackTicket1, fallbackTicket2, fallbackTicket3]);
       }
     };
 
@@ -212,24 +220,28 @@ export default function Home() {
               }}
             >
               <View
-                className="w-0 h-0 border-l-[10px] border-r-[10px] border-b-[20px] border-l-transparent border-r-transparent border-b-red-500"
-                style={{ transform: [{ rotate: `${heading}deg` }] }}
-              />
+                style={{ transform: [{ rotate: `${heading}deg` }] }}>
+                <Ionicons name="navigate" size={32} color="red" />
+              </View>
             </Marker>
 
             {/* Display tickets from the database */}
             {tickets.map((ticket) => (
-              <Marker
-                key={ticket.id}
-                coordinate={{
+    <Marker
+      key={ticket.id}
+      coordinate={{
                   latitude: ticket.latitude,
                   longitude: ticket.longitude,
-                }}
+      }}
                 title={ticket.title}
                 description={ticket.description}
-                pinColor={ticket.severity === "High" ? "red" : "orange"} // Color based on severity
-                onPress={() => togglePanel(ticket)} // Pass the ticket to the panel
-              />
+      pinColor={ticket.severity === "High" ? "red" : "orange"} // Color based on severity
+      onPress={() => togglePanel(ticket)} // Pass the ticket to the panel
+              >
+
+            <Ionicons name="warning" size={32} color="yellow" />
+
+                </Marker>
             ))}
             
           </MapView>
