@@ -5,6 +5,7 @@ import * as Location from "expo-location";
 import Navbar from "@/components/Navbar";
 import Header from "@/components/Header";
 import BottomSheet from "@/components/BottomSheet";
+import { Ionicons } from "@expo/vector-icons"; // Import icons from Expo
 
 const { height } = Dimensions.get("window");
 
@@ -164,11 +165,11 @@ export default function Home() {
     backgroundColor: "#007bff", // Blue background
     paddingVertical: 10,
     paddingHorizontal: 15,
-    borderRadius: 10,
-    zIndex: 10, // Ensure the button is above other elements
+    borderRadius: 100,
+    zIndex: 3, // Ensure the button is above other elements
         }}
       >
-        <Image source={require("@/assets/images/lock.png")} style={{width: 40, height: 40 }} />
+        <Ionicons name="locate-outline" size={40} color="white" />
       </Pressable>
 
 
