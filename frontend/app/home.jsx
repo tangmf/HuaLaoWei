@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Text, View, ActivityIndicator, Animated, Dimensions, Pressable, Image } from "react-native";
+import { Text, View, ActivityIndicator, Animated, Dimensions, Pressable, Image, TextInput } from "react-native";
 import MapView, { Marker, Callout } from "react-native-maps";
 import * as Location from "expo-location";
 import Navbar from "@/components/Navbar";
@@ -260,131 +260,154 @@ export default function Home() {
         </View>
         
         {/* Filter Panel */}
-      <Animated.View
+        <Animated.View
+  style={{
+    position: "absolute",
+    top: filterAnim, // Animate the top position
+    left: 0,
+    width: "100%",
+    height: height * 0.5, // 50% of the screen height
+    backgroundColor: "rgba(0, 0, 0, 0.7)", // Translucent background
+    padding: 20,
+    zIndex: 5,
+  }}
+>
+  <Text style={{ fontSize: 14, fontWeight: "bold", color: "white" }}>
+    Filter
+  </Text>
+
+  <View
+    style={{
+      flexDirection: "row",
+      alignItems: "center",
+      backgroundColor: "white",
+      borderRadius: 8,
+      paddingHorizontal: 10,
+      margin: 10,
+      height: 40,
+      width: 250
+    }}>
+    <Ionicons name="search" size={20} color="gray" />
+    <TextInput
+      placeholder="Search..."
+      placeholderTextColor="gray"
+      style={{
+        flex: 1,
+        marginLeft: 10,
+        fontSize: 12,
+        color: "black",
+      }}
+    />
+  </View>
+
+  {/* Severity Section */}
+  <View style={{ marginTop: 10 }}>
+    <Text style={{ fontSize: 12, color: "white", marginBottom: 5 }}>
+      <Ionicons name="warning" size={12} color="yellow" /> Severity
+    </Text>
+    <View style={{ flexDirection: "row" }}>
+      <Pressable
         style={{
-          position: "absolute",
-          top: filterAnim, // Animate the top position
-          left: 0,
-          width: "100%",
-          height: height * 0.5, // 50% of the screen height
-          backgroundColor: "rgba(0, 0, 0, 0.7)", // Translucent background
-          padding: 20,
-          zIndex: 5,
+          backgroundColor: "red",
+          padding: 5, // Reduced padding
+          borderRadius: 3, // Reduced border radius
+          marginRight: 5, // Reduced margin
         }}
       >
-        <Text style={{ fontSize: 18, fontWeight: "bold", color: "white" }}>
-          Filter
-        </Text>
+        <Text style={{ color: "white", fontSize: 12 }}>High</Text>
+      </Pressable>
+      <Pressable
+        style={{
+          backgroundColor: "orange",
+          padding: 5, // Reduced padding
+          borderRadius: 3, // Reduced border radius
+          marginRight: 5, // Reduced margin
+        }}
+      >
+        <Text style={{ color: "white", fontSize: 12 }}>Medium</Text>
+      </Pressable>
+      <Pressable
+        style={{
+          backgroundColor: "green",
+          padding: 5, // Reduced padding
+          borderRadius: 3, // Reduced border radius
+        }}
+      >
+        <Text style={{ color: "white", fontSize: 12 }}>Low</Text>
+      </Pressable>
+    </View>
+  </View>
 
-        {/* Severity Section */}
-        <View style={{ marginTop: 20 }}>
-          <Text style={{ fontSize: 16, color: "white", marginBottom: 10 }}>
-            <Ionicons name="warning" size={16} color="yellow" /> Severity
-          </Text>
-          <View style={{ flexDirection: "row" }}>
-            <Pressable
-              style={{
-                backgroundColor: "red",
-                padding: 10,
-                borderRadius: 5,
-                marginRight: 10,
-              }}
-            >
-              <Text style={{ color: "white" }}>High</Text>
-            </Pressable>
-            <Pressable
-              style={{
-                backgroundColor: "orange",
-                padding: 10,
-                borderRadius: 5,
-                marginRight: 10,
-              }}
-            >
-              <Text style={{ color: "white" }}>Medium</Text>
-            </Pressable>
-            <Pressable
-              style={{
-                backgroundColor: "green",
-                padding: 10,
-                borderRadius: 5,
-              }}W
-            >
-              <Text style={{ color: "white" }}>Low</Text>
-            </Pressable>
-          </View>
-        </View>
+  {/* Status Section */}
+  <View style={{ marginTop: 10 }}>
+    <Text style={{ fontSize: 12, color: "white", marginBottom: 5 }}>
+      <Ionicons name="checkmark-circle" size={12} color="lightgreen" /> Status
+    </Text>
+    <View style={{ flexDirection: "row" }}>
+      <Pressable
+        style={{
+          backgroundColor: "#007bff",
+          padding: 5, // Reduced padding
+          borderRadius: 3, // Reduced border radius
+          marginRight: 5, // Reduced margin
+        }}
+      >
+        <Text style={{ color: "white", fontSize: 12 }}>Pending</Text>
+      </Pressable>
+      <Pressable
+        style={{
+          backgroundColor: "#6c757d",
+          padding: 5, // Reduced padding
+          borderRadius: 3, // Reduced border radius
+        }}
+      >
+        <Text style={{ color: "white", fontSize: 12 }}>Resolved</Text>
+      </Pressable>
+    </View>
+  </View>
 
-        {/* Status Section */}
-        <View style={{ marginTop: 20 }}>
-          <Text style={{ fontSize: 16, color: "white", marginBottom: 10 }}>
-            <Ionicons name="checkmark-circle" size={16} color="lightgreen" />{" "}
-            Status
-          </Text>
-          <View style={{ flexDirection: "row" }}>
-            <Pressable
-              style={{
-                backgroundColor: "#007bff",
-                padding: 10,
-                borderRadius: 5,
-                marginRight: 10,
-              }}
-            >
-              <Text style={{ color: "white" }}>Pending</Text>
-            </Pressable>
-            <Pressable
-              style={{
-                backgroundColor: "#6c757d",
-                padding: 10,
-                borderRadius: 5,
-              }}
-            >
-              <Text style={{ color: "white" }}>Resolved</Text>
-            </Pressable>
-          </View>
-        </View>
-
-        {/* Tags Section */}
-        <View style={{ marginTop: 20 }}>
-          <Text style={{ fontSize: 16, color: "white", marginBottom: 10 }}>
-            <MaterialIcons name="label" size={16} color="lightblue" /> Tags
-          </Text>
-          <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
-            <Pressable
-              style={{
-                backgroundColor: "#17a2b8",
-                padding: 10,
-                borderRadius: 5,
-                marginRight: 10,
-                marginBottom: 10,
-              }}
-            >
-              <Text style={{ color: "white" }}>Traffic</Text>
-            </Pressable>
-            <Pressable
-              style={{
-                backgroundColor: "#ffc107",
-                padding: 10,
-                borderRadius: 5,
-                marginRight: 10,
-                marginBottom: 10,
-              }}
-            >
-              <Text style={{ color: "white" }}>Noise</Text>
-            </Pressable>
-            <Pressable
-              style={{
-                backgroundColor: "#28a745",
-                padding: 10,
-                borderRadius: 5,
-                marginRight: 10,
-                marginBottom: 10,
-              }}
-            >
-              <Text style={{ color: "white" }}>Environment</Text>
-            </Pressable>
-          </View>
-        </View>
-      </Animated.View>
+  {/* Tags Section */}
+  <View style={{ marginTop: 10 }}>
+    <Text style={{ fontSize: 12, color: "white", marginBottom: 5 }}>
+      <MaterialIcons name="label" size={12} color="lightblue" /> Tags
+    </Text>
+    <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
+      <Pressable
+        style={{
+          backgroundColor: "#17a2b8",
+          padding: 5, // Reduced padding
+          borderRadius: 3, // Reduced border radius
+          marginRight: 5, // Reduced margin
+          marginBottom: 5, // Reduced margin
+        }}
+      >
+        <Text style={{ color: "white", fontSize: 12 }}>Traffic</Text>
+      </Pressable>
+      <Pressable
+        style={{
+          backgroundColor: "#ffc107",
+          padding: 5, // Reduced padding
+          borderRadius: 3, // Reduced border radius
+          marginRight: 5, // Reduced margin
+          marginBottom: 5, // Reduced margin
+        }}
+      >
+        <Text style={{ color: "white", fontSize: 12 }}>Noise</Text>
+      </Pressable>
+      <Pressable
+        style={{
+          backgroundColor: "#28a745",
+          padding: 5, // Reduced padding
+          borderRadius: 3, // Reduced border radius
+          marginRight: 5, // Reduced margin
+          marginBottom: 5, // Reduced margin
+        }}
+      >
+        <Text style={{ color: "white", fontSize: 12 }}>Environment</Text>
+      </Pressable>
+    </View>
+  </View>
+</Animated.View>
 <BottomSheet selectedTicket ={selectedTicket} >
         </BottomSheet>
       </View>
