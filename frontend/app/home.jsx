@@ -165,7 +165,7 @@ export default function Home() {
       {/* Filter Button */}
       <Pressable
         onPress={toggleFilterPanel}
-       className ="absolute top-10 right-5 bg-blue-500 p-2 rounded-full z-10"
+       className ="absolute top-10 right-5 bg-primary p-2 rounded-full z-10"
       >
         <Ionicons name="filter" size={24} color="white" />
       </Pressable>
@@ -176,12 +176,12 @@ export default function Home() {
           position: "absolute",
     bottom: 150, // Distance from the top of the screen
     right: 20, // Distance from the right of the screen
-    backgroundColor: "#007bff", // Blue background
     paddingVertical: 10,
     paddingHorizontal: 15,
     borderRadius: 100,
     zIndex: 3, // Ensure the button is above other elements
         }}
+      className="bg-primary rounded-full p-2"
         
 
       >

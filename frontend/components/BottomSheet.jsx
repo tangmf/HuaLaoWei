@@ -4,37 +4,6 @@ import SlidingUpPanel from "rn-sliding-up-panel";
 
 const { height } = Dimensions.get("window");
 
-const styles = {
-  container: {
-    zIndex: 5,
-    flex: 1,
-    backgroundColor: "#f8f9fa",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  panel: {
-    flex: 1,
-    backgroundColor: "white",
-    position: "relative",
-  },
-  panelHeader: {
-    height: 20,
-    backgroundColor: "#007bff",
-    justifyContent: "flex-end",
-    padding: 10,
-  },
-  iconBg: {
-    backgroundColor: "#007bff",
-    position: "absolute",
-    top: -24,
-    width: 200,
-    left: 75,
-    height: 48,
-    borderRadius: 24,
-    zIndex: 4,
-  },
-};
-
 class BottomSheet extends React.Component {
   static defaultProps = {
     draggableRange: { top: height / 2, bottom: 0 }, // Reduce the top height to 50% of the screen
@@ -87,26 +56,23 @@ class BottomSheet extends React.Component {
     });
 
     return (
-      <View style={styles.container}>
+      <View className="z-5 flex-1 bg-gray-100 items-center justify-center">
         <SlidingUpPanel
           ref={(c) => (this._panel = c)}
           draggableRange={this.props.draggableRange}
           animatedValue={this._draggedValue}
-          //snappingPoints={[50, 100, 150, 200, 250, 300]} // Adjust the snapping points as needed
           height={height / 2 + 180} // Adjust the height to match the reduced top value
           friction={0.5}
         >
-          <View style={styles.panel}>
+          <View className="flex-1 bg-white relative">
             <Animated.View
-              style={[
-                styles.iconBg,
-                {
-                  opacity: backgoundOpacity,
-                  transform: [{ translateY: iconTranslateY }],
-                },
-              ]}
+              className="absolute top-[-24px] left-[75px] w-[200px] h-[48px] bg-primary rounded-full z-4"
+              style={{
+                opacity: backgoundOpacity,
+                transform: [{ translateY: iconTranslateY }],
+              }}
             />
-            <View style={styles.panelHeader}>
+            <View className="h-[20px] bg-primary justify-end p-2">
               <Animated.View
                 style={{
                   transform: [
@@ -117,7 +83,7 @@ class BottomSheet extends React.Component {
                 }}
               ></Animated.View>
             </View>
-            <View style={styles.container}>
+            <View className="z-5 flex-1 bg-gray-100 items-center justify-center">
               {/* Scrollable content */}
               <ScrollView
                 ref={this.scrollViewRef} // Attach the ref to the ScrollView
@@ -127,16 +93,17 @@ class BottomSheet extends React.Component {
                 {/* Display selectedTicket details */}
                 {selectedTicket ? (
                   <>
-                    <Text>Title: {selectedTicket.title || "N/A"}</Text>
+                    <Text className="text-lg font-bold">
+                      Title: {selectedTicket.title || "N/A"}
+                    </Text>
                     <Text>Latitude: {selectedTicket.latitude || "N/A"}</Text>
                     <Text>Longitude: {selectedTicket.longitude || "N/A"}</Text>
                     <Text>Severity: {selectedTicket.severity || "N/A"}</Text>
                     <Text>Status: {selectedTicket.status || "N/A"}</Text>
                     <Text>Description: {selectedTicket.description || "N/A"}</Text>
-
                   </>
                 ) : (
-                  <Text>No ticket selected</Text>
+                  <Text className="text-gray-500">No ticket selected</Text>
                 )}
               </ScrollView>
             </View>

@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -44,59 +44,37 @@ export default function Create() {
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: "white" }}>
+    <View className="flex-1 bg-white">
       <Header title="Create Report" />
 
       {/* Manual Form Submission */}
       <ScrollView contentContainerStyle={{ padding: 20 }}>
         {/* Title */}
-        <Text style={{ fontSize: 16, fontWeight: "bold", marginBottom: 10 }}>Title</Text>
+        <Text className="text-lg font-bold mb-2">Title</Text>
         <TextInput
-          style={{
-            borderWidth: 1,
-            borderColor: "#ccc",
-            borderRadius: 10,
-            padding: 10,
-            marginBottom: 20,
-          }}
+          className="border border-gray-300 rounded-lg p-3 mb-5"
           placeholder="Enter title"
           value={title}
           onChangeText={setTitle}
         />
 
         {/* Image Insertion */}
-        <Text style={{ fontSize: 16, fontWeight: "bold", marginBottom: 10 }}>Image</Text>
+        <Text className="text-lg font-bold mb-2">Image</Text>
         <Pressable
-          style={{
-            height: 150,
-            borderWidth: 1,
-            borderColor: "#ccc",
-            borderRadius: 10,
-            justifyContent: "center",
-            alignItems: "center",
-            marginBottom: 20,
-          }}
+          className="h-40 border border-gray-300 rounded-lg flex items-center justify-center mb-5"
           onPress={pickImage}
         >
           {image ? (
-            <Image source={{ uri: image }} style={{ width: "100%", height: "100%", borderRadius: 10 }} />
+            <Image source={{ uri: image }} className="w-full h-full rounded-lg" />
           ) : (
-            <Text style={{ color: "#aaa" }}>Tap to add an image</Text>
+            <Text className="text-gray-400">Tap to add an image</Text>
           )}
         </Pressable>
 
         {/* Description */}
-        <Text style={{ fontSize: 16, fontWeight: "bold", marginBottom: 10 }}>Description</Text>
+        <Text className="text-lg font-bold mb-2">Description</Text>
         <TextInput
-          style={{
-            borderWidth: 1,
-            borderColor: "#ccc",
-            borderRadius: 10,
-            padding: 10,
-            height: 100,
-            textAlignVertical: "top",
-            marginBottom: 20,
-          }}
+          className="border border-gray-300 rounded-lg p-3 h-24 text-top mb-5"
           placeholder="Enter description"
           value={description}
           onChangeText={setDescription}
@@ -104,15 +82,8 @@ export default function Create() {
         />
 
         {/* Tags */}
-        <Text style={{ fontSize: 16, fontWeight: "bold", marginBottom: 10 }}>Tags</Text>
-        <View
-          style={{
-            borderWidth: 1,
-            borderColor: "#ccc",
-            borderRadius: 10,
-            marginBottom: 20,
-          }}
-        >
+        <Text className="text-lg font-bold mb-2">Tags</Text>
+        <View className="border border-gray-300 rounded-lg mb-5">
           <Picker
             selectedValue={selectedTag}
             onValueChange={(itemValue) => {
@@ -132,15 +103,10 @@ export default function Create() {
 
         {/* Submit Button */}
         <Pressable
-          style={{
-            backgroundColor: "#007bff",
-            padding: 15,
-            borderRadius: 10,
-            alignItems: "center",
-          }}
+          className="bg-primary p-4 rounded-lg flex items-center"
           onPress={() => alert("Form submitted!")}
         >
-          <Text style={{ color: "white", fontSize: 16 }}>Submit</Text>
+          <Text className="text-white text-lg">Submit</Text>
         </Pressable>
       </ScrollView>
 
