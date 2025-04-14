@@ -5,7 +5,7 @@ import * as Location from "expo-location";
 import Navbar from "@/components/Navbar";
 import Header from "@/components/Header";
 import BottomSheet from "@/components/BottomSheet";
-import { Ionicons } from "@expo/vector-icons"; // Import icons from Expo
+import { Ionicons, MaterialIcons } from "@expo/vector-icons"; // Import icons from Expo
 
 const { height } = Dimensions.get("window");
 
@@ -19,6 +19,7 @@ export default function Home() {
   const [isPanelVisible, setIsPanelVisible] = useState(false);
   const slideAnim = useRef(new Animated.Value(height)).current;
   const [isFilterPanelVisible, setIsFilterPanelVisible] = useState(false);
+  const filterAnim = useRef(new Animated.Value(-height * 0.5)).current; // Start off-screen
 
   // Fetch tickets from the database
   useEffect(() => {
@@ -137,30 +138,51 @@ export default function Home() {
     }
   };
 
+  // Toggle the filter panel
+  const toggleFilterPanel = () => {
+    if (isFilterPanelVisible) {
+      // Slide out
+      Animated.timing(filterAnim, {
+        toValue: -height * 0.8, // Move off-screen
+        duration: 300,
+        useNativeDriver: false,
+      }).start(() => setIsFilterPanelVisible(false));
+    } else {
+      // Slide in
+      setIsFilterPanelVisible(true);
+      Animated.timing(filterAnim, {
+        toValue: -height * 2, // Move into view
+        duration: 300,
+        useNativeDriver: false,
+      }).start();
+    }
+  };
+
   return (
     <View className="flex-1 bg-white">
       
-      <Header title="Home" />
+      
+      {/* Filter Button */}
       <Pressable
-  onPress={() => setIsFilterPanelVisible(!isFilterPanelVisible)}
-  style={{
-    position: "absolute",
-    top: 70, // Distance from the top of the screen
-    right: 20, // Distance from the right of the screen
-    backgroundColor: "#007bff", // Blue background
-    paddingVertical: 10,
-    paddingHorizontal: 15,
-    borderRadius: 10,
-    zIndex: 10, // Ensure the button is above other elements
-  }}
->
-  <Text style={{ color: "white", fontSize: 16 }}>Filter</Text>
-</Pressable>
+        onPress={toggleFilterPanel}
+        style={{
+          position: "absolute",
+          top: 20,
+          right: 20,
+          backgroundColor: "#007bff",
+          padding: 10,
+          borderRadius: 10,
+          zIndex: 10,
+        }}
+      >
+        <Ionicons name="filter" size={24} color="white" />
+      </Pressable>
+      
 <Pressable
         onPress={lockToMarker}
         style={{
           position: "absolute",
-    bottom: 100, // Distance from the top of the screen
+    bottom: 150, // Distance from the top of the screen
     right: 20, // Distance from the right of the screen
     backgroundColor: "#007bff", // Blue background
     paddingVertical: 10,
@@ -173,62 +195,7 @@ export default function Home() {
       </Pressable>
 
 
-      {/* Filtering Panel */}
-{isFilterPanelVisible && (
-        <Animated.View
-          style={{
-            top: 0,
-            right: 0,
-            height: "30%",
-            backgroundColor: "white",
-            shadowColor: "#000",
-            shadowOffset: { width: -2, height: 0 },
-            shadowOpacity: 0.2,
-            shadowRadius: 5,
-            elevation: 5,
-            padding: 20,
-          }}
-        >
-          <Text style={{ fontSize: 18, fontWeight: "bold", marginBottom: 10 }}>
-            Filter Options
-          </Text>
-          {/* Add filtering options here */}
-
-          <Text>Severity:</Text>
-          <View style={{ flexDirection: "row", marginTop: 10 }}>
-            <Pressable
-              onPress={() => setTickets(tickets.filter(ticket => ticket.severity === "High"))}
-              style={{
-                backgroundColor: "red",
-                padding: 10,
-                borderRadius: 5,
-                marginRight: 10,
-              }}
-            >
-              
-              </Pressable>
-              </View>
-
-
-              <Text>Status:</Text>
-          <View style={{ flexDirection: "row", marginTop: 10 }}>
-            <Pressable
-              onPress={() => setTickets(tickets.filter(ticket => ticket.severity === "High"))}
-              style={{
-                backgroundColor: "red",
-                padding: 10,
-                borderRadius: 5,
-                marginRight: 10,
-              }}
-            >
-              
-              </Pressable>
-              </View>
-         
-          
-
-        </Animated.View>
-      )}
+      
       <View className="flex-1 items-center justify-center">
         
         {location ? (
@@ -286,7 +253,132 @@ export default function Home() {
       
         </View>
         
+        {/* Filter Panel */}
+      <Animated.View
+        style={{
+          position: "absolute",
+          top: filterAnim, // Animate the top position
+          left: 0,
+          width: "100%",
+          height: height * 0.5, // 50% of the screen height
+          backgroundColor: "rgba(0, 0, 0, 0.7)", // Translucent background
+          padding: 20,
+          zIndex: 5,
+        }}
+      >
+        <Text style={{ fontSize: 18, fontWeight: "bold", color: "white" }}>
+          Filter
+        </Text>
 
+        {/* Severity Section */}
+        <View style={{ marginTop: 20 }}>
+          <Text style={{ fontSize: 16, color: "white", marginBottom: 10 }}>
+            <Ionicons name="warning" size={16} color="yellow" /> Severity
+          </Text>
+          <View style={{ flexDirection: "row" }}>
+            <Pressable
+              style={{
+                backgroundColor: "red",
+                padding: 10,
+                borderRadius: 5,
+                marginRight: 10,
+              }}
+            >
+              <Text style={{ color: "white" }}>High</Text>
+            </Pressable>
+            <Pressable
+              style={{
+                backgroundColor: "orange",
+                padding: 10,
+                borderRadius: 5,
+                marginRight: 10,
+              }}
+            >
+              <Text style={{ color: "white" }}>Medium</Text>
+            </Pressable>
+            <Pressable
+              style={{
+                backgroundColor: "green",
+                padding: 10,
+                borderRadius: 5,
+              }}
+            >
+              <Text style={{ color: "white" }}>Low</Text>
+            </Pressable>
+          </View>
+        </View>
+
+        {/* Status Section */}
+        <View style={{ marginTop: 20 }}>
+          <Text style={{ fontSize: 16, color: "white", marginBottom: 10 }}>
+            <Ionicons name="checkmark-circle" size={16} color="lightgreen" />{" "}
+            Status
+          </Text>
+          <View style={{ flexDirection: "row" }}>
+            <Pressable
+              style={{
+                backgroundColor: "#007bff",
+                padding: 10,
+                borderRadius: 5,
+                marginRight: 10,
+              }}
+            >
+              <Text style={{ color: "white" }}>Pending</Text>
+            </Pressable>
+            <Pressable
+              style={{
+                backgroundColor: "#6c757d",
+                padding: 10,
+                borderRadius: 5,
+              }}
+            >
+              <Text style={{ color: "white" }}>Resolved</Text>
+            </Pressable>
+          </View>
+        </View>
+
+        {/* Tags Section */}
+        <View style={{ marginTop: 20 }}>
+          <Text style={{ fontSize: 16, color: "white", marginBottom: 10 }}>
+            <MaterialIcons name="label" size={16} color="lightblue" /> Tags
+          </Text>
+          <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
+            <Pressable
+              style={{
+                backgroundColor: "#17a2b8",
+                padding: 10,
+                borderRadius: 5,
+                marginRight: 10,
+                marginBottom: 10,
+              }}
+            >
+              <Text style={{ color: "white" }}>Traffic</Text>
+            </Pressable>
+            <Pressable
+              style={{
+                backgroundColor: "#ffc107",
+                padding: 10,
+                borderRadius: 5,
+                marginRight: 10,
+                marginBottom: 10,
+              }}
+            >
+              <Text style={{ color: "white" }}>Noise</Text>
+            </Pressable>
+            <Pressable
+              style={{
+                backgroundColor: "#28a745",
+                padding: 10,
+                borderRadius: 5,
+                marginRight: 10,
+                marginBottom: 10,
+              }}
+            >
+              <Text style={{ color: "white" }}>Environment</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Animated.View>
 <BottomSheet selectedTicket ={selectedTicket} >
         </BottomSheet>
       </View>
