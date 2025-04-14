@@ -165,15 +165,7 @@ export default function Home() {
       {/* Filter Button */}
       <Pressable
         onPress={toggleFilterPanel}
-        style={{
-          position: "absolute",
-          top: 20,
-          right: 20,
-          backgroundColor: "#007bff",
-          padding: 10,
-          borderRadius: 10,
-          zIndex: 10,
-        }}
+       className ="absolute top-10 right-5 bg-blue-500 p-2 rounded-full z-10"
       >
         <Ionicons name="filter" size={24} color="white" />
       </Pressable>
@@ -190,8 +182,10 @@ export default function Home() {
     borderRadius: 100,
     zIndex: 3, // Ensure the button is above other elements
         }}
+        
+
       >
-        <Ionicons name="locate-outline" size={40} color="white" />
+        <Ionicons name="locate-outline" size={24} color="white" />
       </Pressable>
 
 
@@ -301,7 +295,7 @@ export default function Home() {
                 backgroundColor: "green",
                 padding: 10,
                 borderRadius: 5,
-              }}
+              }}W
             >
               <Text style={{ color: "white" }}>Low</Text>
             </Pressable>
