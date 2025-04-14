@@ -18,8 +18,8 @@ export default function Home() {
   const [hasZoomed, setHasZoomed] = useState(false);
   const [isPanelVisible, setIsPanelVisible] = useState(false);
   const slideAnim = useRef(new Animated.Value(height)).current;
-  const [isFilterPanelVisible, setIsFilterPanelVisible] = useState(false);
-  const filterAnim = useRef(new Animated.Value(-height * 0.5)).current; // Start off-screen
+  const [isFilterPanelVisible, setIsFilterPanelVisible] = useState(true);
+  const filterAnim = useRef(new Animated.Value(-height * 2)).current; // Start off-screen
 
   // Fetch tickets from the database
   useEffect(() => {
