@@ -10,7 +10,7 @@ class BottomSheet extends React.Component {
     draggableRange: { top: height / 2, bottom: 0 }, // Reduce the top height to 50% of the screen
   };
 
-  _draggedValue = new Animated.Value(180);
+  _draggedValue = new Animated.Value(0);
 
   scrollViewRef = React.createRef(); // Create a ref for the ScrollView
 
