@@ -1,45 +1,16 @@
 import React from "react";
-import { Text, View, Dimensions, Animated, ScrollView } from "react-native";
+import { Text, View, Dimensions, Animated, ScrollView, Image, Pressable } from "react-native";
 import SlidingUpPanel from "rn-sliding-up-panel";
+import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 
 const { height } = Dimensions.get("window");
-
-const styles = {
-  container: {
-    flex: 1,
-    backgroundColor: "#f8f9fa",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  panel: {
-    flex: 1,
-    backgroundColor: "white",
-    position: "relative",
-  },
-  panelHeader: {
-    height: 20,
-    backgroundColor: "#007bff",
-    justifyContent: "flex-end",
-    padding: 10,
-  },
-  iconBg: {
-    backgroundColor: "#007bff",
-    position: "absolute",
-    top: -24,
-    width: 200,
-    left: 75,
-    height: 48,
-    borderRadius: 24,
-    zIndex: 4,
-  },
-};
 
 class BottomSheet extends React.Component {
   static defaultProps = {
     draggableRange: { top: height / 2, bottom: 0 }, // Reduce the top height to 50% of the screen
   };
 
-  _draggedValue = new Animated.Value(180);
+  _draggedValue = new Animated.Value(0);
 
   scrollViewRef = React.createRef(); // Create a ref for the ScrollView
 
@@ -86,26 +57,23 @@ class BottomSheet extends React.Component {
     });
 
     return (
-      <View style={styles.container}>
+      <View className="z-5 flex-1 bg-gray-100 items-center justify-center">
         <SlidingUpPanel
           ref={(c) => (this._panel = c)}
           draggableRange={this.props.draggableRange}
           animatedValue={this._draggedValue}
-          //snappingPoints={[50, 100, 150, 200, 250, 300]} // Adjust the snapping points as needed
           height={height / 2 + 180} // Adjust the height to match the reduced top value
           friction={0.5}
         >
-          <View style={styles.panel}>
+          <View className="flex-1 bg-white relative">
             <Animated.View
-              style={[
-                styles.iconBg,
-                {
-                  opacity: backgoundOpacity,
-                  transform: [{ translateY: iconTranslateY }],
-                },
-              ]}
+              className="absolute top-[-24px] left-[75px] w-[200px] h-[48px] bg-primary rounded-full z-4"
+              style={{
+                opacity: backgoundOpacity,
+                transform: [{ translateY: iconTranslateY }],
+              }}
             />
-            <View style={styles.panelHeader}>
+            <View className="h-[20px] bg-primary justify-end p-2">
               <Animated.View
                 style={{
                   transform: [
@@ -116,28 +84,70 @@ class BottomSheet extends React.Component {
                 }}
               ></Animated.View>
             </View>
-            <View style={styles.container}>
-              {/* Scrollable content */}
-              <ScrollView
-                ref={this.scrollViewRef} // Attach the ref to the ScrollView
-                contentContainerStyle={{ padding: 20, flexGrow: 1 }}
-                showsVerticalScrollIndicator={true}
-              >
-                {/* Display selectedTicket details */}
-                {selectedTicket ? (
-                  <>
-                    <Text>Title: {selectedTicket.title || "N/A"}</Text>
-                    <Text>Latitude: {selectedTicket.latitude || "N/A"}</Text>
-                    <Text>Longitude: {selectedTicket.longitude || "N/A"}</Text>
-                    <Text>Severity: {selectedTicket.severity || "N/A"}</Text>
-                    <Text>Status: {selectedTicket.status || "N/A"}</Text>
-                    <Text>Description: {selectedTicket.description || "N/A"}</Text>
+            <View className="z-5 flex-1 bg-gray-100">
+{/* Scrollable content */}
+<View style={{ height: "60%" }}> {/* Restrict the height to 50% of the panel */}
+  <ScrollView
+    ref={this.scrollViewRef} // Attach the ref to the ScrollView
+    contentContainerStyle={{ padding: 20 }}
+    showsVerticalScrollIndicator={true}
+  >
+    {/* Display selectedTicket details */}
+    {selectedTicket ? (
+      <View className="bg-white rounded-lg shadow-lg p-4">
+        
 
-                  </>
-                ) : (
-                  <Text>No ticket selected</Text>
-                )}
-              </ScrollView>
+        {/* Title and Details Section */}
+        <View className="mb-4">
+          <Text className="text-xl font-bold text-gray-800 mb-2">
+            {selectedTicket.title || "N/A"}
+          </Text>
+          <Text className="text-gray-600 mb-1">
+            Location: {selectedTicket.latitude + "," + selectedTicket.longitude || "N/A"}
+          </Text>
+          <Text className="text-gray-600 mb-1">
+            Severity: {selectedTicket.severity || "N/A"}
+          </Text>
+          <Text className="text-gray-600 mb-1">
+            Status: {selectedTicket.status || "N/A"}
+          </Text>
+          {/* Image Section */}
+        <View className="mb-4">
+          <Image
+            source={
+                selectedTicket.image
+                  ? { uri: selectedTicket.image } // Remote image
+                  : require("@/assets/images/bgimg.png") // Local fallback image
+              }
+            className="w-full h-40 rounded-lg"
+            resizeMode="cover"
+          />
+        </View>
+          <Text className="text-gray-600">
+            Description: {selectedTicket.description || "N/A"}
+          </Text>
+        </View>
+        {/* Action Buttons Section */}
+      <View className="flex-row justify-between items-center">
+        <Pressable className="flex-row items-center">
+          <Ionicons name="heart-outline" size={24} color="red" />
+          <Text className="ml-2 text-gray-800">Like</Text>
+        </Pressable>
+        <Pressable className="flex-row items-center">
+          <Ionicons name="chatbubble-outline" size={24} color="blue" />
+          <Text className="ml-2 text-gray-800">Comment</Text>
+        </Pressable>
+        <Pressable>
+          <Ionicons name="ellipsis-vertical" size={24} color="gray" />
+        </Pressable>
+      </View>
+      </View>
+      
+    ) : (
+      <Text className="text-gray-500 text-center">No ticket selected</Text>
+    )}
+  </ScrollView>
+</View>
             </View>
           </View>
         </SlidingUpPanel>
