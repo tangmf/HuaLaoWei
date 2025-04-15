@@ -1,91 +1,115 @@
-import React, { useState } from "react";
-import { View, Text, TextInput, Pressable, Image, FlatList } from "react-native";
+import React, { useState, useEffect } from "react";
+import {
+  View,
+  Text,
+  TextInput,
+  Pressable,
+  Image,
+  ScrollView,
+} from "react-native";
+import { Picker } from "@react-native-picker/picker";
+import * as ImagePicker from "expo-image-picker";
 import Navbar from "@/components/Navbar";
 import Header from "@/components/Header";
+import Chatbot from "@/components/Chatbot";
 
 export default function Create() {
-  const [input, setInput] = useState("");
-  const [messages, setMessages] = useState([
-    {
-      id: 1,
-      text: "Hi! I’m HuaLaoWei bot! How may I assist you?\n\n1. Report a new case\n2. Check on status of previously reported case(s)\n3. Get notified on what’s happening nearby\n4. Other questions\n\nKey in 1, 2, 3, or 4 to proceed.",
-      isBot: true,
-      timestamp: new Date().toLocaleTimeString(),
-    },
-  ]);
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [tags, setTags] = useState(["Add New Tag"]);
+  const [selectedTag, setSelectedTag] = useState("Add New Tag");
+  const [image, setImage] = useState(null); // Placeholder for image insertion
 
-  const userProfilePicture = require("@/assets/images/profile-pic.png");
+  // Request permissions for media library
+  useEffect(() => {
+    (async () => {
+      const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+      if (status !== "granted") {
+        alert("Sorry, we need camera roll permissions to make this work!");
+      }
+    })();
+  }, []);
 
-  const handleSend = () => {
-    if (input.trim() === "") return;
+  // Function to pick an image
+  const pickImage = async () => {
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3], // Optional: Crop aspect ratio
+      quality: 1, // Image quality (1 = highest)
+    });
 
-    const userMessage = {
-      id: messages.length + 1,
-      text: input,
-      isBot: false,
-      timestamp: new Date().toLocaleTimeString(),
-    };
-
-    setMessages((prev) => [...prev, userMessage]);
-
-    setTimeout(() => {
-      let botResponse = "I'm sorry, I didn't understand that.";
-      if (input === "1") botResponse = "Please provide details about the new case.";
-      else if (input === "2") botResponse = "Checking the status of your previously reported cases...";
-      else if (input === "3") botResponse = "Here are the latest updates happening nearby.";
-      else if (input === "4") botResponse = "Feel free to ask any other questions.";
-
-      const botMessage = {
-        id: messages.length + 2,
-        text: botResponse,
-        isBot: true,
-        timestamp: new Date().toLocaleTimeString(),
-      };
-
-      setMessages((prev) => [...prev, botMessage]);
-    }, 1000);
-
-    setInput("");
+    if (!result.canceled) {
+      setImage(result.assets[0].uri); // Set the selected image URI
+    }
   };
 
   return (
     <View className="flex-1 bg-white">
-      <Header title="Chatbot" />
+      <Header title="Create Report" />
 
-      <FlatList
-        data={messages}
-        keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => (
-          <View
-            className={`my-1 p-3 rounded-xl max-w-[80%] flex-wrap flex-row items-start space-x-2 ${
-              item.isBot ? "bg-gray-200 self-start" : "bg-blue-500 self-end"
-            }`}
-          >
-            <Image
-              source={item.isBot ? require("@/assets/images/bot-icon.png") : userProfilePicture}
-              className="w-7 h-7 mt-1"
-            />
-            <View>
-              <Text className="text-sm text-black whitespace-pre-line">{item.text}</Text>
-              <Text className="text-[10px] text-gray-600 mt-1">{item.timestamp}</Text>
-            </View>
-          </View>
-        )}
-        contentContainerStyle={{ padding: 10 }}
-      />
-
-      <View className="flex-row items-center p-3 border-t border-gray-300 bg-gray-100">
+      {/* Manual Form Submission */}
+      <ScrollView contentContainerStyle={{ padding: 20 }}>
+        {/* Title */}
+        <Text className="text-lg font-bold mb-2">Title</Text>
         <TextInput
-          className="flex-1 h-10 border border-gray-300 rounded-full px-4 mr-2 bg-white"
-          placeholder="Type here ..."
-          value={input}
-          onChangeText={setInput}
+          className="border border-gray-300 rounded-lg p-3 mb-5"
+          placeholder="Enter title"
+          value={title}
+          onChangeText={setTitle}
         />
-        <Pressable onPress={handleSend} className="w-10 h-10 bg-blue-500 rounded-full justify-center items-center">
-          <Text className="text-white text-lg">↑</Text>
-        </Pressable>
-      </View>
 
+        {/* Image Insertion */}
+        <Text className="text-lg font-bold mb-2">Image</Text>
+        <Pressable
+          className="h-40 border border-gray-300 rounded-lg flex items-center justify-center mb-5"
+          onPress={pickImage}
+        >
+          {image ? (
+            <Image source={{ uri: image }} className="w-full h-full rounded-lg" />
+          ) : (
+            <Text className="text-gray-400">Tap to add an image</Text>
+          )}
+        </Pressable>
+
+        {/* Description */}
+        <Text className="text-lg font-bold mb-2">Description</Text>
+        <TextInput
+          className="border border-gray-300 rounded-lg p-3 h-24 text-top mb-5"
+          placeholder="Enter description"
+          value={description}
+          onChangeText={setDescription}
+          multiline
+        />
+
+        {/* Tags */}
+        <Text className="text-lg font-bold mb-2">Tags</Text>
+        <View className="border border-gray-300 rounded-lg mb-5">
+          <Picker
+            selectedValue={selectedTag}
+            onValueChange={(itemValue) => {
+              if (itemValue === "Add New Tag") {
+                const newTag = prompt("Enter new tag:");
+                if (newTag) setTags((prev) => [...prev, newTag]);
+              } else {
+                setSelectedTag(itemValue);
+              }
+            }}
+          >
+            {tags.map((tag, index) => (
+              <Picker.Item key={index} label={tag} value={tag} />
+            ))}
+          </Picker>
+        </View>
+
+        {/* Submit Button */}
+        <Pressable
+          className="bg-primary p-4 rounded-lg flex items-center"
+          onPress={() => alert("Form submitted!")}
+        >
+          <Text className="text-white text-lg">Submit</Text>
+        </Pressable>
+      </ScrollView>
       <Navbar />
     </View>
   );
