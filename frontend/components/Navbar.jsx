@@ -13,16 +13,16 @@ export default function Navbar() {
         flexDirection: "row",
         justifyContent: "space-around",
         alignItems: "center",
-        height: 70,
-        borderRadius: 20, // Rounded rectangle
-        marginHorizontal: 20, // Padding from left and right
-        marginBottom: 20, // Padding from the bottom
-        paddingVertical: 10,
+        height: 50, // Reduced height
+        borderRadius: 15, // Adjusted border radius
+        marginHorizontal: 15, // Reduced horizontal margin
+        marginBottom: 15, // Reduced bottom margin
+        paddingVertical: 5, // Reduced padding
         shadowColor: "#000",
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.2,
-        shadowRadius: 5,
-        elevation: 5, // Shadow for Android
+        shadowOffset: { width: 0, height: 1 }, // Reduced shadow offset
+        shadowOpacity: 0.15, // Reduced shadow opacity
+        shadowRadius: 3, // Reduced shadow radius
+        elevation: 3, // Reduced elevation for Android
         zIndex: 10,
       }}
       className="bg-primary"
@@ -32,19 +32,18 @@ export default function Navbar() {
         <Pressable
           style={{
             alignItems: "center",
-        
-            padding: 10,
-            borderRadius: 10,
+            padding: 5, // Reduced padding
+            borderRadius: 8, // Adjusted border radius
           }}
         >
           <Ionicons
             name="home"
-            size={24}
+            size={20} // Reduced icon size
             color={currentRoute === "home" ? "white" : "#d1e7ff"} // Highlight active icon
           />
           <Text
             style={{
-              fontSize: 12,
+              fontSize: 10, // Reduced font size
               color: currentRoute === "home" ? "white" : "#d1e7ff", // Highlight active text
               fontWeight: currentRoute === "home" ? "bold" : "normal",
             }}
@@ -59,19 +58,18 @@ export default function Navbar() {
         <Pressable
           style={{
             alignItems: "center",
-            
-            padding: 10,
-            borderRadius: 10,
+            padding: 5, // Reduced padding
+            borderRadius: 8, // Adjusted border radius
           }}
         >
           <Ionicons
             name="add-circle"
-            size={24}
+            size={20} // Reduced icon size
             color={currentRoute === "create" ? "white" : "#d1e7ff"} // Highlight active icon
           />
           <Text
             style={{
-              fontSize: 12,
+              fontSize: 10, // Reduced font size
               color: currentRoute === "create" ? "white" : "#d1e7ff", // Highlight active text
               fontWeight: currentRoute === "create" ? "bold" : "normal",
             }}
@@ -86,19 +84,18 @@ export default function Navbar() {
         <Pressable
           style={{
             alignItems: "center",
-            
-            padding: 10,
-            borderRadius: 10,
+            padding: 5, // Reduced padding
+            borderRadius: 8, // Adjusted border radius
           }}
         >
           <Ionicons
             name="person"
-            size={24}
+            size={20} // Reduced icon size
             color={currentRoute === "profile" ? "white" : "#d1e7ff"} // Highlight active icon
           />
           <Text
             style={{
-              fontSize: 12,
+              fontSize: 10, // Reduced font size
               color: currentRoute === "profile" ? "white" : "#d1e7ff", // Highlight active text
               fontWeight: currentRoute === "profile" ? "bold" : "normal",
             }}
