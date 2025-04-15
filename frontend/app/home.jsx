@@ -204,7 +204,7 @@ export default function Home() {
           <MapView
             ref={mapRef}
             style={{ width: "100%", height: "100%", position: "absolute", bottom: 0}}
-            mapType="satellite"
+            mapType="standard"
             initialRegion={{
               latitude: location.coords.latitude,
               longitude: location.coords.longitude,
@@ -239,7 +239,7 @@ export default function Home() {
       onPress={() => togglePanel(ticket)} // Pass the ticket to the panel
               >
 
-            <Ionicons name="warning" size={32} color="yellow" />
+            <Ionicons name="warning" size={32} color="orange" />
 
                 </Marker>
             ))}
