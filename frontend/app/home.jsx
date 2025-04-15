@@ -151,7 +151,7 @@ export default function Home() {
     if (isFilterPanelVisible) {
       // Slide out
       Animated.timing(filterAnim, {
-        toValue: -height * 0.8, // Move off-screen
+        toValue: -height * 0.85, // Move off-screen
         duration: 300,
         useNativeDriver: false,
       }).start(() => setIsFilterPanelVisible(false));
@@ -182,7 +182,7 @@ export default function Home() {
         onPress={lockToMarker}
         style={{
           position: "absolute",
-    bottom: 150, // Distance from the top of the screen
+    bottom: 160, // Distance from the top of the screen
     right: 20, // Distance from the right of the screen
     paddingVertical: 10,
     paddingHorizontal: 15,
