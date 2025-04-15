@@ -1,0 +1,15 @@
+[
+    {
+        "filename": "Permit_Renovation.png",
+        "type": "permit",
+        "agency": "HDB",
+        "category": "renovation",
+        "doc_date": "2024-02-24",
+        "summary": "Renovation permit granted for kitchen remodeling works.",
+        "tags": [
+            "renovation",
+            "permit"
+        ],
+        "filetype": "image"
+    }
+]

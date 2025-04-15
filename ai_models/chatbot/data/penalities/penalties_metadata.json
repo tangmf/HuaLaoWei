@@ -1,0 +1,78 @@
+[
+    {
+        "filename": "Penalty_AVA_UnlicensedDog.pdf",
+        "type": "penalty",
+        "agency": "AVA",
+        "category": "animal_control",
+        "doc_date": "2024-03-12",
+        "legal_basis": "Animals and Birds (Dog Licensing and Control) Rules",
+        "summary": "Penalty issued for unlicensed dog ownership of a Golden Retriever.",
+        "tags": [
+            "dog",
+            "license",
+            "animal",
+            "AVA"
+        ],
+        "ocr_required": false
+    },
+    {
+        "filename": "Penalty_HDB_UnauthorisedRenovation.pdf",
+        "type": "penalty",
+        "agency": "HDB",
+        "category": "renovation",
+        "doc_date": "2024-02-21",
+        "legal_basis": "Housing and Development Act, Section 26",
+        "summary": "Fine issued for unauthorised renovation involving removal of structural wall.",
+        "tags": [
+            "renovation",
+            "unauthorised",
+            "HDB"
+        ],
+        "ocr_required": false
+    },
+    {
+        "filename": "Penalty_NEA_ConstructionNoise.pdf",
+        "type": "penalty",
+        "agency": "NEA",
+        "category": "noise_violation",
+        "doc_date": "2024-03-15",
+        "legal_basis": "Environmental Protection and Management Act",
+        "summary": "Penalty imposed for exceeding construction noise limits during restricted hours.",
+        "tags": [
+            "construction",
+            "noise",
+            "NEA"
+        ],
+        "ocr_required": false
+    },
+    {
+        "filename": "Penalty_NEA_HighriseLittering.pdf",
+        "type": "penalty",
+        "agency": "NEA",
+        "category": "littering",
+        "doc_date": "2024-02-12",
+        "legal_basis": "Environmental Public Health Act, Section 17(1)",
+        "summary": "Composition fine for high-rise littering of a cigarette butt.",
+        "tags": [
+            "littering",
+            "high-rise",
+            "NEA"
+        ],
+        "ocr_required": false
+    },
+    {
+        "filename": "Penalty_NEA_IllegalDumping.pdf",
+        "type": "penalty",
+        "agency": "NEA",
+        "category": "illegal_dumping",
+        "doc_date": "2024-01-28",
+        "legal_basis": "Environmental Public Health Act, Section 20(1)(b)",
+        "summary": "Fine issued for illegal dumping of bulky items near refuse bin.",
+        "tags": [
+            "dumping",
+            "NEA",
+            "furniture"
+        ],
+        "ocr_required": false
+    }
+]

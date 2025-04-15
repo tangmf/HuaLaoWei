@@ -1,0 +1,42 @@
+[
+    {
+        "filename": "Form_AcknowledgeFormForRenovation.pdf",
+        "type": "form",
+        "agency": "HDB",
+        "category": "renovation",
+        "doc_date": "2023-07-01",
+        "summary": "Acknowledgement form signed by flat owner for authorised renovation.",
+        "tags": [
+            "renovation",
+            "acknowledgement"
+        ],
+        "filetype": "pdf"
+    },
+    {
+        "filename": "Form_ApplicationForRenovationPermit.pdf",
+        "type": "form",
+        "agency": "HDB",
+        "category": "renovation",
+        "doc_date": "2023-07-01",
+        "summary": "Application form submitted to HDB for renovation approval.",
+        "tags": [
+            "renovation",
+            "permit",
+            "application"
+        ],
+        "filetype": "pdf"
+    },
+    {
+        "filename": "Form_IndemnityForRenovation.png",
+        "type": "form",
+        "agency": "HDB",
+        "category": "renovation",
+        "doc_date": "2023-07-01",
+        "summary": "Indemnity form related to renovation works, submitted to HDB.",
+        "tags": [
+            "indemnity",
+            "renovation"
+        ],
+        "filetype": "image"
+    }
+]
