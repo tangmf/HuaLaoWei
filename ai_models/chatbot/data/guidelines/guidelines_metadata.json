@@ -1,0 +1,30 @@
+[
+    {
+        "filename": "Guideline_HDBFlatEligibility.pdf",
+        "type": "guideline",
+        "agency": "HDB",
+        "category": "eligibility",
+        "doc_date": "2023-12-01",
+        "summary": "Guidelines on eligibility for purchasing an HDB flat under HFE framework.",
+        "tags": [
+            "HFE",
+            "flat purchase",
+            "eligibility"
+        ],
+        "filetype": "pdf"
+    },
+    {
+        "filename": "Guideline_LakeVistaRenovation.pdf",
+        "type": "guideline",
+        "agency": "HDB",
+        "category": "renovation",
+        "doc_date": "2023-11-01",
+        "summary": "Renovation rules and guidelines for Lake Vista @ Yuan Ching.",
+        "tags": [
+            "renovation",
+            "Lake Vista",
+            "guideline"
+        ],
+        "filetype": "pdf"
+    }
+]

@@ -1,0 +1,72 @@
+[
+    {
+        "filename": "Animals and Birds Act 1965.pdf",
+        "type": "act",
+        "agency": "NParks",
+        "category": "animal_control",
+        "doc_date": "2021-12-31",
+        "summary": "Act regulating licensing and control of animals and birds in Singapore.",
+        "tags": [
+            "animals",
+            "licensing",
+            "dogs"
+        ],
+        "filetype": "pdf"
+    },
+    {
+        "filename": "Building Maintenance and Strata Management Act 2004.pdf",
+        "type": "act",
+        "agency": "BCA",
+        "category": "building_management",
+        "doc_date": "2021-12-31",
+        "summary": "Act covering the maintenance and management of strata-titled properties.",
+        "tags": [
+            "building",
+            "management",
+            "MCST"
+        ],
+        "filetype": "pdf"
+    },
+    {
+        "filename": "Environmental Public Health Act 1987.pdf",
+        "type": "act",
+        "agency": "NEA",
+        "category": "public_health",
+        "doc_date": "2021-12-31",
+        "summary": "Statutory act outlining public cleanliness, littering offences, and enforcement powers.",
+        "tags": [
+            "cleanliness",
+            "littering",
+            "public health"
+        ],
+        "filetype": "pdf"
+    },
+    {
+        "filename": "Housing and Development Act 1959.pdf",
+        "type": "act",
+        "agency": "HDB",
+        "category": "housing_policy",
+        "doc_date": "2021-12-31",
+        "summary": "Primary act governing public housing policy and administration in Singapore.",
+        "tags": [
+            "HDB",
+            "housing",
+            "policy"
+        ],
+        "filetype": "pdf"
+    },
+    {
+        "filename": "Town Councils Act 1988.pdf",
+        "type": "act",
+        "agency": "Town Council",
+        "category": "estate_management",
+        "doc_date": "2021-12-31",
+        "summary": "Act defining the powers and responsibilities of town councils in HDB estates.",
+        "tags": [
+            "town council",
+            "maintenance",
+            "estate"
+        ],
+        "filetype": "pdf"
+    }
+]
