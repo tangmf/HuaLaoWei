@@ -3,7 +3,7 @@ import { Text, View, ActivityIndicator, Animated, Dimensions, Pressable, Image, 
 import MapView, { Marker, Callout } from "react-native-maps";
 import * as Location from "expo-location";
 import Navbar from "@/components/Navbar";
-import Header from "@/components/Header";
+import Chatbot from "@/components/Chatbot";
 import BottomSheet from "@/components/BottomSheet";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons"; // Import icons from Expo
 

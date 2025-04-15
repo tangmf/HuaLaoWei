@@ -29,7 +29,7 @@ export default function Chatbot() {
   };
 
   return (
-    <View className="absolute bottom-20 right-5 z-10">
+    <View className="absolute bottom-20 right-0 z-10">
       {/* Chatbot Icon */}
       <Pressable
         onPress={() => setIsChatOpen(true)}

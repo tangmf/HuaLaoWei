@@ -2,6 +2,7 @@ import React from "react";
 import { View, Text, Pressable } from "react-native";
 import { Link, useSegments } from "expo-router";
 import { Ionicons } from "@expo/vector-icons"; // Import icons from Expo
+import Chatbot from "@/components/Chatbot";
 
 export default function Navbar() {
   const segments = useSegments(); // Get the current route segments
@@ -104,6 +105,8 @@ export default function Navbar() {
           </Text>
         </Pressable>
       </Link>
+      <Chatbot /> 
     </View>
+    
   );
 }
