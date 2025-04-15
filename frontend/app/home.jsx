@@ -41,7 +41,7 @@ export default function Home() {
         const fallbackTicket1 = {
           id: 1,
           title: "Public Disturbance",
-          description: "Naked men.",
+          description: "There is a public disturbance.",
           latitude: 1.4521,
           longitude: 103.8198,
           severity: "High",
@@ -49,7 +49,7 @@ export default function Home() {
         const fallbackTicket2 = {
           id: 2,
           title: "Public Disturbance",
-          description: "Naked men.",
+          description: "There is a public disturbance.",
           latitude: 1.3421,
           longitude: 103.8298,
           severity: "Medium",
@@ -57,7 +57,7 @@ export default function Home() {
         const fallbackTicket3 = {
           id: 3,
           title: "Public Disturbance",
-          description: "Naked men.",
+          description: "There is a public disturbance.",
           latitude: 1.4441,
           longitude: 103.8048,
           severity: "Medium",
