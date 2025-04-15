@@ -110,7 +110,6 @@ export default function Create() {
           <Text className="text-white text-lg">Submit</Text>
         </Pressable>
       </ScrollView>
-            <Chatbot/>
       <Navbar />
     </View>
   );
