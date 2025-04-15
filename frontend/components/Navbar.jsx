@@ -23,7 +23,7 @@ export default function Navbar() {
         shadowOpacity: 0.15, // Reduced shadow opacity
         shadowRadius: 3, // Reduced shadow radius
         elevation: 3, // Reduced elevation for Android
-        zIndex: 10,
+        zIndex: 9,
       }}
       className="bg-primary"
     >

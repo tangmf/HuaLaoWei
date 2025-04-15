@@ -11,6 +11,7 @@ import { Picker } from "@react-native-picker/picker";
 import * as ImagePicker from "expo-image-picker";
 import Navbar from "@/components/Navbar";
 import Header from "@/components/Header";
+import Chatbot from "@/components/Chatbot";
 
 export default function Create() {
   const [title, setTitle] = useState("");
@@ -109,7 +110,7 @@ export default function Create() {
           <Text className="text-white text-lg">Submit</Text>
         </Pressable>
       </ScrollView>
-
+            <Chatbot/>
       <Navbar />
     </View>
   );
