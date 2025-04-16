@@ -5,5 +5,5 @@ CREATE TABLE users (
     password_hash TEXT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     last_login TIMESTAMP,
-    is_verified BOOLEAN DEFAULT FALSE
+    -- is_verified BOOLEAN DEFAULT FALSE
 );
