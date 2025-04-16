@@ -1,0 +1,18 @@
+INSERT INTO town_councils (council_name) VALUES
+    ('Ang Mo Kio Town Council'),
+    ('Bishan-Toa Payoh Town Council'),
+    ('Chua Chu Kang Town Council'),
+    ('Holland-Bukit Panjang Town Council'),
+    ('Jalan Besar Town Council'),
+    ('Jurong-Clementi Town Council'),
+    ('Marine Parade Town Council'),
+    ('Marsiling-Yew Tee Town Council'),
+    ('Nee Soon Town Council'),
+    ('Pasir Ris-Punggol Town Council'),
+    ('Sembawang Town Council'),
+    ('Sengkang Town Council'),
+    ('Tampines Town Council'),
+    ('Tanjong Pagar Town Council'),
+    ('West Coast Town Council'),
+    ('Aljunied-Hougang Town Council'),
+    ('East Coast Town Council');
