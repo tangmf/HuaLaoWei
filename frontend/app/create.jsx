@@ -6,8 +6,9 @@ import {
   Pressable,
   Image,
   ScrollView,
+  Modal,
+  Button,
 } from "react-native";
-import { Picker } from "@react-native-picker/picker";
 import * as ImagePicker from "expo-image-picker";
 import Navbar from "@/components/Navbar";
 import Header from "@/components/Header";
@@ -16,9 +17,10 @@ import Chatbot from "@/components/Chatbot";
 export default function Create() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [tags, setTags] = useState(["Add New Tag"]);
-  const [selectedTag, setSelectedTag] = useState("Add New Tag");
+  const [categories, setCategories] = useState([]);
   const [image, setImage] = useState(null); // Placeholder for image insertion
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [newCategory, setNewCategory] = useState("");
 
   // Request permissions for media library
   useEffect(() => {
@@ -42,6 +44,14 @@ export default function Create() {
     if (!result.canceled) {
       setImage(result.assets[0].uri); // Set the selected image URI
     }
+  }
+
+  const handleAddCategory = () => {
+    if (newCategory.trim()) {
+      setCategories((prev) => [...prev, newCategory.trim()]);
+      setNewCategory("");
+    }
+    setIsModalVisible(false);
   };
 
   return (
@@ -82,24 +92,28 @@ export default function Create() {
           multiline
         />
 
-        {/* Tags */}
-        <Text className="text-lg font-bold mb-2">Tags</Text>
-        <View className="border border-gray-300 rounded-lg mb-5">
-          <Picker
-            selectedValue={selectedTag}
-            onValueChange={(itemValue) => {
-              if (itemValue === "Add New Tag") {
-                const newTag = prompt("Enter new tag:");
-                if (newTag) setTags((prev) => [...prev, newTag]);
-              } else {
-                setSelectedTag(itemValue);
-              }
-            }}
+        {/* Categories */}
+        <Text className="text-lg font-bold mb-2">Categories</Text>
+        <View className="flex-row flex-wrap mb-5">
+          {categories.map((category, index) => (
+            <Pressable
+              key={index}
+              className="bg-gray-200 rounded-full px-4 py-2 mr-2 mb-2"
+              onPress={() => {
+                // Remove the category when clicked
+                setCategories((prev) => prev.filter((_, i) => i !== index));
+              }}
+            >
+              <Text className="text-sm text-gray-700">{category} ✕</Text>
+            </Pressable>
+          ))}
+          {/* Add New Category Pill */}
+          <Pressable
+            className="bg-primary rounded-full px-4 py-2 mr-2 mb-2"
+            onPress={() => setIsModalVisible(true)}
           >
-            {tags.map((tag, index) => (
-              <Picker.Item key={index} label={tag} value={tag} />
-            ))}
-          </Picker>
+            <Text className="text-white text-sm">+ Add New Category</Text>
+          </Pressable>
         </View>
 
         {/* Submit Button */}
@@ -110,6 +124,40 @@ export default function Create() {
           <Text className="text-white text-lg">Submit</Text>
         </Pressable>
       </ScrollView>
+
+      {/* Modal for Adding New Category */}
+      <Modal visible={isModalVisible} transparent animationType="slide">
+        <View className="flex-1 justify-center items-center bg-black bg-opacity-50">
+          <View className="bg-white p-5 rounded-lg w-4/5">
+            <Text className="text-lg font-bold mb-3">Add New Category</Text>
+            <TextInput
+              className="border border-gray-300 rounded-lg p-3 mb-5"
+              placeholder="Enter New Category"
+              value={newCategory}
+              onChangeText={setNewCategory}
+            />
+            <Button
+              title="Add Category"
+              onPress={() => {
+                if (newCategory.trim()) {
+                  setCategories((prev) => [...prev, newCategory.trim()]);
+                  setNewCategory("");
+                  setIsModalVisible(false);
+                }
+              }}
+            />
+            {/* Add spacing between the buttons */}
+            <View style={{ marginTop: 10 }}>
+              <Button
+                title="Cancel"
+                color="red"
+                onPress={() => setIsModalVisible(false)}
+              />
+            </View>
+          </View>
+        </View>
+      </Modal>
+
       <Navbar />
     </View>
   );
