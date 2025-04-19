@@ -1,0 +1,1001 @@
+Query,Intent
+Can you tell me more about the roles of the last week?,GENERAL_QUERY
+I need to report broken streetlight at Water Leak.,NARROW_INTENT
+What's the average wait time for an ambulance in last week?,DATA_DRIVEN_QUERY
+Are there any dengue hotspots this month in road repairs?,DATA_DRIVEN_QUERY
+Is there a form to report illegal dumping of waste?,NARROW_INTENT
+Are there any water supply disruptions today in 2?,DATA_DRIVEN_QUERY
+Which agency handles PA issues?,GENERAL_QUERY
+How is the traffic near NEA right now?,DATA_DRIVEN_QUERY
+What's the timeline for 2 days ago in the city?,GENERAL_QUERY
+Are there any dengue hotspots this month in feedback?,DATA_DRIVEN_QUERY
+Are there any road blockages near overflowing trash cans?,DATA_DRIVEN_QUERY
+What's the timeline for Tampines in the city?,GENERAL_QUERY
+What services does the public housing provide?,GENERAL_QUERY
+I want to report a Pests at traffic accident.,NARROW_INTENT
+How often does the government audit 2 days ago in public spaces?,GENERAL_QUERY
+I want to report a noise from construction at Water Leak.,NARROW_INTENT
+How does the government monitor Jurong East?,GENERAL_QUERY
+Is there a public event near 6 today?,DATA_DRIVEN_QUERY
+Is there a public event near 6 today?,DATA_DRIVEN_QUERY
+Is there a way to report traffic accident?,NARROW_INTENT
+It's been broken streetlight days. Why hasn't my report for Construction Noise been resolved?,NARROW_INTENT
+I need to report unclean public toilet at No Water.,NARROW_INTENT
+What types of Raffles Place policies does Singapore have?,GENERAL_QUERY
+Which agency handles SLA issues?,GENERAL_QUERY
+What's the current weather in 2 days ago?,DATA_DRIVEN_QUERY
+Can I check on the status of the Water Leak report I submitted Park Lighting Maintenance?,NARROW_INTENT
+What's the timeline for Raffles Place in the city?,GENERAL_QUERY
+How often does the government audit traffic accident in public spaces?,GENERAL_QUERY
+I need to report unclean public toilet at Bird Issues.,NARROW_INTENT
+What does the road repairs do?,GENERAL_QUERY
+Is there a public event near 7 today?,DATA_DRIVEN_QUERY
+How often does the government audit noise from construction in public spaces?,GENERAL_QUERY
+What's the current weather in water quality?,DATA_DRIVEN_QUERY
+Are there any dengue hotspots this month in NEA?,DATA_DRIVEN_QUERY
+What's the average wait time for an ambulance in Block 12?,DATA_DRIVEN_QUERY
+What services does the NEA provide?,GENERAL_QUERY
+Which agency handles NEA issues?,GENERAL_QUERY
+What does the HDB do?,GENERAL_QUERY
+What's the air quality in 7 today?,DATA_DRIVEN_QUERY
+How is the traffic near NEA right now?,DATA_DRIVEN_QUERY
+I want to report a Water Leak at Bird Issues.,NARROW_INTENT
+Is there a public event near 4 today?,DATA_DRIVEN_QUERY
+Can I check on the status of the unclean public toilet report I submitted unclean public toilet?,NARROW_INTENT
+What's the current weather in cleanliness?,DATA_DRIVEN_QUERY
+What's the average wait time for an ambulance in water quality?,DATA_DRIVEN_QUERY
+What services does the NEA provide?,GENERAL_QUERY
+Where do I file a complaint about Orchard?,NARROW_INTENT
+What is the process to submit feedback to the feedback?,GENERAL_QUERY
+How often does the government audit last week in public spaces?,GENERAL_QUERY
+"There's a Bird Issues near Water Leak, how do I report it?",NARROW_INTENT
+What is the process to submit feedback to the feedback?,GENERAL_QUERY
+Can you tell me more about the roles of the Tampines?,GENERAL_QUERY
+Is there flooding in any part of road repairs?,DATA_DRIVEN_QUERY
+What's the average wait time for an ambulance in water quality?,DATA_DRIVEN_QUERY
+What is the process to submit feedback to the feedback?,GENERAL_QUERY
+What types of Raffles Place policies does Singapore have?,GENERAL_QUERY
+How do I file a report for No Water?,NARROW_INTENT
+What does the Yishun do?,GENERAL_QUERY
+What's the air quality in 2 today?,DATA_DRIVEN_QUERY
+Are there any dengue hotspots this month in pothole on the road?,DATA_DRIVEN_QUERY
+Are there any dengue hotspots this month in Raffles Place?,DATA_DRIVEN_QUERY
+What's the average wait time for an ambulance in Jurong East?,DATA_DRIVEN_QUERY
+Can I check on the status of the Rodents in Food Establishment report I submitted Park Lighting Maintenance?,NARROW_INTENT
+Are there any water supply disruptions today in 1?,DATA_DRIVEN_QUERY
+What's the average wait time for an ambulance in Tampines?,DATA_DRIVEN_QUERY
+Is there a public event near 2 today?,DATA_DRIVEN_QUERY
+Is there a public event near 6 today?,DATA_DRIVEN_QUERY
+When is the next bus arriving at Jurong East?,DATA_DRIVEN_QUERY
+Can you tell me more about the roles of the LTA?,GENERAL_QUERY
+What's the average wait time for an ambulance in Block 12?,DATA_DRIVEN_QUERY
+Are there any water supply disruptions today in 4?,DATA_DRIVEN_QUERY
+Can you tell me more about the roles of the last week?,GENERAL_QUERY
+Is there a way to report traffic accident?,NARROW_INTENT
+How often does the government audit Singapore Police Force in public spaces?,GENERAL_QUERY
+Are there any road blockages near broken streetlight?,DATA_DRIVEN_QUERY
+Is there a way to report illegal dumping of waste?,NARROW_INTENT
+Which agency handles LTA issues?,GENERAL_QUERY
+"There's a unclean public toilet near garbage collection delay, how do I report it?",NARROW_INTENT
+How often does the government audit public housing in public spaces?,GENERAL_QUERY
+What's the timeline for Tampines in the city?,GENERAL_QUERY
+When is the next bus arriving at NEA?,DATA_DRIVEN_QUERY
+What is the process to submit feedback to the feedback?,GENERAL_QUERY
+What's the timeline for overflowing trash cans in the city?,GENERAL_QUERY
+I need to report Water Leak at illegal dumping of waste.,NARROW_INTENT
+I need to report Pests at cleanliness issue.,NARROW_INTENT
+Is there a way to report cleanliness issue?,NARROW_INTENT
+What types of Clementi policies does Singapore have?,GENERAL_QUERY
+What does the unclean public toilet do?,GENERAL_QUERY
+How often does the government audit public housing in public spaces?,GENERAL_QUERY
+How is the traffic near NEA right now?,DATA_DRIVEN_QUERY
+Which agency handles URA issues?,GENERAL_QUERY
+What does the cleanliness do?,GENERAL_QUERY
+Can you tell me more about the roles of the Singapore Police Force?,GENERAL_QUERY
+What's the air quality in 4 today?,DATA_DRIVEN_QUERY
+What's the current weather in Block 12?,DATA_DRIVEN_QUERY
+What are the general responsibilities of the NEA?,GENERAL_QUERY
+Which agency handles PA issues?,GENERAL_QUERY
+Is there a way to report Park Lighting Maintenance?,NARROW_INTENT
+Is there a public event near 1 today?,DATA_DRIVEN_QUERY
+When is the next bus arriving at yesterday?,DATA_DRIVEN_QUERY
+Is there a way to report traffic accident?,NARROW_INTENT
+It's been broken streetlight days. Why hasn't my report for Pests been resolved?,NARROW_INTENT
+Which agency handles SPF issues?,GENERAL_QUERY
+Are there any dengue hotspots this month in public housing?,DATA_DRIVEN_QUERY
+Are there any dengue hotspots this month in overflowing trash cans?,DATA_DRIVEN_QUERY
+What services does the road repairs provide?,GENERAL_QUERY
+What's the air quality in 4 today?,DATA_DRIVEN_QUERY
+What's the current weather in Yishun?,DATA_DRIVEN_QUERY
+What's the average wait time for an ambulance in overflowing trash cans?,DATA_DRIVEN_QUERY
+Which agency handles SLA issues?,GENERAL_QUERY
+How can I report a pothole on the road?,NARROW_INTENT
+I need to report Pests at pothole on the road.,NARROW_INTENT
+What are the general responsibilities of the LTA?,GENERAL_QUERY
+"There's a Flooding near garbage collection delay, how do I report it?",NARROW_INTENT
+"There's a Flooding near unclean public toilet, how do I report it?",NARROW_INTENT
+Is there a way to report Park Lighting Maintenance?,NARROW_INTENT
+"There's a Flooding near No Water, how do I report it?",NARROW_INTENT
+What's the timeline for public housing in the city?,GENERAL_QUERY
+How do I file a report for unclean public toilet?,NARROW_INTENT
+How does the government monitor NEA?,GENERAL_QUERY
+How is the traffic near 2 days ago right now?,DATA_DRIVEN_QUERY
+What types of Singapore policies does Singapore have?,GENERAL_QUERY
+Are there any road blockages near illegal dumping of waste?,DATA_DRIVEN_QUERY
+"There's a noise from construction near Bird Issues, how do I report it?",NARROW_INTENT
+Can I check on the status of the Water Leak report I submitted broken streetlight?,NARROW_INTENT
+Are there any water supply disruptions today in 7?,DATA_DRIVEN_QUERY
+Where do I file a complaint about Singapore Police Force?,NARROW_INTENT
+I need to report Rodents in Food Establishment at Flooding.,NARROW_INTENT
+Can you tell me more about the roles of the pothole on the road?,GENERAL_QUERY
+Is there a form to report Rodents in Food Establishment?,NARROW_INTENT
+I want to report a Rodents in Food Establishment at Construction Noise.,NARROW_INTENT
+Are there any road blockages near environmental?,DATA_DRIVEN_QUERY
+Is there flooding in any part of garbage collection delay?,DATA_DRIVEN_QUERY
+Can I check on the status of the unclean public toilet report I submitted Construction Noise?,NARROW_INTENT
+Is there a form to report cleanliness issue?,NARROW_INTENT
+I want to report a Rodents in Food Establishment at pothole on the road.,NARROW_INTENT
+Is there a public event near 7 today?,DATA_DRIVEN_QUERY
+What are the general responsibilities of the NParks?,GENERAL_QUERY
+What does the NEA do?,GENERAL_QUERY
+How can I report a garbage collection delay?,NARROW_INTENT
+How can I report a Water Leak?,NARROW_INTENT
+How often does the government audit NEA in public spaces?,GENERAL_QUERY
+How do I file a report for Rodents in Food Establishment?,NARROW_INTENT
+How can I report a overflowing trash cans?,NARROW_INTENT
+Are there any road blockages near noise from construction?,DATA_DRIVEN_QUERY
+Are there any road blockages near feedback?,DATA_DRIVEN_QUERY
+Are there any road blockages near 2 days ago?,DATA_DRIVEN_QUERY
+I want to report a pothole on the road at Pests.,NARROW_INTENT
+Which agency handles BCA issues?,GENERAL_QUERY
+"There's a cleanliness issue near pothole on the road, how do I report it?",NARROW_INTENT
+What's the air quality in 4 today?,DATA_DRIVEN_QUERY
+What's the timeline for Yishun in the city?,GENERAL_QUERY
+How often does the government audit Punggol in public spaces?,GENERAL_QUERY
+Is there a form to report noise from construction?,NARROW_INTENT
+How is the traffic near NEA right now?,DATA_DRIVEN_QUERY
+What does the broken streetlight do?,GENERAL_QUERY
+Is there a public event near 3 today?,DATA_DRIVEN_QUERY
+What's the average wait time for an ambulance in pothole on the road?,DATA_DRIVEN_QUERY
+What's the air quality in 5 today?,DATA_DRIVEN_QUERY
+What does the road repairs do?,GENERAL_QUERY
+Is there a way to report traffic accident?,NARROW_INTENT
+Is there flooding in any part of yesterday?,DATA_DRIVEN_QUERY
+Can you tell me more about the roles of the yesterday?,GENERAL_QUERY
+Are there any dengue hotspots this month in Tampines?,DATA_DRIVEN_QUERY
+How can I report a Park Lighting Maintenance?,NARROW_INTENT
+Can I check on the status of the Water Leak report I submitted garbage collection delay?,NARROW_INTENT
+What services does the HDB provide?,GENERAL_QUERY
+Is there a way to report broken streetlight?,NARROW_INTENT
+What types of Singapore policies does Singapore have?,GENERAL_QUERY
+When is the next bus arriving at broken streetlight?,DATA_DRIVEN_QUERY
+How can I report a Flooding?,NARROW_INTENT
+What types of Jurong East policies does Singapore have?,GENERAL_QUERY
+Is there a public event near 1 today?,DATA_DRIVEN_QUERY
+What are the general responsibilities of the PA?,GENERAL_QUERY
+When is the next bus arriving at HDB?,DATA_DRIVEN_QUERY
+I want to report a Construction Noise at noise from construction.,NARROW_INTENT
+Are there any water supply disruptions today in 1?,DATA_DRIVEN_QUERY
+Is there a way to report No Water?,NARROW_INTENT
+Is there a form to report Pests?,NARROW_INTENT
+Is there a way to report traffic accident?,NARROW_INTENT
+How does the government monitor Tampines?,GENERAL_QUERY
+Which agency handles SPF issues?,GENERAL_QUERY
+What's the air quality in 5 today?,DATA_DRIVEN_QUERY
+How does the government monitor public housing?,GENERAL_QUERY
+Is there a way to report Bird Issues?,NARROW_INTENT
+I need to report cleanliness issue at unclean public toilet.,NARROW_INTENT
+How can I report a Park Lighting Maintenance?,NARROW_INTENT
+How is the traffic near unclean public toilet right now?,DATA_DRIVEN_QUERY
+Is there a public event near 4 today?,DATA_DRIVEN_QUERY
+Can you tell me more about the roles of the broken streetlight?,GENERAL_QUERY
+Are there any road blockages near unclean public toilet?,DATA_DRIVEN_QUERY
+It's been broken streetlight days. Why hasn't my report for Water Leak been resolved?,NARROW_INTENT
+It's been garbage collection delay days. Why hasn't my report for overflowing trash cans been resolved?,NARROW_INTENT
+What services does the cleanliness provide?,GENERAL_QUERY
+How often does the government audit illegal dumping of waste in public spaces?,GENERAL_QUERY
+What's the timeline for 2 days ago in the city?,GENERAL_QUERY
+Can you tell me more about the roles of the last week?,GENERAL_QUERY
+What are the general responsibilities of the SLA?,GENERAL_QUERY
+I want to report a Rodents in Food Establishment at No Water.,NARROW_INTENT
+Can I check on the status of the Bird Issues report I submitted Bird Issues?,NARROW_INTENT
+Which agency handles PUB issues?,GENERAL_QUERY
+Is there a way to report No Water?,NARROW_INTENT
+It's been traffic accident days. Why hasn't my report for No Water been resolved?,NARROW_INTENT
+What's the average wait time for an ambulance in Orchard?,DATA_DRIVEN_QUERY
+Is there a form to report Rodents in Food Establishment?,NARROW_INTENT
+What services does the road repairs provide?,GENERAL_QUERY
+Can you tell me more about the roles of the Block 12?,GENERAL_QUERY
+What are the general responsibilities of the HDB?,GENERAL_QUERY
+What does the last week do?,GENERAL_QUERY
+Can you tell me more about the roles of the cleanliness?,GENERAL_QUERY
+What's the average wait time for an ambulance in Clementi?,DATA_DRIVEN_QUERY
+What's the average wait time for an ambulance in HDB?,DATA_DRIVEN_QUERY
+What's the air quality in 5 today?,DATA_DRIVEN_QUERY
+What is the process to submit feedback to the feedback?,GENERAL_QUERY
+How often does the government audit Jurong East in public spaces?,GENERAL_QUERY
+What's the average wait time for an ambulance in public housing?,DATA_DRIVEN_QUERY
+Which agency handles SPF issues?,GENERAL_QUERY
+What's the air quality in 5 today?,DATA_DRIVEN_QUERY
+How can I report a No Water?,NARROW_INTENT
+How is the traffic near feedback right now?,DATA_DRIVEN_QUERY
+What are the general responsibilities of the LTA?,GENERAL_QUERY
+How can I report a Water Leak?,NARROW_INTENT
+How often does the government audit environmental in public spaces?,GENERAL_QUERY
+Is there a form to report Pests?,NARROW_INTENT
+What is the process to submit feedback to the feedback?,GENERAL_QUERY
+Are there any water supply disruptions today in 1?,DATA_DRIVEN_QUERY
+Is there flooding in any part of illegal dumping of waste?,DATA_DRIVEN_QUERY
+Is there a public event near 3 today?,DATA_DRIVEN_QUERY
+What are the general responsibilities of the NEA?,GENERAL_QUERY
+How do I file a report for illegal dumping of waste?,NARROW_INTENT
+How often does the government audit Block 12 in public spaces?,GENERAL_QUERY
+Are there any dengue hotspots this month in road repairs?,DATA_DRIVEN_QUERY
+How often does the government audit Punggol in public spaces?,GENERAL_QUERY
+How can I report a pothole on the road?,NARROW_INTENT
+What's the timeline for Tampines in the city?,GENERAL_QUERY
+How can I report a unclean public toilet?,NARROW_INTENT
+What are the general responsibilities of the BCA?,GENERAL_QUERY
+Are there any dengue hotspots this month in Raffles Place?,DATA_DRIVEN_QUERY
+Which agency handles HDB issues?,GENERAL_QUERY
+What does the Orchard do?,GENERAL_QUERY
+What's the timeline for Yishun in the city?,GENERAL_QUERY
+When is the next bus arriving at public housing?,DATA_DRIVEN_QUERY
+Where do I file a complaint about Jurong East?,NARROW_INTENT
+Is there a public event near 4 today?,DATA_DRIVEN_QUERY
+How is the traffic near garbage collection delay right now?,DATA_DRIVEN_QUERY
+Can you tell me more about the roles of the Punggol?,GENERAL_QUERY
+Is there flooding in any part of pothole on the road?,DATA_DRIVEN_QUERY
+What types of Bedok policies does Singapore have?,GENERAL_QUERY
+Can you tell me more about the roles of the Punggol?,GENERAL_QUERY
+Which agency handles PA issues?,GENERAL_QUERY
+Are there any dengue hotspots this month in Block 12?,DATA_DRIVEN_QUERY
+I need to report Pests at unclean public toilet.,NARROW_INTENT
+What does the garbage collection delay do?,GENERAL_QUERY
+Can I check on the status of the unclean public toilet report I submitted broken streetlight?,NARROW_INTENT
+Are there any water supply disruptions today in 3?,DATA_DRIVEN_QUERY
+What are the general responsibilities of the PUB?,GENERAL_QUERY
+Is there a public event near 2 today?,DATA_DRIVEN_QUERY
+Is there flooding in any part of LTA?,DATA_DRIVEN_QUERY
+Are there any road blockages near Singapore Police Force?,DATA_DRIVEN_QUERY
+Are there any road blockages near Clementi?,DATA_DRIVEN_QUERY
+Is there a form to report Water Leak?,NARROW_INTENT
+It's been pothole on the road days. Why hasn't my report for Park Lighting Maintenance been resolved?,NARROW_INTENT
+Where do I file a complaint about cleanliness issue?,NARROW_INTENT
+Are there any dengue hotspots this month in Yishun?,DATA_DRIVEN_QUERY
+Which agency handles LTA issues?,GENERAL_QUERY
+I want to report a No Water at cleanliness issue.,NARROW_INTENT
+What's the timeline for feedback in the city?,GENERAL_QUERY
+What types of yesterday policies does Singapore have?,GENERAL_QUERY
+Are there any road blockages near LTA?,DATA_DRIVEN_QUERY
+It's been illegal dumping of waste days. Why hasn't my report for overflowing trash cans been resolved?,NARROW_INTENT
+How is the traffic near yesterday right now?,DATA_DRIVEN_QUERY
+How do I file a report for Bird Issues?,NARROW_INTENT
+What is the process to submit feedback to the feedback?,GENERAL_QUERY
+Can you tell me more about the roles of the last week?,GENERAL_QUERY
+What's the average wait time for an ambulance in Yishun?,DATA_DRIVEN_QUERY
+I need to report Flooding at No Water.,NARROW_INTENT
+What's the current weather in road repairs?,DATA_DRIVEN_QUERY
+"There's a Flooding near overflowing trash cans, how do I report it?",NARROW_INTENT
+Can you tell me more about the roles of the cleanliness?,GENERAL_QUERY
+How is the traffic near cleanliness issue right now?,DATA_DRIVEN_QUERY
+Can I check on the status of the Flooding report I submitted Park Lighting Maintenance?,NARROW_INTENT
+How often does the government audit yesterday in public spaces?,GENERAL_QUERY
+It's been Bird Issues days. Why hasn't my report for noise from construction been resolved?,NARROW_INTENT
+When is the next bus arriving at cleanliness?,DATA_DRIVEN_QUERY
+Are there any water supply disruptions today in 3?,DATA_DRIVEN_QUERY
+I want to report a cleanliness issue at illegal dumping of waste.,NARROW_INTENT
+What are the general responsibilities of the PA?,GENERAL_QUERY
+What is the process to submit feedback to the feedback?,GENERAL_QUERY
+When is the next bus arriving at noise from construction?,DATA_DRIVEN_QUERY
+I want to report a unclean public toilet at Rodents in Food Establishment.,NARROW_INTENT
+What is the process to submit feedback to the feedback?,GENERAL_QUERY
+Is there a way to report Bird Issues?,NARROW_INTENT
+It's been Bird Issues days. Why hasn't my report for garbage collection delay been resolved?,NARROW_INTENT
+Are there any road blockages near Yishun?,DATA_DRIVEN_QUERY
+What is the process to submit feedback to the feedback?,GENERAL_QUERY
+Can I check on the status of the Rodents in Food Establishment report I submitted pothole on the road?,NARROW_INTENT
+How does the government monitor road repairs?,GENERAL_QUERY
+How is the traffic near Singapore Police Force right now?,DATA_DRIVEN_QUERY
+Is there flooding in any part of overflowing trash cans?,DATA_DRIVEN_QUERY
+Can you tell me more about the roles of the environmental?,GENERAL_QUERY
+Can you tell me more about the roles of the cleanliness?,GENERAL_QUERY
+How often does the government audit Raffles Place in public spaces?,GENERAL_QUERY
+How often does the government audit Raffles Place in public spaces?,GENERAL_QUERY
+Can you tell me more about the roles of the Raffles Place?,GENERAL_QUERY
+How often does the government audit cleanliness in public spaces?,GENERAL_QUERY
+Is there a form to report Flooding?,NARROW_INTENT
+Is there a form to report Pests?,NARROW_INTENT
+How does the government monitor Orchard?,GENERAL_QUERY
+It's been Pests days. Why hasn't my report for No Water been resolved?,NARROW_INTENT
+"There's a traffic accident near Water Leak, how do I report it?",NARROW_INTENT
+What are the general responsibilities of the NEA?,GENERAL_QUERY
+It's been Bird Issues days. Why hasn't my report for overflowing trash cans been resolved?,NARROW_INTENT
+What does the Block 12 do?,GENERAL_QUERY
+What types of Raffles Place policies does Singapore have?,GENERAL_QUERY
+Is there a way to report Pests?,NARROW_INTENT
+Is there a way to report No Water?,NARROW_INTENT
+What's the current weather in HDB?,DATA_DRIVEN_QUERY
+"There's a Flooding near traffic accident, how do I report it?",NARROW_INTENT
+What's the average wait time for an ambulance in garbage collection delay?,DATA_DRIVEN_QUERY
+What's the timeline for traffic accident in the city?,GENERAL_QUERY
+Is there a form to report broken streetlight?,NARROW_INTENT
+What is the process to submit feedback to the feedback?,GENERAL_QUERY
+How can I report a garbage collection delay?,NARROW_INTENT
+What's the air quality in 1 today?,DATA_DRIVEN_QUERY
+It's been Flooding days. Why hasn't my report for Rodents in Food Establishment been resolved?,NARROW_INTENT
+Where do I file a complaint about public housing?,NARROW_INTENT
+It's been cleanliness issue days. Why hasn't my report for overflowing trash cans been resolved?,NARROW_INTENT
+When is the next bus arriving at Block 12?,DATA_DRIVEN_QUERY
+What types of cleanliness policies does Singapore have?,GENERAL_QUERY
+When is the next bus arriving at Tampines?,DATA_DRIVEN_QUERY
+I want to report a Water Leak at No Water.,NARROW_INTENT
+Is there a way to report Construction Noise?,NARROW_INTENT
+Can you tell me more about the roles of the unclean public toilet?,GENERAL_QUERY
+Are there any water supply disruptions today in 2?,DATA_DRIVEN_QUERY
+What's the average wait time for an ambulance in Singapore Police Force?,DATA_DRIVEN_QUERY
+What does the traffic accident do?,GENERAL_QUERY
+Can you tell me more about the roles of the traffic accident?,GENERAL_QUERY
+What services does the water quality provide?,GENERAL_QUERY
+What does the illegal dumping of waste do?,GENERAL_QUERY
+Is there a way to report overflowing trash cans?,NARROW_INTENT
+How often does the government audit yesterday in public spaces?,GENERAL_QUERY
+Can I check on the status of the illegal dumping of waste report I submitted cleanliness issue?,NARROW_INTENT
+Where do I file a complaint about Raffles Place?,NARROW_INTENT
+Is there a form to report Rodents in Food Establishment?,NARROW_INTENT
+What's the average wait time for an ambulance in water quality?,DATA_DRIVEN_QUERY
+I need to report Flooding at Pests.,NARROW_INTENT
+How is the traffic near public housing right now?,DATA_DRIVEN_QUERY
+What's the air quality in 7 today?,DATA_DRIVEN_QUERY
+How is the traffic near LTA right now?,DATA_DRIVEN_QUERY
+What's the air quality in 1 today?,DATA_DRIVEN_QUERY
+How do I file a report for broken streetlight?,NARROW_INTENT
+What does the broken streetlight do?,GENERAL_QUERY
+Can I check on the status of the broken streetlight report I submitted Pests?,NARROW_INTENT
+Is there a form to report Rodents in Food Establishment?,NARROW_INTENT
+What are the general responsibilities of the LTA?,GENERAL_QUERY
+Are there any dengue hotspots this month in pothole on the road?,DATA_DRIVEN_QUERY
+How can I report a Rodents in Food Establishment?,NARROW_INTENT
+Can you tell me more about the roles of the feedback?,GENERAL_QUERY
+What's the current weather in last week?,DATA_DRIVEN_QUERY
+What's the average wait time for an ambulance in cleanliness issue?,DATA_DRIVEN_QUERY
+How do I file a report for noise from construction?,NARROW_INTENT
+How often does the government audit NEA in public spaces?,GENERAL_QUERY
+Is there flooding in any part of cleanliness?,DATA_DRIVEN_QUERY
+"There's a overflowing trash cans near broken streetlight, how do I report it?",NARROW_INTENT
+What's the average wait time for an ambulance in HDB?,DATA_DRIVEN_QUERY
+Can I check on the status of the Construction Noise report I submitted overflowing trash cans?,NARROW_INTENT
+What types of HDB policies does Singapore have?,GENERAL_QUERY
+Is there a way to report Pests?,NARROW_INTENT
+Is there a form to report garbage collection delay?,NARROW_INTENT
+Which agency handles BCA issues?,GENERAL_QUERY
+What's the timeline for garbage collection delay in the city?,GENERAL_QUERY
+How often does the government audit Yishun in public spaces?,GENERAL_QUERY
+Is there a way to report noise from construction?,NARROW_INTENT
+When is the next bus arriving at LTA?,DATA_DRIVEN_QUERY
+What types of overflowing trash cans policies does Singapore have?,GENERAL_QUERY
+Are there any water supply disruptions today in 2?,DATA_DRIVEN_QUERY
+What's the air quality in 5 today?,DATA_DRIVEN_QUERY
+Are there any water supply disruptions today in 6?,DATA_DRIVEN_QUERY
+What's the average wait time for an ambulance in HDB?,DATA_DRIVEN_QUERY
+Is there flooding in any part of overflowing trash cans?,DATA_DRIVEN_QUERY
+It's been noise from construction days. Why hasn't my report for Rodents in Food Establishment been resolved?,NARROW_INTENT
+How do I file a report for Water Leak?,NARROW_INTENT
+Is there a way to report Bird Issues?,NARROW_INTENT
+Can you tell me more about the roles of the overflowing trash cans?,GENERAL_QUERY
+What services does the feedback provide?,GENERAL_QUERY
+What's the air quality in 2 today?,DATA_DRIVEN_QUERY
+How often does the government audit Tampines in public spaces?,GENERAL_QUERY
+Is there a form to report Water Leak?,NARROW_INTENT
+When is the next bus arriving at road repairs?,DATA_DRIVEN_QUERY
+How do I file a report for Park Lighting Maintenance?,NARROW_INTENT
+How can I report a Park Lighting Maintenance?,NARROW_INTENT
+I want to report a broken streetlight at noise from construction.,NARROW_INTENT
+I need to report Pests at overflowing trash cans.,NARROW_INTENT
+Is there flooding in any part of traffic accident?,DATA_DRIVEN_QUERY
+Are there any dengue hotspots this month in Tampines?,DATA_DRIVEN_QUERY
+Where do I file a complaint about garbage collection delay?,NARROW_INTENT
+Which agency handles HDB issues?,GENERAL_QUERY
+Which agency handles PUB issues?,GENERAL_QUERY
+Are there any road blockages near road repairs?,DATA_DRIVEN_QUERY
+Can you tell me more about the roles of the yesterday?,GENERAL_QUERY
+Are there any water supply disruptions today in 1?,DATA_DRIVEN_QUERY
+What are the general responsibilities of the PUB?,GENERAL_QUERY
+I want to report a unclean public toilet at Park Lighting Maintenance.,NARROW_INTENT
+What's the average wait time for an ambulance in Raffles Place?,DATA_DRIVEN_QUERY
+What's the air quality in 7 today?,DATA_DRIVEN_QUERY
+I need to report illegal dumping of waste at Water Leak.,NARROW_INTENT
+How do I file a report for garbage collection delay?,NARROW_INTENT
+Are there any dengue hotspots this month in unclean public toilet?,DATA_DRIVEN_QUERY
+What are the general responsibilities of the NParks?,GENERAL_QUERY
+When is the next bus arriving at yesterday?,DATA_DRIVEN_QUERY
+What's the air quality in 2 today?,DATA_DRIVEN_QUERY
+Are there any road blockages near Yishun?,DATA_DRIVEN_QUERY
+How can I report a illegal dumping of waste?,NARROW_INTENT
+How do I file a report for broken streetlight?,NARROW_INTENT
+Is there flooding in any part of Singapore?,DATA_DRIVEN_QUERY
+Which agency handles NParks issues?,GENERAL_QUERY
+What is the process to submit feedback to the feedback?,GENERAL_QUERY
+"There's a garbage collection delay near Bird Issues, how do I report it?",NARROW_INTENT
+What does the 2 days ago do?,GENERAL_QUERY
+What is the process to submit feedback to the feedback?,GENERAL_QUERY
+Can I check on the status of the Bird Issues report I submitted noise from construction?,NARROW_INTENT
+How does the government monitor Bedok?,GENERAL_QUERY
+How does the government monitor unclean public toilet?,GENERAL_QUERY
+What types of noise from construction policies does Singapore have?,GENERAL_QUERY
+Is there flooding in any part of unclean public toilet?,DATA_DRIVEN_QUERY
+"There's a Rodents in Food Establishment near cleanliness issue, how do I report it?",NARROW_INTENT
+How often does the government audit Orchard in public spaces?,GENERAL_QUERY
+Is there a way to report unclean public toilet?,NARROW_INTENT
+Is there a public event near 4 today?,DATA_DRIVEN_QUERY
+Can I check on the status of the Bird Issues report I submitted traffic accident?,NARROW_INTENT
+Are there any dengue hotspots this month in overflowing trash cans?,DATA_DRIVEN_QUERY
+It's been cleanliness issue days. Why hasn't my report for traffic accident been resolved?,NARROW_INTENT
+What does the HDB do?,GENERAL_QUERY
+Can you tell me more about the roles of the noise from construction?,GENERAL_QUERY
+I want to report a No Water at No Water.,NARROW_INTENT
+Are there any road blockages near garbage collection delay?,DATA_DRIVEN_QUERY
+I want to report a No Water at garbage collection delay.,NARROW_INTENT
+How do I file a report for overflowing trash cans?,NARROW_INTENT
+How is the traffic near Raffles Place right now?,DATA_DRIVEN_QUERY
+How does the government monitor Punggol?,GENERAL_QUERY
+What services does the cleanliness provide?,GENERAL_QUERY
+What types of public housing policies does Singapore have?,GENERAL_QUERY
+How can I report a Rodents in Food Establishment?,NARROW_INTENT
+What types of broken streetlight policies does Singapore have?,GENERAL_QUERY
+Are there any road blockages near Singapore Police Force?,DATA_DRIVEN_QUERY
+What are the general responsibilities of the PUB?,GENERAL_QUERY
+Are there any dengue hotspots this month in noise from construction?,DATA_DRIVEN_QUERY
+Is there a way to report Flooding?,NARROW_INTENT
+Where do I file a complaint about illegal dumping of waste?,NARROW_INTENT
+Which agency handles NParks issues?,GENERAL_QUERY
+I want to report a Pests at broken streetlight.,NARROW_INTENT
+What types of Punggol policies does Singapore have?,GENERAL_QUERY
+How does the government monitor Singapore Police Force?,GENERAL_QUERY
+Can you tell me more about the roles of the unclean public toilet?,GENERAL_QUERY
+I want to report a Rodents in Food Establishment at unclean public toilet.,NARROW_INTENT
+When is the next bus arriving at noise from construction?,DATA_DRIVEN_QUERY
+What services does the feedback provide?,GENERAL_QUERY
+Can I check on the status of the Construction Noise report I submitted pothole on the road?,NARROW_INTENT
+What's the timeline for pothole on the road in the city?,GENERAL_QUERY
+How is the traffic near Yishun right now?,DATA_DRIVEN_QUERY
+I need to report Rodents in Food Establishment at cleanliness issue.,NARROW_INTENT
+I want to report a No Water at Construction Noise.,NARROW_INTENT
+Is there a way to report Water Leak?,NARROW_INTENT
+It's been Flooding days. Why hasn't my report for Pests been resolved?,NARROW_INTENT
+When is the next bus arriving at noise from construction?,DATA_DRIVEN_QUERY
+Are there any dengue hotspots this month in overflowing trash cans?,DATA_DRIVEN_QUERY
+It's been unclean public toilet days. Why hasn't my report for traffic accident been resolved?,NARROW_INTENT
+How is the traffic near yesterday right now?,DATA_DRIVEN_QUERY
+Is there a public event near 7 today?,DATA_DRIVEN_QUERY
+How do I file a report for traffic accident?,NARROW_INTENT
+"There's a pothole on the road near Rodents in Food Establishment, how do I report it?",NARROW_INTENT
+"There's a pothole on the road near traffic accident, how do I report it?",NARROW_INTENT
+What types of 2 days ago policies does Singapore have?,GENERAL_QUERY
+What's the current weather in public housing?,DATA_DRIVEN_QUERY
+Which agency handles NParks issues?,GENERAL_QUERY
+How often does the government audit Punggol in public spaces?,GENERAL_QUERY
+How often does the government audit Orchard in public spaces?,GENERAL_QUERY
+Is there flooding in any part of illegal dumping of waste?,DATA_DRIVEN_QUERY
+How is the traffic near road repairs right now?,DATA_DRIVEN_QUERY
+What's the current weather in yesterday?,DATA_DRIVEN_QUERY
+What types of Singapore policies does Singapore have?,GENERAL_QUERY
+What does the Jurong East do?,GENERAL_QUERY
+Are there any road blockages near Block 12?,DATA_DRIVEN_QUERY
+Is there a form to report Flooding?,NARROW_INTENT
+Can I check on the status of the No Water report I submitted overflowing trash cans?,NARROW_INTENT
+What is the process to submit feedback to the feedback?,GENERAL_QUERY
+What is the process to submit feedback to the feedback?,GENERAL_QUERY
+When is the next bus arriving at unclean public toilet?,DATA_DRIVEN_QUERY
+What is the process to submit feedback to the feedback?,GENERAL_QUERY
+Is there a way to report broken streetlight?,NARROW_INTENT
+Can you tell me more about the roles of the traffic accident?,GENERAL_QUERY
+Is there a way to report pothole on the road?,NARROW_INTENT
+How does the government monitor Yishun?,GENERAL_QUERY
+Is there a way to report noise from construction?,NARROW_INTENT
+How does the government monitor yesterday?,GENERAL_QUERY
+Is there flooding in any part of Bedok?,DATA_DRIVEN_QUERY
+How often does the government audit NEA in public spaces?,GENERAL_QUERY
+What are the general responsibilities of the BCA?,GENERAL_QUERY
+Can you tell me more about the roles of the last week?,GENERAL_QUERY
+How can I report a Construction Noise?,NARROW_INTENT
+When is the next bus arriving at Block 12?,DATA_DRIVEN_QUERY
+Are there any water supply disruptions today in 7?,DATA_DRIVEN_QUERY
+Where do I file a complaint about Tampines?,NARROW_INTENT
+What are the general responsibilities of the HDB?,GENERAL_QUERY
+How does the government monitor feedback?,GENERAL_QUERY
+Is there a way to report No Water?,NARROW_INTENT
+What types of yesterday policies does Singapore have?,GENERAL_QUERY
+Is there a way to report broken streetlight?,NARROW_INTENT
+Are there any dengue hotspots this month in HDB?,DATA_DRIVEN_QUERY
+Is there a way to report overflowing trash cans?,NARROW_INTENT
+How can I report a overflowing trash cans?,NARROW_INTENT
+Can I check on the status of the Flooding report I submitted Flooding?,NARROW_INTENT
+It's been garbage collection delay days. Why hasn't my report for traffic accident been resolved?,NARROW_INTENT
+It's been illegal dumping of waste days. Why hasn't my report for illegal dumping of waste been resolved?,NARROW_INTENT
+How is the traffic near water quality right now?,DATA_DRIVEN_QUERY
+What services does the road repairs provide?,GENERAL_QUERY
+How do I file a report for noise from construction?,NARROW_INTENT
+"There's a Construction Noise near illegal dumping of waste, how do I report it?",NARROW_INTENT
+How is the traffic near Punggol right now?,DATA_DRIVEN_QUERY
+Can I check on the status of the Construction Noise report I submitted No Water?,NARROW_INTENT
+How does the government monitor overflowing trash cans?,GENERAL_QUERY
+Is there a way to report illegal dumping of waste?,NARROW_INTENT
+What types of Clementi policies does Singapore have?,GENERAL_QUERY
+How does the government monitor 2 days ago?,GENERAL_QUERY
+Are there any water supply disruptions today in 7?,DATA_DRIVEN_QUERY
+Can I check on the status of the unclean public toilet report I submitted cleanliness issue?,NARROW_INTENT
+When is the next bus arriving at 2 days ago?,DATA_DRIVEN_QUERY
+Which agency handles HDB issues?,GENERAL_QUERY
+What are the general responsibilities of the BCA?,GENERAL_QUERY
+How can I report a Bird Issues?,NARROW_INTENT
+Is there a form to report Flooding?,NARROW_INTENT
+Are there any dengue hotspots this month in Jurong East?,DATA_DRIVEN_QUERY
+How is the traffic near Clementi right now?,DATA_DRIVEN_QUERY
+How often does the government audit noise from construction in public spaces?,GENERAL_QUERY
+How do I file a report for Pests?,NARROW_INTENT
+How can I report a noise from construction?,NARROW_INTENT
+"There's a noise from construction near cleanliness issue, how do I report it?",NARROW_INTENT
+Is there a form to report illegal dumping of waste?,NARROW_INTENT
+How does the government monitor water quality?,GENERAL_QUERY
+How is the traffic near illegal dumping of waste right now?,DATA_DRIVEN_QUERY
+How do I file a report for Park Lighting Maintenance?,NARROW_INTENT
+Is there flooding in any part of feedback?,DATA_DRIVEN_QUERY
+"There's a noise from construction near Bird Issues, how do I report it?",NARROW_INTENT
+Are there any road blockages near feedback?,DATA_DRIVEN_QUERY
+How is the traffic near LTA right now?,DATA_DRIVEN_QUERY
+How is the traffic near Yishun right now?,DATA_DRIVEN_QUERY
+Can I check on the status of the Rodents in Food Establishment report I submitted illegal dumping of waste?,NARROW_INTENT
+What's the average wait time for an ambulance in cleanliness issue?,DATA_DRIVEN_QUERY
+Is there a public event near 2 today?,DATA_DRIVEN_QUERY
+Can you tell me more about the roles of the yesterday?,GENERAL_QUERY
+How does the government monitor illegal dumping of waste?,GENERAL_QUERY
+When is the next bus arriving at Raffles Place?,DATA_DRIVEN_QUERY
+Where do I file a complaint about road repairs?,NARROW_INTENT
+How can I report a garbage collection delay?,NARROW_INTENT
+What is the process to submit feedback to the feedback?,GENERAL_QUERY
+What is the process to submit feedback to the feedback?,GENERAL_QUERY
+"There's a Water Leak near Construction Noise, how do I report it?",NARROW_INTENT
+What's the timeline for garbage collection delay in the city?,GENERAL_QUERY
+Is there flooding in any part of garbage collection delay?,DATA_DRIVEN_QUERY
+What's the average wait time for an ambulance in pothole on the road?,DATA_DRIVEN_QUERY
+Which agency handles LTA issues?,GENERAL_QUERY
+How is the traffic near cleanliness issue right now?,DATA_DRIVEN_QUERY
+Is there a way to report Pests?,NARROW_INTENT
+Can you tell me more about the roles of the noise from construction?,GENERAL_QUERY
+How is the traffic near Orchard right now?,DATA_DRIVEN_QUERY
+How is the traffic near Singapore Police Force right now?,DATA_DRIVEN_QUERY
+What's the current weather in traffic accident?,DATA_DRIVEN_QUERY
+How can I report a Flooding?,NARROW_INTENT
+It's been Bird Issues days. Why hasn't my report for Park Lighting Maintenance been resolved?,NARROW_INTENT
+Are there any water supply disruptions today in 6?,DATA_DRIVEN_QUERY
+What services does the LTA provide?,GENERAL_QUERY
+How do I file a report for broken streetlight?,NARROW_INTENT
+What's the average wait time for an ambulance in HDB?,DATA_DRIVEN_QUERY
+Is there flooding in any part of Clementi?,DATA_DRIVEN_QUERY
+How can I report a overflowing trash cans?,NARROW_INTENT
+What types of traffic accident policies does Singapore have?,GENERAL_QUERY
+"There's a cleanliness issue near pothole on the road, how do I report it?",NARROW_INTENT
+How does the government monitor cleanliness issue?,GENERAL_QUERY
+What are the general responsibilities of the NParks?,GENERAL_QUERY
+Is there a way to report Construction Noise?,NARROW_INTENT
+Can I check on the status of the Bird Issues report I submitted Flooding?,NARROW_INTENT
+Are there any water supply disruptions today in 6?,DATA_DRIVEN_QUERY
+What services does the water quality provide?,GENERAL_QUERY
+Can you tell me more about the roles of the yesterday?,GENERAL_QUERY
+Can you tell me more about the roles of the Raffles Place?,GENERAL_QUERY
+Is there a form to report Park Lighting Maintenance?,NARROW_INTENT
+How often does the government audit Block 12 in public spaces?,GENERAL_QUERY
+Can I check on the status of the Rodents in Food Establishment report I submitted Rodents in Food Establishment?,NARROW_INTENT
+I need to report Park Lighting Maintenance at broken streetlight.,NARROW_INTENT
+Can you tell me more about the roles of the environmental?,GENERAL_QUERY
+How can I report a noise from construction?,NARROW_INTENT
+It's been cleanliness issue days. Why hasn't my report for overflowing trash cans been resolved?,NARROW_INTENT
+Are there any water supply disruptions today in 2?,DATA_DRIVEN_QUERY
+Can I check on the status of the cleanliness issue report I submitted garbage collection delay?,NARROW_INTENT
+What's the timeline for traffic accident in the city?,GENERAL_QUERY
+What's the timeline for Raffles Place in the city?,GENERAL_QUERY
+I want to report a traffic accident at Bird Issues.,NARROW_INTENT
+Which agency handles SLA issues?,GENERAL_QUERY
+What's the timeline for feedback in the city?,GENERAL_QUERY
+Where do I file a complaint about LTA?,NARROW_INTENT
+Are there any road blockages near yesterday?,DATA_DRIVEN_QUERY
+What does the cleanliness do?,GENERAL_QUERY
+Are there any dengue hotspots this month in noise from construction?,DATA_DRIVEN_QUERY
+What's the average wait time for an ambulance in Clementi?,DATA_DRIVEN_QUERY
+How can I report a Flooding?,NARROW_INTENT
+What services does the LTA provide?,GENERAL_QUERY
+Are there any road blockages near last week?,DATA_DRIVEN_QUERY
+How does the government monitor broken streetlight?,GENERAL_QUERY
+What's the current weather in NEA?,DATA_DRIVEN_QUERY
+What does the overflowing trash cans do?,GENERAL_QUERY
+Can I check on the status of the No Water report I submitted Water Leak?,NARROW_INTENT
+What's the current weather in Singapore Police Force?,DATA_DRIVEN_QUERY
+How is the traffic near Yishun right now?,DATA_DRIVEN_QUERY
+What is the process to submit feedback to the feedback?,GENERAL_QUERY
+What's the timeline for feedback in the city?,GENERAL_QUERY
+I need to report traffic accident at Water Leak.,NARROW_INTENT
+What are the general responsibilities of the SPF?,GENERAL_QUERY
+"There's a No Water near pothole on the road, how do I report it?",NARROW_INTENT
+It's been Rodents in Food Establishment days. Why hasn't my report for cleanliness issue been resolved?,NARROW_INTENT
+What does the Yishun do?,GENERAL_QUERY
+What's the timeline for broken streetlight in the city?,GENERAL_QUERY
+What's the average wait time for an ambulance in pothole on the road?,DATA_DRIVEN_QUERY
+What's the timeline for Jurong East in the city?,GENERAL_QUERY
+Is there a way to report Park Lighting Maintenance?,NARROW_INTENT
+How often does the government audit Raffles Place in public spaces?,GENERAL_QUERY
+What types of pothole on the road policies does Singapore have?,GENERAL_QUERY
+What's the air quality in 5 today?,DATA_DRIVEN_QUERY
+I want to report a pothole on the road at No Water.,NARROW_INTENT
+Is there flooding in any part of illegal dumping of waste?,DATA_DRIVEN_QUERY
+What services does the water quality provide?,GENERAL_QUERY
+Where do I file a complaint about Raffles Place?,NARROW_INTENT
+How can I report a Pests?,NARROW_INTENT
+What's the timeline for road repairs in the city?,GENERAL_QUERY
+Are there any water supply disruptions today in 1?,DATA_DRIVEN_QUERY
+How does the government monitor water quality?,GENERAL_QUERY
+Can you tell me more about the roles of the Bedok?,GENERAL_QUERY
+How is the traffic near Raffles Place right now?,DATA_DRIVEN_QUERY
+Is there a way to report Pests?,NARROW_INTENT
+What's the air quality in 6 today?,DATA_DRIVEN_QUERY
+Is there a public event near 7 today?,DATA_DRIVEN_QUERY
+I need to report Park Lighting Maintenance at cleanliness issue.,NARROW_INTENT
+Can I check on the status of the unclean public toilet report I submitted Rodents in Food Establishment?,NARROW_INTENT
+Can I check on the status of the Construction Noise report I submitted No Water?,NARROW_INTENT
+How often does the government audit Singapore Police Force in public spaces?,GENERAL_QUERY
+Which agency handles URA issues?,GENERAL_QUERY
+"There's a Pests near No Water, how do I report it?",NARROW_INTENT
+When is the next bus arriving at broken streetlight?,DATA_DRIVEN_QUERY
+I need to report noise from construction at Bird Issues.,NARROW_INTENT
+Are there any dengue hotspots this month in illegal dumping of waste?,DATA_DRIVEN_QUERY
+How does the government monitor cleanliness issue?,GENERAL_QUERY
+"There's a Water Leak near overflowing trash cans, how do I report it?",NARROW_INTENT
+How do I file a report for Pests?,NARROW_INTENT
+Can you tell me more about the roles of the Raffles Place?,GENERAL_QUERY
+When is the next bus arriving at noise from construction?,DATA_DRIVEN_QUERY
+Which agency handles HDB issues?,GENERAL_QUERY
+"There's a broken streetlight near Rodents in Food Establishment, how do I report it?",NARROW_INTENT
+Are there any dengue hotspots this month in last week?,DATA_DRIVEN_QUERY
+What's the air quality in 4 today?,DATA_DRIVEN_QUERY
+Can I check on the status of the illegal dumping of waste report I submitted overflowing trash cans?,NARROW_INTENT
+"There's a broken streetlight near traffic accident, how do I report it?",NARROW_INTENT
+What are the general responsibilities of the LTA?,GENERAL_QUERY
+What's the average wait time for an ambulance in cleanliness?,DATA_DRIVEN_QUERY
+How do I file a report for pothole on the road?,NARROW_INTENT
+Is there a way to report Construction Noise?,NARROW_INTENT
+How do I file a report for unclean public toilet?,NARROW_INTENT
+"There's a broken streetlight near traffic accident, how do I report it?",NARROW_INTENT
+It's been overflowing trash cans days. Why hasn't my report for garbage collection delay been resolved?,NARROW_INTENT
+How often does the government audit yesterday in public spaces?,GENERAL_QUERY
+I need to report Park Lighting Maintenance at Water Leak.,NARROW_INTENT
+"There's a Water Leak near broken streetlight, how do I report it?",NARROW_INTENT
+Is there a form to report Construction Noise?,NARROW_INTENT
+Can I check on the status of the Rodents in Food Establishment report I submitted pothole on the road?,NARROW_INTENT
+What services does the LTA provide?,GENERAL_QUERY
+"There's a garbage collection delay near Water Leak, how do I report it?",NARROW_INTENT
+When is the next bus arriving at cleanliness issue?,DATA_DRIVEN_QUERY
+What's the current weather in traffic accident?,DATA_DRIVEN_QUERY
+When is the next bus arriving at Tampines?,DATA_DRIVEN_QUERY
+What's the timeline for pothole on the road in the city?,GENERAL_QUERY
+How is the traffic near Block 12 right now?,DATA_DRIVEN_QUERY
+What is the process to submit feedback to the feedback?,GENERAL_QUERY
+I need to report Bird Issues at Water Leak.,NARROW_INTENT
+Is there a way to report traffic accident?,NARROW_INTENT
+Is there a form to report Pests?,NARROW_INTENT
+Can I check on the status of the overflowing trash cans report I submitted Pests?,NARROW_INTENT
+How does the government monitor cleanliness issue?,GENERAL_QUERY
+Can you tell me more about the roles of the HDB?,GENERAL_QUERY
+How do I file a report for unclean public toilet?,NARROW_INTENT
+When is the next bus arriving at water quality?,DATA_DRIVEN_QUERY
+What's the current weather in garbage collection delay?,DATA_DRIVEN_QUERY
+When is the next bus arriving at noise from construction?,DATA_DRIVEN_QUERY
+What types of cleanliness issue policies does Singapore have?,GENERAL_QUERY
+When is the next bus arriving at Jurong East?,DATA_DRIVEN_QUERY
+It's been unclean public toilet days. Why hasn't my report for unclean public toilet been resolved?,NARROW_INTENT
+"There's a cleanliness issue near cleanliness issue, how do I report it?",NARROW_INTENT
+What services does the HDB provide?,GENERAL_QUERY
+What services does the feedback provide?,GENERAL_QUERY
+Is there a public event near 4 today?,DATA_DRIVEN_QUERY
+Which agency handles PA issues?,GENERAL_QUERY
+How does the government monitor road repairs?,GENERAL_QUERY
+Is there flooding in any part of garbage collection delay?,DATA_DRIVEN_QUERY
+How is the traffic near cleanliness issue right now?,DATA_DRIVEN_QUERY
+Is there a form to report Pests?,NARROW_INTENT
+What's the air quality in 6 today?,DATA_DRIVEN_QUERY
+Are there any dengue hotspots this month in environmental?,DATA_DRIVEN_QUERY
+How is the traffic near illegal dumping of waste right now?,DATA_DRIVEN_QUERY
+How can I report a Construction Noise?,NARROW_INTENT
+Is there flooding in any part of traffic accident?,DATA_DRIVEN_QUERY
+Are there any water supply disruptions today in 1?,DATA_DRIVEN_QUERY
+Is there a form to report broken streetlight?,NARROW_INTENT
+Are there any water supply disruptions today in 1?,DATA_DRIVEN_QUERY
+Are there any road blockages near Punggol?,DATA_DRIVEN_QUERY
+How do I file a report for Rodents in Food Establishment?,NARROW_INTENT
+Which agency handles NParks issues?,GENERAL_QUERY
+When is the next bus arriving at garbage collection delay?,DATA_DRIVEN_QUERY
+What's the timeline for Raffles Place in the city?,GENERAL_QUERY
+What services does the feedback provide?,GENERAL_QUERY
+What services does the road repairs provide?,GENERAL_QUERY
+What's the current weather in pothole on the road?,DATA_DRIVEN_QUERY
+What is the process to submit feedback to the feedback?,GENERAL_QUERY
+Is there flooding in any part of Singapore?,DATA_DRIVEN_QUERY
+Are there any dengue hotspots this month in Singapore?,DATA_DRIVEN_QUERY
+"There's a overflowing trash cans near Pests, how do I report it?",NARROW_INTENT
+How can I report a overflowing trash cans?,NARROW_INTENT
+Is there a form to report illegal dumping of waste?,NARROW_INTENT
+Where do I file a complaint about Jurong East?,NARROW_INTENT
+Is there a form to report broken streetlight?,NARROW_INTENT
+"There's a pothole on the road near Park Lighting Maintenance, how do I report it?",NARROW_INTENT
+When is the next bus arriving at Orchard?,DATA_DRIVEN_QUERY
+I want to report a Bird Issues at garbage collection delay.,NARROW_INTENT
+What is the process to submit feedback to the feedback?,GENERAL_QUERY
+Are there any water supply disruptions today in 7?,DATA_DRIVEN_QUERY
+Is there a form to report garbage collection delay?,NARROW_INTENT
+How does the government monitor yesterday?,GENERAL_QUERY
+Are there any dengue hotspots this month in Raffles Place?,DATA_DRIVEN_QUERY
+Are there any road blockages near garbage collection delay?,DATA_DRIVEN_QUERY
+I need to report overflowing trash cans at pothole on the road.,NARROW_INTENT
+Are there any water supply disruptions today in 3?,DATA_DRIVEN_QUERY
+Can you tell me more about the roles of the environmental?,GENERAL_QUERY
+Can you tell me more about the roles of the garbage collection delay?,GENERAL_QUERY
+Can you tell me more about the roles of the public housing?,GENERAL_QUERY
+What are the general responsibilities of the URA?,GENERAL_QUERY
+Are there any road blockages near LTA?,DATA_DRIVEN_QUERY
+Are there any road blockages near garbage collection delay?,DATA_DRIVEN_QUERY
+What services does the environmental provide?,GENERAL_QUERY
+Are there any water supply disruptions today in 4?,DATA_DRIVEN_QUERY
+I want to report a Park Lighting Maintenance at traffic accident.,NARROW_INTENT
+What's the timeline for Bedok in the city?,GENERAL_QUERY
+How often does the government audit HDB in public spaces?,GENERAL_QUERY
+What's the timeline for Punggol in the city?,GENERAL_QUERY
+Can you tell me more about the roles of the traffic accident?,GENERAL_QUERY
+Are there any water supply disruptions today in 3?,DATA_DRIVEN_QUERY
+Is there a way to report Pests?,NARROW_INTENT
+What's the average wait time for an ambulance in feedback?,DATA_DRIVEN_QUERY
+What types of Jurong East policies does Singapore have?,GENERAL_QUERY
+What does the LTA do?,GENERAL_QUERY
+Is there flooding in any part of feedback?,DATA_DRIVEN_QUERY
+What's the current weather in garbage collection delay?,DATA_DRIVEN_QUERY
+What are the general responsibilities of the PA?,GENERAL_QUERY
+Are there any road blockages near Clementi?,DATA_DRIVEN_QUERY
+How does the government monitor Tampines?,GENERAL_QUERY
+What types of NEA policies does Singapore have?,GENERAL_QUERY
+I want to report a Pests at traffic accident.,NARROW_INTENT
+Where do I file a complaint about last week?,NARROW_INTENT
+Is there a public event near 7 today?,DATA_DRIVEN_QUERY
+"There's a cleanliness issue near Flooding, how do I report it?",NARROW_INTENT
+How does the government monitor HDB?,GENERAL_QUERY
+Which agency handles SLA issues?,GENERAL_QUERY
+Which agency handles URA issues?,GENERAL_QUERY
+Can you tell me more about the roles of the illegal dumping of waste?,GENERAL_QUERY
+What does the Tampines do?,GENERAL_QUERY
+Is there a form to report cleanliness issue?,NARROW_INTENT
+What does the environmental do?,GENERAL_QUERY
+Are there any dengue hotspots this month in broken streetlight?,DATA_DRIVEN_QUERY
+Are there any road blockages near Raffles Place?,DATA_DRIVEN_QUERY
+It's been No Water days. Why hasn't my report for broken streetlight been resolved?,NARROW_INTENT
+Is there a public event near 4 today?,DATA_DRIVEN_QUERY
+What are the general responsibilities of the NEA?,GENERAL_QUERY
+How is the traffic near water quality right now?,DATA_DRIVEN_QUERY
+What does the 2 days ago do?,GENERAL_QUERY
+What is the process to submit feedback to the feedback?,GENERAL_QUERY
+Can I check on the status of the Flooding report I submitted broken streetlight?,NARROW_INTENT
+Are there any dengue hotspots this month in pothole on the road?,DATA_DRIVEN_QUERY
+What services does the feedback provide?,GENERAL_QUERY
+Is there a form to report noise from construction?,NARROW_INTENT
+What is the process to submit feedback to the feedback?,GENERAL_QUERY
+What services does the cleanliness provide?,GENERAL_QUERY
+What's the current weather in Clementi?,DATA_DRIVEN_QUERY
+How is the traffic near cleanliness issue right now?,DATA_DRIVEN_QUERY
+What's the current weather in Punggol?,DATA_DRIVEN_QUERY
+What types of public housing policies does Singapore have?,GENERAL_QUERY
+When is the next bus arriving at cleanliness?,DATA_DRIVEN_QUERY
+How often does the government audit last week in public spaces?,GENERAL_QUERY
+Are there any water supply disruptions today in 7?,DATA_DRIVEN_QUERY
+Which agency handles HDB issues?,GENERAL_QUERY
+What services does the feedback provide?,GENERAL_QUERY
+How can I report a Flooding?,NARROW_INTENT
+Is there a public event near 4 today?,DATA_DRIVEN_QUERY
+Can you tell me more about the roles of the LTA?,GENERAL_QUERY
+What are the general responsibilities of the HDB?,GENERAL_QUERY
+How often does the government audit Orchard in public spaces?,GENERAL_QUERY
+How does the government monitor broken streetlight?,GENERAL_QUERY
+What's the current weather in Jurong East?,DATA_DRIVEN_QUERY
+Are there any water supply disruptions today in 5?,DATA_DRIVEN_QUERY
+Which agency handles PA issues?,GENERAL_QUERY
+Is there a public event near 7 today?,DATA_DRIVEN_QUERY
+How is the traffic near public housing right now?,DATA_DRIVEN_QUERY
+Is there a public event near 6 today?,DATA_DRIVEN_QUERY
+Can you tell me more about the roles of the illegal dumping of waste?,GENERAL_QUERY
+What are the general responsibilities of the PA?,GENERAL_QUERY
+Can you tell me more about the roles of the traffic accident?,GENERAL_QUERY
+Are there any road blockages near NEA?,DATA_DRIVEN_QUERY
+How is the traffic near broken streetlight right now?,DATA_DRIVEN_QUERY
+When is the next bus arriving at cleanliness issue?,DATA_DRIVEN_QUERY
+What's the timeline for Jurong East in the city?,GENERAL_QUERY
+"There's a traffic accident near overflowing trash cans, how do I report it?",NARROW_INTENT
+When is the next bus arriving at water quality?,DATA_DRIVEN_QUERY
+What are the general responsibilities of the PA?,GENERAL_QUERY
+Is there a form to report broken streetlight?,NARROW_INTENT
+Can you tell me more about the roles of the overflowing trash cans?,GENERAL_QUERY
+"There's a traffic accident near Bird Issues, how do I report it?",NARROW_INTENT
+What's the current weather in cleanliness issue?,DATA_DRIVEN_QUERY
+What is the process to submit feedback to the feedback?,GENERAL_QUERY
+How does the government monitor Punggol?,GENERAL_QUERY
+When is the next bus arriving at Tampines?,DATA_DRIVEN_QUERY
+Are there any water supply disruptions today in 5?,DATA_DRIVEN_QUERY
+I want to report a illegal dumping of waste at broken streetlight.,NARROW_INTENT
+Are there any dengue hotspots this month in unclean public toilet?,DATA_DRIVEN_QUERY
+Are there any road blockages near cleanliness?,DATA_DRIVEN_QUERY
+What's the air quality in 5 today?,DATA_DRIVEN_QUERY
+Where do I file a complaint about LTA?,NARROW_INTENT
+How often does the government audit Punggol in public spaces?,GENERAL_QUERY
+When is the next bus arriving at NEA?,DATA_DRIVEN_QUERY
+Where do I file a complaint about Singapore Police Force?,NARROW_INTENT
+What's the timeline for garbage collection delay in the city?,GENERAL_QUERY
+Are there any road blockages near traffic accident?,DATA_DRIVEN_QUERY
+What's the average wait time for an ambulance in cleanliness?,DATA_DRIVEN_QUERY
+Is there flooding in any part of Raffles Place?,DATA_DRIVEN_QUERY
+How does the government monitor feedback?,GENERAL_QUERY
+Is there a public event near 5 today?,DATA_DRIVEN_QUERY
+What's the timeline for environmental in the city?,GENERAL_QUERY
+Are there any dengue hotspots this month in public housing?,DATA_DRIVEN_QUERY
+Where do I file a complaint about environmental?,NARROW_INTENT
+What's the air quality in 2 today?,DATA_DRIVEN_QUERY
+Are there any dengue hotspots this month in cleanliness issue?,DATA_DRIVEN_QUERY
+I want to report a Construction Noise at No Water.,NARROW_INTENT
+How does the government monitor broken streetlight?,GENERAL_QUERY
+Is there flooding in any part of pothole on the road?,DATA_DRIVEN_QUERY
+Is there a way to report Construction Noise?,NARROW_INTENT
+Are there any dengue hotspots this month in feedback?,DATA_DRIVEN_QUERY
+"There's a Flooding near Pests, how do I report it?",NARROW_INTENT
+What's the current weather in Punggol?,DATA_DRIVEN_QUERY
+When is the next bus arriving at illegal dumping of waste?,DATA_DRIVEN_QUERY
+How often does the government audit LTA in public spaces?,GENERAL_QUERY
+Is there a form to report Bird Issues?,NARROW_INTENT
+What does the road repairs do?,GENERAL_QUERY
+What is the process to submit feedback to the feedback?,GENERAL_QUERY
+Are there any dengue hotspots this month in broken streetlight?,DATA_DRIVEN_QUERY
+Are there any water supply disruptions today in 7?,DATA_DRIVEN_QUERY
+I need to report Pests at Flooding.,NARROW_INTENT
+Are there any road blockages near Bedok?,DATA_DRIVEN_QUERY
+Is there a form to report noise from construction?,NARROW_INTENT
+How can I report a noise from construction?,NARROW_INTENT
+How is the traffic near Singapore right now?,DATA_DRIVEN_QUERY
+Is there a public event near 3 today?,DATA_DRIVEN_QUERY
+Is there a form to report Bird Issues?,NARROW_INTENT
+Where do I file a complaint about garbage collection delay?,NARROW_INTENT
+What's the timeline for Bedok in the city?,GENERAL_QUERY
+What is the process to submit feedback to the feedback?,GENERAL_QUERY
+How is the traffic near overflowing trash cans right now?,DATA_DRIVEN_QUERY
+What's the air quality in 2 today?,DATA_DRIVEN_QUERY
+Is there a form to report Construction Noise?,NARROW_INTENT
+How does the government monitor unclean public toilet?,GENERAL_QUERY
+How can I report a broken streetlight?,NARROW_INTENT
+Can you tell me more about the roles of the Orchard?,GENERAL_QUERY
+Are there any water supply disruptions today in 1?,DATA_DRIVEN_QUERY
+What does the Orchard do?,GENERAL_QUERY
+How does the government monitor garbage collection delay?,GENERAL_QUERY
+What types of traffic accident policies does Singapore have?,GENERAL_QUERY
+How often does the government audit environmental in public spaces?,GENERAL_QUERY
+Are there any water supply disruptions today in 7?,DATA_DRIVEN_QUERY
+What services does the LTA provide?,GENERAL_QUERY
+I want to report a unclean public toilet at noise from construction.,NARROW_INTENT
+"There's a Park Lighting Maintenance near noise from construction, how do I report it?",NARROW_INTENT
+How can I report a garbage collection delay?,NARROW_INTENT
+Are there any dengue hotspots this month in HDB?,DATA_DRIVEN_QUERY
+"There's a traffic accident near traffic accident, how do I report it?",NARROW_INTENT
+Is there a public event near 2 today?,DATA_DRIVEN_QUERY
+Which agency handles SLA issues?,GENERAL_QUERY
+What's the air quality in 4 today?,DATA_DRIVEN_QUERY
+Is there a way to report illegal dumping of waste?,NARROW_INTENT
+I want to report a garbage collection delay at broken streetlight.,NARROW_INTENT
+Is there a form to report No Water?,NARROW_INTENT
+I want to report a Water Leak at unclean public toilet.,NARROW_INTENT
+Is there flooding in any part of Singapore Police Force?,DATA_DRIVEN_QUERY
+How can I report a Flooding?,NARROW_INTENT
+When is the next bus arriving at cleanliness?,DATA_DRIVEN_QUERY
+Is there a public event near 2 today?,DATA_DRIVEN_QUERY
+I need to report cleanliness issue at Park Lighting Maintenance.,NARROW_INTENT
+What services does the LTA provide?,GENERAL_QUERY
+When is the next bus arriving at last week?,DATA_DRIVEN_QUERY
+How often does the government audit Yishun in public spaces?,GENERAL_QUERY
+Are there any road blockages near noise from construction?,DATA_DRIVEN_QUERY
+Are there any dengue hotspots this month in public housing?,DATA_DRIVEN_QUERY
+I want to report a Water Leak at garbage collection delay.,NARROW_INTENT
+Is there a form to report Rodents in Food Establishment?,NARROW_INTENT
+How is the traffic near Raffles Place right now?,DATA_DRIVEN_QUERY
+How is the traffic near feedback right now?,DATA_DRIVEN_QUERY
+"There's a noise from construction near noise from construction, how do I report it?",NARROW_INTENT
+What's the air quality in 1 today?,DATA_DRIVEN_QUERY
+Can you tell me more about the roles of the water quality?,GENERAL_QUERY
+When is the next bus arriving at pothole on the road?,DATA_DRIVEN_QUERY
+"There's a cleanliness issue near illegal dumping of waste, how do I report it?",NARROW_INTENT
+Can I check on the status of the unclean public toilet report I submitted pothole on the road?,NARROW_INTENT
+Where do I file a complaint about cleanliness?,NARROW_INTENT
+How is the traffic near Singapore Police Force right now?,DATA_DRIVEN_QUERY
+How do I file a report for Flooding?,NARROW_INTENT
+What's the air quality in 7 today?,DATA_DRIVEN_QUERY
+What is the process to submit feedback to the feedback?,GENERAL_QUERY
+I want to report a pothole on the road at unclean public toilet.,NARROW_INTENT
+How do I file a report for Rodents in Food Establishment?,NARROW_INTENT
+Can I check on the status of the Rodents in Food Establishment report I submitted Flooding?,NARROW_INTENT
+What's the air quality in 1 today?,DATA_DRIVEN_QUERY
+What's the average wait time for an ambulance in Tampines?,DATA_DRIVEN_QUERY
+How can I report a unclean public toilet?,NARROW_INTENT
+Is there a way to report Construction Noise?,NARROW_INTENT
+What's the air quality in 7 today?,DATA_DRIVEN_QUERY
+What does the Clementi do?,GENERAL_QUERY
+It's been Pests days. Why hasn't my report for illegal dumping of waste been resolved?,NARROW_INTENT
+Is there flooding in any part of yesterday?,DATA_DRIVEN_QUERY
+I need to report Pests at Construction Noise.,NARROW_INTENT
+Is there flooding in any part of Block 12?,DATA_DRIVEN_QUERY
+How is the traffic near Orchard right now?,DATA_DRIVEN_QUERY
+I need to report cleanliness issue at broken streetlight.,NARROW_INTENT
+How does the government monitor LTA?,GENERAL_QUERY
+"There's a illegal dumping of waste near Rodents in Food Establishment, how do I report it?",NARROW_INTENT
+What's the average wait time for an ambulance in Punggol?,DATA_DRIVEN_QUERY
+Are there any road blockages near cleanliness?,DATA_DRIVEN_QUERY
+Is there flooding in any part of Yishun?,DATA_DRIVEN_QUERY
+It's been Rodents in Food Establishment days. Why hasn't my report for Rodents in Food Establishment been resolved?,NARROW_INTENT
+"There's a Flooding near cleanliness issue, how do I report it?",NARROW_INTENT
+Where do I file a complaint about Punggol?,NARROW_INTENT
+Which agency handles PA issues?,GENERAL_QUERY
+When is the next bus arriving at illegal dumping of waste?,DATA_DRIVEN_QUERY
+What is the process to submit feedback to the feedback?,GENERAL_QUERY
+How do I file a report for Park Lighting Maintenance?,NARROW_INTENT
+What's the average wait time for an ambulance in LTA?,DATA_DRIVEN_QUERY
+What types of cleanliness issue policies does Singapore have?,GENERAL_QUERY
+Are there any road blockages near Punggol?,DATA_DRIVEN_QUERY
+Is there a form to report illegal dumping of waste?,NARROW_INTENT
+When is the next bus arriving at Jurong East?,DATA_DRIVEN_QUERY
+Can I check on the status of the noise from construction report I submitted No Water?,NARROW_INTENT
+"There's a traffic accident near Pests, how do I report it?",NARROW_INTENT
+What's the current weather in Tampines?,DATA_DRIVEN_QUERY
+Is there flooding in any part of garbage collection delay?,DATA_DRIVEN_QUERY
+How do I file a report for Construction Noise?,NARROW_INTENT
+What services does the road repairs provide?,GENERAL_QUERY
+What's the air quality in 3 today?,DATA_DRIVEN_QUERY
+Is there a way to report broken streetlight?,NARROW_INTENT
+I need to report unclean public toilet at Flooding.,NARROW_INTENT
+Are there any water supply disruptions today in 1?,DATA_DRIVEN_QUERY
+Are there any water supply disruptions today in 7?,DATA_DRIVEN_QUERY
+Are there any road blockages near traffic accident?,DATA_DRIVEN_QUERY
+How can I report a Water Leak?,NARROW_INTENT
+"There's a Construction Noise near broken streetlight, how do I report it?",NARROW_INTENT
+What are the general responsibilities of the SLA?,GENERAL_QUERY
+How do I file a report for Bird Issues?,NARROW_INTENT
+What's the timeline for Singapore Police Force in the city?,GENERAL_QUERY
+Are there any water supply disruptions today in 2?,DATA_DRIVEN_QUERY
+Is there a public event near 4 today?,DATA_DRIVEN_QUERY
+What are the general responsibilities of the LTA?,GENERAL_QUERY
+I want to report a Pests at No Water.,NARROW_INTENT
+What is the process to submit feedback to the feedback?,GENERAL_QUERY
+How do I file a report for Rodents in Food Establishment?,NARROW_INTENT
+What's the average wait time for an ambulance in Singapore?,DATA_DRIVEN_QUERY
+What's the average wait time for an ambulance in last week?,DATA_DRIVEN_QUERY
+What services does the cleanliness provide?,GENERAL_QUERY
+Which agency handles HDB issues?,GENERAL_QUERY
+Is there a public event near 4 today?,DATA_DRIVEN_QUERY
+Is there flooding in any part of LTA?,DATA_DRIVEN_QUERY
+Is there a way to report overflowing trash cans?,NARROW_INTENT
+Is there a public event near 6 today?,DATA_DRIVEN_QUERY
+Can I check on the status of the Park Lighting Maintenance report I submitted unclean public toilet?,NARROW_INTENT
+Is there a way to report noise from construction?,NARROW_INTENT
+What are the general responsibilities of the NEA?,GENERAL_QUERY
+Is there a form to report Water Leak?,NARROW_INTENT
+It's been garbage collection delay days. Why hasn't my report for Flooding been resolved?,NARROW_INTENT
+What does the unclean public toilet do?,GENERAL_QUERY
+It's been traffic accident days. Why hasn't my report for traffic accident been resolved?,NARROW_INTENT
+Is there a public event near 2 today?,DATA_DRIVEN_QUERY
+How often does the government audit environmental in public spaces?,GENERAL_QUERY
+How do I file a report for Flooding?,NARROW_INTENT
+What services does the LTA provide?,GENERAL_QUERY
+I want to report a unclean public toilet at broken streetlight.,NARROW_INTENT
+How is the traffic near LTA right now?,DATA_DRIVEN_QUERY
+What services does the cleanliness provide?,GENERAL_QUERY
+What does the water quality do?,GENERAL_QUERY
+"There's a pothole on the road near illegal dumping of waste, how do I report it?",NARROW_INTENT
+What's the current weather in 2 days ago?,DATA_DRIVEN_QUERY
+Are there any road blockages near feedback?,DATA_DRIVEN_QUERY
+Is there a way to report noise from construction?,NARROW_INTENT

@@ -1,0 +1,61 @@
+text,label
+I want to report a broken lamp post,NARROW_INTENT
+Can I file a complaint about noise?,NARROW_INTENT
+How do I report illegal parking?,NARROW_INTENT
+"There's trash everywhere, can I submit a report?",NARROW_INTENT
+Who do I talk to about reporting rodent sightings?,NARROW_INTENT
+How do I notify the council about blocked drains?,NARROW_INTENT
+Submit issue for pothole near Jurong East MRT,NARROW_INTENT
+Where to file a complaint about my neighbor's renovation?,NARROW_INTENT
+I want to report damaged playground equipment,NARROW_INTENT
+How to send photos of a fallen tree?,NARROW_INTENT
+What's the best way to report graffiti?,NARROW_INTENT
+Report uncleared rubbish in corridor,NARROW_INTENT
+Can I raise a complaint about stray dogs?,NARROW_INTENT
+Want to report construction noise at night,NARROW_INTENT
+How do I raise an issue with the town council?,NARROW_INTENT
+Who to contact for broken footpath railing?,NARROW_INTENT
+Can I report overflowing bins?,NARROW_INTENT
+How to complain about illegal food stall?,NARROW_INTENT
+Need to report a blocked sewer,NARROW_INTENT
+How do I report mosquitoes breeding?,NARROW_INTENT
+Are there any road closures in Bukit Batok right now?,DATA_DRIVEN_QUERY
+Any dengue fogging operations this week in Tampines?,DATA_DRIVEN_QUERY
+What's the status of my report on illegal dumping?,DATA_DRIVEN_QUERY
+Has the broken swing in Block 30 been fixed?,DATA_DRIVEN_QUERY
+Are there any reports of flooding near Clementi?,DATA_DRIVEN_QUERY
+Is there haze expected this weekend?,DATA_DRIVEN_QUERY
+Any ongoing NEA enforcement in Geylang?,DATA_DRIVEN_QUERY
+Was there a rat infestation reported near Toa Payoh?,DATA_DRIVEN_QUERY
+Have others filed complaints about this?,DATA_DRIVEN_QUERY
+Did the Town Council respond to the pothole report?,DATA_DRIVEN_QUERY
+Are there any known power outages in Punggol?,DATA_DRIVEN_QUERY
+Did anyone report fallen trees after the storm?,DATA_DRIVEN_QUERY
+Has LTA responded to the parking issue?,DATA_DRIVEN_QUERY
+Any recent sanitation reports in Ang Mo Kio?,DATA_DRIVEN_QUERY
+Are there active complaints about noise in Sengkang?,DATA_DRIVEN_QUERY
+Are there still water leaks at Yishun block 231?,DATA_DRIVEN_QUERY
+Is fogging scheduled for my area?,DATA_DRIVEN_QUERY
+Was the illegal structure at Pasir Ris removed?,DATA_DRIVEN_QUERY
+Is the light near the void deck fixed?,DATA_DRIVEN_QUERY
+Has anyone complained about the bus stop shelter?,DATA_DRIVEN_QUERY
+What issues does the NEA handle?,GENERAL_QUERY
+Who manages the cleanliness of hawker centres?,GENERAL_QUERY
+What can the Town Council help with?,GENERAL_QUERY
+What does HDB maintain?,GENERAL_QUERY
+Who is responsible for drain clearing?,GENERAL_QUERY
+How often is fogging conducted?,GENERAL_QUERY
+What is considered urgent in municipal services?,GENERAL_QUERY
+What's the difference between NEA and LTA?,GENERAL_QUERY
+How do Town Councils work in Singapore?,GENERAL_QUERY
+Which agency fixes broken street lights?,GENERAL_QUERY
+What kind of complaints go to PUB?,GENERAL_QUERY
+Who manages park lighting?,GENERAL_QUERY
+What is the process for filing a municipal complaint?,GENERAL_QUERY
+Which agency deals with construction site noise?,GENERAL_QUERY
+Can I find out what types of issues are common in my estate?,GENERAL_QUERY
+What role does SLA play in land disputes?,GENERAL_QUERY
+How are maintenance requests prioritized?,GENERAL_QUERY
+What is the escalation process for unresolved reports?,GENERAL_QUERY
+Does LTA handle cycling path issues?,GENERAL_QUERY
+What is HDB's role in renovation guidelines?,GENERAL_QUERY
