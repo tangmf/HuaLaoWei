@@ -9,7 +9,7 @@ CREATE TABLE issues (
     latitude DOUBLE PRECISION NOT NULL,
     longitude DOUBLE PRECISION NOT NULL,
     full_address TEXT,
-    location GEOGRAPHY(Point, 4326),
+    location GEOGRAPHY(Point, 4326), -- Optional: can be auto-generated from lat/lon
 
     -- Description & Classification
     description TEXT,
@@ -24,5 +24,10 @@ CREATE TABLE issues (
     agency_id INTEGER REFERENCES agencies(agency_id),
     town_council_id INTEGER REFERENCES town_councils(town_council_id),
 
+    -- Spatial Context (linked for fast spatial queries)
+    subzone_id INTEGER REFERENCES subzones(subzone_id),
+    planning_area_id INTEGER REFERENCES planning_areas(planning_area_id),
+
+    -- Visibility
     is_public BOOLEAN DEFAULT TRUE
 );
