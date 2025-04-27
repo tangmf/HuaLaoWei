@@ -3,7 +3,7 @@ INSERT INTO issues (
     description, severity, status, datetime_reported, datetime_acknowledged,
     datetime_closed, datetime_updated, agency_id, town_council_id, is_public
 ) VALUES
-    (3, 4, 25, 1.224804, 103.82882, '8545 Hayden Landing, Singapore', 'Mr page message yes reach structure along.', 'High', 'Reported', '2025-04-16 04:46:03', NULL, NULL, '2025-04-16 04:46:03', 9, 1, FALSE),
+    (3, 4, 25, 1.224804, 103.82882, '89 Jalan Asas Fuyong Estate, Singapore 678833', 'Lots of trash along the street.', 'High', 'Reported', '2025-04-16 04:46:03', NULL, NULL, '2025-04-16 04:46:03', 9, 1, FALSE),
     (2, 10, 19, 1.258142, 103.990238, '298 Brewer Isle Apt. 298, Singapore', 'Movement Mr third fly run.', 'High', 'Reported', '2025-04-16 03:32:09', NULL, NULL, '2025-04-16 03:32:09', 6, 17, FALSE),
     (1, 2, 17, 1.363413, 103.748417, '663 Sharon Harbor, Singapore', 'Else dog remember media Mr important president.', 'Critical', 'Acknowledged', '2025-03-28 17:29:39', '2025-03-28 17:29:39', NULL, '2025-03-28 17:29:39', 9, 11, FALSE),
     (4, 6, 13, 1.25888, 103.661485, '922 Henry Lake, Singapore', 'Music south beat adult southern positive first.', 'Low', 'Closed', '2025-03-26 20:52:59', '2025-03-27 20:52:59', '2025-03-31 20:52:59', '2025-03-31 20:52:59', 5, 2, TRUE),
