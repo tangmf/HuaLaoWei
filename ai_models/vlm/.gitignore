@@ -1,0 +1,6 @@
+# uncompressed dataset
+*.jpeg
+*.jpg
+*.png
+*.json
+.env
