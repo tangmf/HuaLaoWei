@@ -9,6 +9,7 @@ import {
   Modal,
   Button,
 } from "react-native";
+import axios from 'axios';
 import * as ImagePicker from "expo-image-picker";
 import Navbar from "@/components/Navbar";
 import Header from "@/components/Header";
@@ -161,19 +162,27 @@ export default function Create() {
   };
 
   const fetchAISuggestions = async () => {
-    if (!image) {
-      alert("Please add an image before using AI suggestions.");
+    if (!title || !description) {
+      alert("Please fill in both title and description before using AI suggestions.");
       return;
     }
 
     setLoadingSuggestions(true);
     try {
       const formData = new FormData();
-      formData.append("image", {
-        uri: image,
-        name: "report_image.jpg",
-        type: "image/jpeg",
-      });
+      formData.append("text", title + " " + description);
+
+      if (lat && lon) {
+        formData.append("coordinates", JSON.stringify({ "lat": lat, "lon": lon }));
+      }
+
+      if (image) {
+        formData.append("image", {
+          uri: image,
+          name: "image.jpg",
+          type: "image/jpeg",
+        });
+      }
 
       // const response = await fetch("https://your-api-url.com/generate-suggestions", {
       //   method: "POST",
@@ -185,11 +194,18 @@ export default function Create() {
 
       // const data = await response.json();
 
-      const data = {
-        title: "AI-generated Title",
-        description: "AI-generated Description",
-        categories: ["Illegal Parking - Road", "Facilities in HDB Estates - Playground & Fitness Facilities Maintenance"],
+      // send POST api request to vlm model
+      try {
+        const { data } = await axios.post("http://localhost:8080/infer", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        console.log("AI Suggestions: ", data);
+      } catch (error) {
+        console.error("Error fetching AI suggestions:", error);
       }
+
 
       // TODO
       let tempSuggestedCategoriesList = data.categories.filter(category => !categories.includes(category))
