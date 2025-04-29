@@ -65,11 +65,88 @@ ALL_CLASSES = [
     "Common Area Maintenance", "HDB Car Park Maintenance", "Lightning Maintenance", "Playground & Fitness Facilities Maintenance",
     "HDB or URA Car Park", "Motorcycle at Void Deck", "Road",
     "Fallen Tree or Branch", "Other Parks and Greenery Issues", "Overgrown Grass", "Park Facilities Maintenance", "Park Lighting Maintenance",
-    "Bee & Hornets", "Cockroaches in Food Establishment", "Mosquitoes", "Rodents in Common Areas", "Rodents in Food Establishment",
+    "Bees & Hornets", "Cockroaches in Food Establishment", "Mosquitoes", "Rodents in Common Areas", "Rodents in Food Establishment",
     "Covered Linkway Maintenance", "Damaged Road Signs", "Faulty Streetlight", "Footpath Maintenance", "Road Maintenance",
     "Anywheel", "HelloRide", "Other Bicycles",
     "Food Premises", "Other Public Areas", "Parks & Park Connectors"
 ]
+
+conversion_map = {
+    "Abandoned Trolleys": "Abandoned Trolleys",
+    "Animals": "Animals",
+    "Cleanliness": "Cleanliness",
+    "Construction Sites": "Construction Sites",
+    "Drains & Sewers": "Drains & Sewers",
+    "Drinking Water": "Drinking Water",
+    "Housing": "Housing",
+    "Illegal Parking": "Illegal Parking",
+    "Others": "Others",
+    "Parks & Greenery": "Parks & Greenery",
+    "Pests": "Pests",
+    "Roads & Footprints": "Roads & Footprints",
+    "Shared Bicycles": "Shared Bicycles",
+    "Smoking": "Smoking",
+    "Others": "Others",  # duplicate catch-all
+    "Cold Storage": "Cold Storage",
+    "FairPrice": "FairPrice",
+    "Giant": "Giant",
+    "Ikea": "Ikea",
+    "Mustafa": "Mustafa",
+    "Other Trolleys": "Other Trolleys",
+    "ShengSong": "ShengSong",
+    "Bird Issues": "Bird Issues",
+    "Cat Issues": "Cat Issues",
+    "Dead Animal": "Dead Animal",
+    "Dog Issues": "Dog Issues",
+    "Injured Animal": "Injured Animal",
+    "Other Animal Issues": "Other Animal Issues",
+    "Bulky Waste in Common Areas": "Bulky Waste in Common Areas",
+    "Dirty Public Areas": "Dirty Public Areas",
+    "High-rise Littering": "High-rise Littering",
+    "Overflowing Litter Bin": "Overflowing Litter Bin",
+    "Construction Noise": "Construction Noise",
+    "Choked Drain or Stagnant Water": "Choked Drain/Stagnant Water",
+    "Damaged Drain": "Damaged Drain",
+    "Flooding": "Flooding",
+    "Sewage Smell": "Sewage Smell",
+    "Sewer Choke or Overflow": "Sewer Choke or/Overflow",
+    "No Water": "No Water",
+    "Water Leak": "Water Leak",
+    "Water Pressure": "Water Pressure",
+    "Water Quality": "Water Quality",
+    "Common Area Maintenance": "Common Area Maintenance",
+    "HDB Car Park Maintenance": "HDB Car Park Maintenance",
+    "Lightning Maintenance": "Lightning Maintenance",
+    "Playground & Fitness Facilities Maintenance": "Playground & Fitness Facilities Maintenance",
+    "HDB or URA Car Park": "HDB/URA Car Park",            # ↪ formatting fix
+    "Motorcycle at Void Deck": "Motorcycle at Void Deck",
+    "Road": "Road",
+    "Fallen Tree or Branch": "Fallen Tree/Branch",
+    "Other Parks and Greenery Issues": "Other Parks and Greenery Issues",
+    "Overgrown Grass": "Overgrown Grass",
+    "Park Facilities Maintenance": "Park Facilities Maintenance",
+    "Park Lighting Maintenance": "Park Lighting Maintenance",
+    "Bee & Hornets": "Bees & Hornets",
+    "Bees & Hornets": "Bees & Hornets",
+    "Cockroaches in Food Establishment": "Cockroaches in Food Establishment",
+    "Mosquitoes": "Mosquitoes",
+    "Rodents in Common Areas": "Rodents in Common Areas",
+    "Rodents in Food Establishment": "Rodents in Food Establishment",
+    "Covered Linkway Maintenance": "Covered Linkway Maintenance",
+    "Damaged Road Signs": "Damaged Road Signs",
+    "Faulty Streetlight": "Faulty Streetlight",
+    "Footpath Maintenance": "Footpath Maintenance",
+    "Road Maintenance": "Road Maintenance",
+    "Anywheel": "Anywheel",
+    "HelloRide": "HelloRide",
+    "Other Bicycles": "Other Bicycles",
+    "Food Premises": "Food Premises",
+    "Other Public Areas": "Other Public Areas",
+    "Parks & Park Connectors": "Parks & Park Connectors",
+}
+
+
+
 NUM_CLASSES = len(ALL_CLASSES)
 
 system_prompt = (
@@ -178,6 +255,11 @@ async def infer(
         # drop category if it is not in ALL_CLASSES
         if category not in ALL_CLASSES:
             assistant_response["categories"].remove(category)
+        else:
+            # convert category to its corresponding value in conversion_map
+            if category in conversion_map.keys():
+                assistant_response["categories"].remove(category)
+                assistant_response["categories"].append(conversion_map[category])
 
     # check if severity is in ["Low", "Medium", "High"]
     if assistant_response["severity"] not in ["Low", "Medium", "High"]:
