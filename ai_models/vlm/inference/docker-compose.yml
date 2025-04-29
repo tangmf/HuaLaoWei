@@ -1,0 +1,12 @@
+services:
+  inference:
+    image: vlm:latest
+    ports:
+      - '8000:8000'
+    environment:
+      - TRANSFORMERS_CACHE=/app/cache
+    volumes:
+      - model_weights:/app/cache
+
+volumes:
+  model_weights:

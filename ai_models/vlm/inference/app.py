@@ -1,35 +1,51 @@
 from fastapi import FastAPI, File, UploadFile
 from pydantic import BaseModel, validator
+from typing import Optional, List
 from transformers import AutoProcessor, Idefics3ForConditionalGeneration
 from PIL import Image
 import io, torch, json
-
+from helper import get_osm_tags_from_openstreetmap, extract_lat_lon
+from accelerate import Accelerator
+from peft import PeftModel
 
 app = FastAPI()
-MODEL_NAME = "jerick5555/SmolVLM2-2.2B-Instruct-vqav2"
+accelerator = Accelerator()
+device = accelerator.device
+
+MODEL_NAME = "HuggingFaceTB/SmolVLM2-2.2B-Instruct"
+ADAPTER_NAME = "jerick5555/SmolVLM2-2.2B-Instruct-vqav2-vqav3"
 processor = AutoProcessor.from_pretrained(MODEL_NAME)
 model = Idefics3ForConditionalGeneration.from_pretrained(
         MODEL_NAME,
         torch_dtype=torch.bfloat16,
         #_attn_implementation="flash_attention_2",
-    ).to("cuda")
+    )
+model = PeftModel.from_pretrained(
+        model,
+        ADAPTER_NAME
+).to(device)
 model.eval()
 
-# ensure that text is a string
-class TextInput(BaseModel):
-    text: str
 
-# ensure that the file is a jpg, jpeg or png
-class ImageInput(BaseModel):
-    file: UploadFile
+class Coordinates(BaseModel):
+    lat: float
+    lon: float
 
-    @validator('file')
-    def validate_file_type(cls, file: UploadFile):
-        allowed_content_types = ['image/jpeg', 'image/png']
-        if file.content_type not in allowed_content_types:
-            raise ValueError('Only JPEG and PNG images are allowed.')
+    @validator('lat')
+    def validate_latitude(cls, v):
+        if not isinstance(v, float):
+            raise TypeError('Latitude must be a float')
+        if not -90 <= v <= 90:
+            raise ValueError('Latitude must be between -90 and 90 degrees')
+        return v
 
-        return file
+    @validator('lon')
+    def validate_longitude(cls, v):
+        if not isinstance(v, float):
+            raise TypeError('Longitude must be a float')
+        if not -180 <= v <= 180:
+            raise ValueError('Longitude must be between -180 and 180 degrees')
+        return v
 
 
 ALL_CLASSES = [
@@ -74,18 +90,49 @@ system_prompt = (
 
 
 @app.post("/infer")
-# files are optional
 # returns a JSON object with categories and severity
-async def infer(text: TextInput, files: list[ImageInput] = File(None)):
-    if files:
+async def infer(
+    text: str, 
+    coordinates: Optional[Coordinates], 
+    files: List[UploadFile] = File(default= [])
+):
+    # validation
+    allowed_content_types = ['image/jpeg', 'image/png']
+    valid_files = []
+    for file in files:
+        if file.content_type in allowed_content_types:
+            valid_files.append(file)
+        else:
+            # Handle invalid file type
+            pass
+    
+    if valid_files:
         # read image files and convert to PIL Image
         images = []
-        for file in files:
+        for file in valid_files:
             data = await file.read()
             image = Image.open(io.BytesIO(data)).convert("RGB")
             images.append(image)
     else:
         images = [torch.zeros((1, 3, 224, 224), dtype=torch.uint8)] # Dummy tensor for no image case
+
+
+    # get latitude and longitude from coordinates if provided
+    if coordinates:
+        lat = coordinates.lat
+        lon = coordinates.lon
+    # get latitude and longitude from first image if it is PIL Image
+    elif isinstance(images[0], Image.Image):
+        lat, lon = extract_lat_lon(images[0])
+    else:        
+        lat, lon = None, None
+
+
+    tags = get_osm_tags_from_openstreetmap(lat, lon)
+
+    # append the tags to the text input
+    text.text += "\n\nNearby location tags: " + ", ".join([f"{k}: {v}" for tag in tags["nearby"] for k, v in tag.items()]) + "\n\n"
+    text.text += "Enclosing location tags: " + ", ".join([f"{k}: {v}" for tag in tags["enclosing"] for k, v in tag.items()])
 
     user_content = [{"type": "text", "text": text.text}]
 
