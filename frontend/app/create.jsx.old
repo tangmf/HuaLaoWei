@@ -107,7 +107,62 @@ export default function Create() {
   const [description, setDescription] = useState("");
   const [categories, setCategories] = useState([]); // Selected categories
   const [image, setImage] = useState(null);
-  const [isCategoryModalVisible, setIsCategoryModalVisible] = useState(false);
+  
+  // Modify the setIsCategoryModalVisible such that if visible, update categories state from the "categories" variable first.
+  const [isCategoryModalVisible, setIsCategoryModalVisibleUseState] = useState(false);
+  // const setIsCategoryModalVisible = (visible) => {
+  //   if (visible) setCategoriesState(getCurrentCategoriesState())
+  //   else console.log("Categories: " + categories)
+  //   setIsCategoryModalVisibleUseState(visible);
+  // }
+  
+  // useEffect(() => {
+  //   if (isCategoryModalVisible) {
+  //     // console.log("Modal is now visible with updated categoriesState:", categoriesState);
+  //   }
+  //   console.log("modalvisible updated");
+  // }, [isCategoryModalVisible, categoriesState]);
+  
+  // Flow
+  // To open Modal: setIsCategoryModalVisible(true)
+  // setCategoriesState(getCurrentCategoriesState())
+  // Once the categoriesState is updated, useEffect will trigger to open modal
+  // setIsCategoryModalVisible(true);
+
+
+  const setIsCategoryModalVisible = (visible) => {
+    if (visible) {
+      setCategoriesState(getCurrentCategoriesState());
+    }
+    setIsCategoryModalVisibleUseState(visible);
+  }; 
+
+  // useEffect(() => {
+  //   if (isCategoryModalVisible) {
+  //     // console.log("Modal is now visible with updated categoriesState:", categoriesState);
+  //   }
+  //   console.log("modalvisible updated");
+  // }, [isCategoryModalVisible, categoriesState]);
+
+  useEffect(() => {
+    console.log("isCategoryModalVisible updated", isCategoryModalVisible);
+    if (isCategoryModalVisible) {
+      setCategoriesState(getCurrentCategoriesState());
+    }
+  }, [isCategoryModalVisible]);
+
+  const [categoriesState, setCategoriesState] = useState(categoriesObject);
+  /* 
+    Copy of categoriesObject, but with an additional "selected" property for each subcategory.
+    This will be used to track the selected state of each subcategory in the category selection modal.
+    eg:
+      "Illegal Parking": [
+        { label: "Road", value: "Road", selected: false },
+        { label: "HDB/URA Car Park", value: "HDB/URA Car Park", selected: true },
+        { label: "Motorcycle at Void Deck", value: "Motorcycle at Void Deck" },
+      ],
+      ...
+  */
   const [isAISuggestionsVisible, setIsAISuggestionsVisible] = useState(false); // AI Suggestions Popup
   const [suggestions, setSuggestions] = useState({
     title: "",
@@ -125,39 +180,64 @@ export default function Create() {
   }); // AI-generated suggestions
   const [loadingSuggestions, setLoadingSuggestions] = useState(false); // Loading state for AI suggestions
 
-  const handleCategorySelection = (categoryKey, subCategoryLabel) => {
-    const categoryText = `${categoryKey} - ${subCategoryLabel}`;
-    setCategories((prev) => {
-      if (prev.includes(categoryText)) {
-        // If already selected, remove it
-        return prev.filter((category) => category !== categoryText);
-      } else {
-        // If not selected, add it
-        return [...prev, categoryText];
-      }
+  // generate categoriesState from the categories chosen already
+  const getCurrentCategoriesState = () => {
+    // Reset categoriesState
+    let newCategoriesState = { ...categoriesObject };
+    
+    // Loop through each "category - subcategory" from categories
+    if (categories.length > 0) {
+      categories.forEach((categorySubcategory) => {
+        const [category, subCategory] = categorySubcategory.split(" - ");
+        if (newCategoriesState[category]) {
+          newCategoriesState[category].forEach(categoryLabelValue => {
+            if (categoryLabelValue.label === subCategory) {
+              categoryLabelValue.selected = true;
+            }
+          })
+        }
+      });
+    }
+    return newCategoriesState;
+  }
+
+  const handleCategorySelection = (categoryKey, subCategoryIndex) => {
+    setCategoriesState((prev) => {
+      const updated = { ...prev };
+      updated[categoryKey][subCategoryIndex].selected = !updated[categoryKey][subCategoryIndex].selected;
+      return updated;
     });
   };
-
-  useEffect(() => {
-    console.log("suggestions.suggestedCategoriesList: " + suggestions.suggestedCategoriesList.join("\n"))
-    console.log("suggestions.categories: " + suggestions.categories.join("\n"))
-    // console.log("===================")
-    // console.log("\nsuggestions.categories: \n" + suggestions.categories.join("\n"))
-    // // console.log("suggestions.suggestedCategories: \n" + suggestions.suggestedCategories.join("\n"))
-    // console.log("-------------------\n")
-    // console.log("\nsuggestions.suggestedCategoriesList: \n" + suggestions.suggestedCategoriesList.join("\n"))
-    // console.log("===================\n")
-    // // When categories change, update suggestions.suggestedCategoriesList so that the UI will refresh
-    // // setSuggestions((prev) => (prev));
-  }, [suggestions])
   
   const handleAddCategories = () => {
-    // Close the modal after confirming the selection
+    // Concat categories and subcategories
+    const selectedCategories = [];
+    // Loop each main category
+    Object.keys(categoriesState).forEach((categoryKey) => {
+      // Loop each sub category
+      categoriesState[categoryKey].forEach((subCategory) => {
+        if (subCategory.selected) {
+          selectedCategories.push(`${categoryKey} - ${subCategory.label}`);
+        }
+      });
+    });
+    setCategories(selectedCategories);
     setIsCategoryModalVisible(false);
   };
   
   const handleRemoveCategory = (categoryText) => {
+    const [categoryKey, subCategoryLabel] = categoryText.split(" - ");
     setCategories((prev) => prev.filter((category) => category !== categoryText));
+    setCategoriesState((prev) => {
+      const updated = { ...prev };
+      const subCategoryIndex = updated[categoryKey].findIndex(
+        (subCategory) => subCategory.label === subCategoryLabel
+      );
+      if (subCategoryIndex !== -1) {
+        updated[categoryKey][subCategoryIndex].selected = false;
+      }
+      return updated;
+    });
   };
 
   const fetchAISuggestions = async () => {
@@ -191,14 +271,11 @@ export default function Create() {
         categories: ["Illegal Parking - Road", "Facilities in HDB Estates - Playground & Fitness Facilities Maintenance"],
       }
 
-      // TODO
-      let tempSuggestedCategoriesList = data.categories.filter(category => !categories.includes(category))
-
       setSuggestions({
         title: data.title || "",
         description: data.description || "",
         suggestedCategories: data.categories || [],
-        suggestedCategoriesList: tempSuggestedCategoriesList || [],
+        suggestedCategoriesList: data.categories || [],
         categories: Array.from(categories) || [],
       });
       setIsAISuggestionsVisible(true);
@@ -213,7 +290,7 @@ export default function Create() {
   const applySuggestions = () => {
     if (suggestions.title) setTitle(suggestions.title);
     if (suggestions.description) setDescription(suggestions.description);
-    setCategories(suggestions.categories); // use the user selected categories not the suggested ones
+    if (suggestions.categories.length > 0) setCategories(suggestions.categories); // use the user selected categories not the suggested ones
     setIsAISuggestionsVisible(false);
   };
 
@@ -386,19 +463,18 @@ export default function Create() {
                       className="bg-gray-200 rounded-full px-4 py-2 mr-2 mb-2"
                       onPress={
                         () => {
+                          console.log("===================\nAI PILL ONPRESS")
+                          console.log("suggestions.categories: " + suggestions.categories)
+                          console.log("suggestions.suggestiedCategories: " + suggestions.suggestedCategories)
+                          console.log("suggestions.suggestiedCategories: " + suggestions.suggestedCategoriesList)
+
                           // Remove the category when clicked
-                          setSuggestions((prev) => {
-                            // console.log("prev.suggestedCategories.includes(prev.categories[index]): " + prev.suggestedCategories.includes(prev.categories[index]))
-                            // console.log("!prev.suggestedCategoriesList.includes(prev.categories[index]): " + !prev.suggestedCategoriesList.includes(prev.categories[index]))
-                            // console.log(prev.suggestedCategoriesList.concat(prev.categories[index]))
-                            return {
+                          setSuggestions((prev) => ({
                             ...prev,
-                            // Only add back to suggested categories list if it was previously a suggested category and if not already exists
-                            suggestedCategoriesList: (prev.suggestedCategories.includes(prev.categories[index]) && !prev.suggestedCategoriesList.includes(prev.categories[index])) 
-                                                     ? prev.suggestedCategoriesList.concat(prev.categories[index]) 
-                                                     : prev.suggestedCategoriesList,
+                            // Only add back to suggested categories list if it was previously a suggested category
+                            suggestedCategoriesList: (prev.suggestedCategories.includes(prev.categories[index])) ? prev.suggestedCategoriesList.concat(prev.categories[index]) : prev.suggestedCategoriesList,
                             categories: prev.categories.filter((_, i) => i !== index),
-                            }})
+                            }))
                           }
                         }
                     >
@@ -410,26 +486,28 @@ export default function Create() {
                   <View className="flex-row flex-wrap mb-5">
                   <Icon name="auto-awesome" size={20} color="#8B0000" />
                   <Text className="text-sm font-bold mb-2 ml-2" style={{ color: "#8B0000" }}>Click to Add AI Suggestions:</Text>
-                    {suggestions.suggestedCategoriesList
-                    // .filter((suggestion, s_index) => {
-                      // for (let catI = 0; catI < categories.length; catI++) {
-                      //   if (categories[catI] === suggestion) return false;
-                      // }
-                      // return true
-                    // })
-                    .map((category, index) => (
+                    {suggestions.suggestedCategoriesList.filter((suggestion, s_index) => {
+                      for (let catI = 0; catI < categories.length; catI++) {
+                        if (categories[catI] === suggestion) return false;
+                      }
+                      return true
+                    }).map((category, index) => (
                       <Pressable
                         key={index}
                         className="flex-row items-center border-2 border-dashed border-gray bg-white-200 rounded-full px-4 py-2 mr-2 mb-2"
                         // style={{ borderColor: "#8B0000" }}
                         onPress={() => {
-                          setSuggestions((prev) => {
-                            console.log("Add to ai suggestions")
-                            return ({
+                          console.log("===================\nAI PILL ONPRESS")
+                          console.log("suggestions.categories: " + suggestions.categories)
+                          console.log("suggestions.suggestiedCategories: " + suggestions.suggestedCategories)
+                          console.log("suggestions.suggestiedCategoriesList: " + suggestions.suggestedCategoriesList)
+                          // When user clicks on the AI suggestion, remove from suggested category and add to user selected category
+                          // Set backend (front end will auto set because of useState)
+                          setSuggestions((prev) => ({
                             ...prev,
                             categories: prev.categories.concat(prev.suggestedCategoriesList[index]),
                             suggestedCategoriesList: prev.suggestedCategoriesList.filter((_, i) => i !== index),
-                          })})
+                          }))
                         }}
                       >
                         <Text className="text-sm mr-2" >{category}</Text>
@@ -439,12 +517,12 @@ export default function Create() {
                   </View>
                   
                   {/* Edit Categories Pill */}
-                  {/* <Pressable
+                  <Pressable
                     className="bg-primary rounded-full px-4 py-2 mr-2 mb-2"
                     onPress={() => setIsCategoryModalVisible(true)}
                   >
                     <Text className="text-white text-sm">+ Edit Categories</Text>
-                  </Pressable> */}
+                  </Pressable>
                 </View>
 
                 <Button title="Apply Suggestions" onPress={applySuggestions} />
@@ -472,25 +550,19 @@ export default function Create() {
             <ScrollView contentContainerStyle={{ paddingBottom: 20 }}>
             <Text className="text-lg font-bold mb-3">Select Categories</Text>
             <ScrollView style={{ maxHeight: 300 }}>
-              {Object.keys(categoriesObject).map((categoryKey) => (
+              {Object.keys(categoriesState).map((categoryKey) => (
                 <View key={categoryKey} className="mb-3">
                   <Text className="text-md font-bold mb-2">{categoryKey}</Text>
-                  {categoriesObject[categoryKey].map((subCategory, index) => (
+                  {categoriesState[categoryKey].map((subCategory, index) => (
                     // Make one pressable for each subcategory
                     <Pressable
                       key={index}
                       className="flex-row items-center mb-2"
-                      onPress={() =>
-                        handleCategorySelection(categoryKey, subCategory.label)
-                      }
+                      onPress={() => handleCategorySelection(categoryKey, index)}
                     >
                       <View
                         className={`w-5 h-5 border-2 rounded-full mr-3 ${
-                          categories.includes(
-                            `${categoryKey} - ${subCategory.label}`
-                          )
-                            ? "bg-primary border-primary"
-                            : "border-gray-300"
+                          subCategory.selected ? "bg-primary border-primary" : "border-gray-300"
                         }`}
                       />
                       <Text className="text-sm">{subCategory.label}</Text>
@@ -501,11 +573,7 @@ export default function Create() {
             </ScrollView>
             <Button title="Add Selected Categories" onPress={handleAddCategories} />
             <View style={{ marginTop: 10 }}>
-              <Button
-                title="Cancel"
-                color="#8B0000"
-                onPress={() => setIsCategoryModalVisible(false)}
-              />
+              <Button title="Cancel" color="#8B0000" onPress={() => setIsCategoryModalVisible(false)} />
             </View>
             </ScrollView>
           </View>

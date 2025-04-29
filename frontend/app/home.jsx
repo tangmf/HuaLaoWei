@@ -25,6 +25,7 @@ export default function Home() {
   useEffect(() => {
     const fetchTickets = async () => {
       try {
+        // TODO change the api url and handling of response
         const response = await fetch("https://your-api-url.com/api/tickets"); // Replace with your API URL
         const data = await response.json();
 
