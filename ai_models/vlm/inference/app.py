@@ -47,6 +47,11 @@ class Coordinates(BaseModel):
             raise ValueError('Longitude must be between -180 and 180 degrees')
         return v
 
+class InferenceRequest(BaseModel):
+    text: str
+    coordinates: Optional[Coordinates] = None
+    files: Optional[List[UploadFile]] = []
+
 
 ALL_CLASSES = [
     # Main classes
@@ -169,14 +174,12 @@ system_prompt = (
 @app.post("/infer")
 # returns a JSON object with categories and severity
 async def infer(
-    text: str, 
-    coordinates: Optional[Coordinates], 
-    files: List[UploadFile] = File(default= [])
+    request: InferenceRequest
 ):
     # validation
     allowed_content_types = ['image/jpeg', 'image/png']
     valid_files = []
-    for file in files:
+    for file in request.files:
         if file.content_type in allowed_content_types:
             valid_files.append(file)
         else:
@@ -195,9 +198,9 @@ async def infer(
 
 
     # get latitude and longitude from coordinates if provided
-    if coordinates:
-        lat = coordinates.lat
-        lon = coordinates.lon
+    if request.coordinates:
+        lat = request.coordinates.lat
+        lon = request.coordinates.lon
     # get latitude and longitude from first image if it is PIL Image
     elif isinstance(images[0], Image.Image):
         lat, lon = extract_lat_lon(images[0])
@@ -208,10 +211,10 @@ async def infer(
     tags = get_osm_tags_from_openstreetmap(lat, lon)
 
     # append the tags to the text input
-    text.text += "\n\nNearby location tags: " + ", ".join([f"{k}: {v}" for tag in tags["nearby"] for k, v in tag.items()]) + "\n\n"
-    text.text += "Enclosing location tags: " + ", ".join([f"{k}: {v}" for tag in tags["enclosing"] for k, v in tag.items()])
+    request.text += "\n\nNearby location tags: " + ", ".join([f"{k}: {v}" for tag in tags["nearby"] for k, v in tag.items()]) + "\n\n"
+    request.text += "Enclosing location tags: " + ", ".join([f"{k}: {v}" for tag in tags["enclosing"] for k, v in tag.items()])
 
-    user_content = [{"type": "text", "text": text.text}]
+    user_content = [{"type": "text", "text": request.text}]
 
     # append images to user_content
     for image in images:
@@ -229,7 +232,7 @@ async def infer(
     )
 
 
-    inputs = processor(text=text, images=images, return_tensors="pt", padding=True)
+    inputs = processor(text=text, images=images, return_tensors="pt", padding=True).to(device)
     with torch.no_grad():
         outputs = model.generate(**inputs)
     result = processor.decode(outputs[0], skip_special_tokens=True)
