@@ -220,23 +220,23 @@ export default function Create() {
       // const data = await response.json();
 
       // send POST api request to vlm model
-      try {
-        const { data } = await axios.post("http://localhost:8080/infer", formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        })
-        console.log("AI Suggestions: ", data);
-      } catch (error) {
-        console.error("Error fetching AI suggestions:", error);
-      }
-
-
-      // // For Testing
-      // const data = {
-      //   categories: ["Illegal Parking - Road", "Facilities in HDB Estates - Playground & Fitness Facilities Maintenance"],
-      //   severity: "Medium",
+      // try {
+      //   const { data } = await axios.post("http://localhost:8080/infer", formData, {
+      //     headers: {
+      //       "Content-Type": "multipart/form-data",
+      //     },
+      //   })
+      //   console.log("AI Suggestions: ", data);
+      // } catch (error) {
+      //   console.error("Error fetching AI suggestions:", error);
       // }
+
+
+      // For Testing
+      const data = {
+        categories: ["Illegal Parking - Road", "Facilities in HDB Estates - Playground & Fitness Facilities Maintenance"],
+        severity: "Medium",
+      }
 
       let tempSuggestedCategoriesList = data.categories.filter(category => !categories.includes(category))
 

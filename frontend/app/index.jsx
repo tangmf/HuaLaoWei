@@ -13,6 +13,7 @@ export default function SignIn() {
   const validateForm = () => {
     let errorMessage = ""; // Initialize error message
     if (username.trim() === "") errorMessage = "Username is required"; // Check if username is empty
+    else if (username.trim() === "") errorMessage = "Username is required"; // Check if username is empty
     else if (password.length < 8) errorMessage = "Password needs at least 8 characters"; // Initialize error message
 
     if (errorMessage !== "") {
@@ -37,10 +38,6 @@ export default function SignIn() {
       alert("Invalid username or password"); // Show error message
       setPassword("")
     }
-  };
-
-  const handleSignUp = () => {
-    if (!validateForm(password)) return;
   };
 
   return (
@@ -99,7 +96,7 @@ export default function SignIn() {
 
         {/* Sign Up Button */}
         <Pressable
-          onPress={handleSignUp}
+          onPress={() => navigation.navigate("signup")}
           className="w-full max-w-md bg-white py-3 rounded-lg mb-4 border border-primary flex-row justify-center items-center space-x-2 shadow-sm"
         >
           <Text className="text-primary text-base font-semibold">
