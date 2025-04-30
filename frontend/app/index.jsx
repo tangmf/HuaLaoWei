@@ -10,18 +10,20 @@ export default function SignIn() {
   const [password, setPassword] = useState(""); // State for password
   const [isPasswordVisible, setIsPasswordVisible] = useState(false); // State for toggling password visibility
   
-  const validatePassword = (password) => {
+  const validateForm = () => {
     let errorMessage = ""; // Initialize error message
-    if (password.length < 8) errorMessage = "Password needs at least 8 characters"; // Initialize error message
+    if (username.trim() === "") errorMessage = "Username is required"; // Check if username is empty
+    else if (password.length < 8) errorMessage = "Password needs at least 8 characters"; // Initialize error message
 
     if (errorMessage !== "") {
       alert(errorMessage);
     }
     return errorMessage === "";
   }
+  
 
   const handleSignIn = () => {
-    if (!validatePassword(password)) return;
+    if (!validateForm(password)) return;
     // Send API
 
     // If password is correct, login
@@ -38,7 +40,7 @@ export default function SignIn() {
   };
 
   const handleSignUp = () => {
-    if (!validatePassword(password)) return;
+    if (!validateForm(password)) return;
   };
 
   return (
