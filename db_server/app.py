@@ -12,6 +12,10 @@ from contextlib import asynccontextmanager
 from urllib.parse import quote_plus
 from jose import JWTError, jwt
 from datetime import datetime, timedelta
+from dotenv  import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 # Secret key for signing JWTs (keep this secure!)
 SECRET_KEY = os.getenv("SECRET_KEY")
@@ -47,6 +51,7 @@ def get_database_url() -> str:
     host = os.getenv("DB_HOST", "localhost")
     port = os.getenv("DB_PORT", "5432")
     db   = os.getenv("DB_NAME", "")
+    print(f"Connecting to database at {host}:{port} as {user}")
     # URL-encode the password in case it contains special characters
     pw_enc = quote_plus(pw)
     return f"postgresql://{user}:{pw_enc}@{host}:{port}/{db}"
@@ -56,6 +61,27 @@ def connect_to_db():
     # psycopg.connect accepts a PostgreSQL URL directly
     conn = psycopg.connect(dsn)
     return conn
+
+
+class Coordinates(BaseModel):
+    lat: float
+    lon: float
+
+    @validator('lat')
+    def validate_latitude(cls, v):
+        if not isinstance(v, float):
+            raise TypeError('Latitude must be a float')
+        if not -90 <= v <= 90:
+            raise ValueError('Latitude must be between -90 and 90 degrees')
+        return v
+
+    @validator('lon')
+    def validate_longitude(cls, v):
+        if not isinstance(v, float):
+            raise TypeError('Longitude must be a float')
+        if not -180 <= v <= 180:
+            raise ValueError('Longitude must be between -180 and 180 degrees')
+        return v
 
 
 @asynccontextmanager
@@ -202,5 +228,25 @@ async def user_signin(user: dict, request: Request):
                 }
             else:
                 return {"message": "Invalid username or password"}
+
+
+# get issues around a radius of coords
+@app.get("/issues")
+async def get_issues(lat: float, lon: float, request: Request, radius: int = 1000):
+    async with request.app.state.pool.connection() as conn:
+        async with conn.cursor(row_factory=dict_row) as cur:
+            await cur.execute(
+                """
+                SELECT * FROM issues
+                WHERE ST_DWithin(
+                    location,
+                    ST_MakePoint(%s, %s),
+                    %s
+                )
+                """,
+                (lon, lat, radius)
+            )
+            issues = await cur.fetchall()
+            return issues
 
 
