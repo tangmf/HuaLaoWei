@@ -1,11 +1,33 @@
 import * as WebBrowser from "expo-web-browser";
-import React from "react";
-import { View, Text, Pressable, Image } from "react-native";
+import React, { useState } from "react";
+import { View, Text, Pressable, Image, TextInput } from "react-native";
+import Icon from "react-native-vector-icons/MaterialIcons";
 import { Link } from "expo-router";
+import { useNavigation } from "@react-navigation/native";
 
 export default function SignIn() {
-  const handleSignIn = async () => {
-    // Code here to handle sign-in with Huawei cloud
+  const [username, setUsername] = useState(""); // State for username
+  const [password, setPassword] = useState(""); // State for password
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false); // State for toggling password visibility
+  
+  const handleSignIn = () => {
+    // Send API
+
+    // If password is correct, login
+    if (true) {
+      // Save user data to AsyncStorage or any state management library
+
+      // Change frontend
+      navigation.navigate("home");
+      setPassword("")
+    } else {
+      alert("Invalid username or password"); // Show error message
+      setPassword("")
+    }
+  };
+
+  const handleSignUp = () => {
+    
   };
 
   return (
@@ -26,20 +48,45 @@ export default function SignIn() {
           Your trusted platform for community reporting
         </Text>
 
+        {/* Username Field */}
+        <TextInput
+          className="w-full max-w-md bg-gray-100 py-3 px-4 rounded-lg mb-4 border border-gray-300"
+          placeholder="Username"
+          value={username}
+          onChangeText={setUsername}
+        />
+
+        {/* Password Field */}
+        <View className="w-full max-w-md bg-gray-100 px-4 rounded-lg mb-4 border border-gray-300 flex-row items-center">
+        <TextInput
+          className="flex-1"
+          placeholder="Password"
+          value={password}
+          onChangeText={setPassword}
+          secureTextEntry={!isPasswordVisible} // Toggle visibility
+        />
+        <Pressable onPress={() => setIsPasswordVisible(!isPasswordVisible)}>
+          <Icon
+            name={isPasswordVisible ? "visibility" : "visibility-off"} // Toggle icon
+            size={20}
+            color="gray"
+          />
+        </Pressable>
+      </View>
+
         {/* Sign In Button */}
-        <Link href="/home" asChild>
-          <Pressable
-            className="w-full max-w-md bg-primary py-3 rounded-lg mb-4 flex-row justify-center items-center space-x-2 shadow-md shadow-black/20"
-          >
-            <Text className="text-white text-base font-semibold">
-              Sign In
-            </Text>
-          </Pressable>
-        </Link>
+        <Pressable
+          onPress={handleSignIn}
+          className="w-full max-w-md bg-primary py-3 rounded-lg mb-4 flex-row justify-center items-center space-x-2 shadow-md shadow-black/20"
+        >
+          <Text className="text-white text-base font-semibold">
+            Sign In
+          </Text>
+        </Pressable>
 
         {/* Sign Up Button */}
         <Pressable
-          onPress={handleSignIn}
+          onPress={handleSignUp}
           className="w-full max-w-md bg-white py-3 rounded-lg mb-4 border border-primary flex-row justify-center items-center space-x-2 shadow-sm"
         >
           <Text className="text-primary text-base font-semibold">
