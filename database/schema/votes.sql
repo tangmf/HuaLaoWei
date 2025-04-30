@@ -1,4 +1,4 @@
-    CREATE TABLE post_votes (
+CREATE TABLE post_votes (
     user_id INTEGER REFERENCES users(user_id),
     post_id INTEGER REFERENCES forum_posts(post_id),
     vote_type SMALLINT CHECK (vote_type IN (-1, 1)), -- -1 for dislike, 1 for like
