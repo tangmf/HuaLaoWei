@@ -5,9 +5,3 @@ services:
           - .:/app
         ports:
           - "5000:5000"
-        environment:
-          - DB_HOST=119.13.105.241
-          - DB_PORT=5432
-          - DB_NAME=postgres
-          - DB_USER=root
-          - DB_PASSWORD=HuaLaoWei_2025
