@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   View,
   Text,
@@ -9,6 +9,7 @@ import {
   Image,
 } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
+import { useNavigation } from "@react-navigation/native";
 
 export default function Chatbot() {
   const [isChatOpen, setIsChatOpen] = useState(false); // State to toggle chat window
@@ -16,6 +17,15 @@ export default function Chatbot() {
     { id: 1, text: "How may I help you?", sender: "bot" },
   ]); // Chat messages
   const [input, setInput] = useState(""); // User input
+  const flatListRef = useRef(null); // Create a ref for the FlatList
+  const navigation = useNavigation(); // Get the navigation object
+
+  // Scroll to bottom when new message comes in
+  useEffect(() => {
+    if (flatListRef.current) {
+      flatListRef.current.scrollToEnd({ animated: true });
+    }
+  }, [messages]); // Trigger whenever messages change
 
   const handleSend = () => {
     if (input.trim() === "") return;
@@ -26,7 +36,60 @@ export default function Chatbot() {
       { id: prevMessages.length + 1, text: input, sender: "user" },
     ]);
     setInput(""); // Clear input
+
+    // send message to the bot
+    sendMessageToBot(input)
   };
+
+  const openManualReport = () => {
+    // Open manual report page
+    setIsChatOpen(false); // Close chat window
+    // Navigate to manual report page
+    navigation.navigate("create");
+    console.log("Opening manual report page...");
+  }
+
+  const handleAudioInput = () => {
+    // Handle audio input (e.g., record audio and convert to text)
+    console.log("Audio input feature is not implemented yet.");
+    
+  }
+
+  const sendMessageToBot = (message) => {
+    // Call API to send to bot
+    let botResponse = "";
+
+    if (message.toLowerCase().includes("report")) {
+      // If the message contains "report", open the manual report page
+      openManualReport();
+      return;
+    }
+
+    try {
+      // botResponse = await fetch("https://api.example.com/chatbot", {
+      //   method: "POST",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      //   body: JSON.stringify({ message }),
+      // });
+      // const data = await botResponse.json();
+
+      // Test
+      botResponse = "This is a test response from the bot."; // Replace with actual API response
+    } catch (error) {
+      console.error("Error sending message to bot:", error);
+      botResponse = "Sorry, I couldn't process your request. Please try again. Error: " + error.message;
+    } finally {
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        { id: prevMessages.length + 1, text: botResponse, sender: "bot" },
+      ]);
+    }
+  }
+    
+
+
 
   return (
     <View className="absolute bottom-20 right-0 z-10">
@@ -60,7 +123,9 @@ export default function Chatbot() {
             </View>
 
             {/* Chat Messages */}
+            
             <FlatList
+              ref={flatListRef}
               data={messages}
               keyExtractor={(item) => item.id.toString()}
               renderItem={({ item }) => (
@@ -90,6 +155,12 @@ export default function Chatbot() {
                 placeholder="Type a message..."
                 className="flex-1 bg-gray-100 rounded-full px-4 py-2 text-sm border border-gray-300 mr-3"
               />
+              <Pressable
+                onPress={handleAudioInput}
+                className="bg-primary rounded-full p-3 mr-2"
+              >
+                <Icon name="mic" size={20} color="white" />
+              </Pressable>
               <Pressable
                 onPress={handleSend}
                 className="bg-primary rounded-full p-3"
