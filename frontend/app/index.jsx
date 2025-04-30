@@ -10,7 +10,18 @@ export default function SignIn() {
   const [password, setPassword] = useState(""); // State for password
   const [isPasswordVisible, setIsPasswordVisible] = useState(false); // State for toggling password visibility
   
+  const validatePassword = (password) => {
+    let errorMessage = ""; // Initialize error message
+    if (password.length < 8) errorMessage = "Password needs at least 8 characters"; // Initialize error message
+
+    if (errorMessage !== "") {
+      alert(errorMessage);
+    }
+    return errorMessage === "";
+  }
+
   const handleSignIn = () => {
+    if (!validatePassword(password)) return;
     // Send API
 
     // If password is correct, login
@@ -27,7 +38,7 @@ export default function SignIn() {
   };
 
   const handleSignUp = () => {
-    
+    if (!validatePassword(password)) return;
   };
 
   return (
@@ -60,7 +71,7 @@ export default function SignIn() {
         <View className="w-full max-w-md bg-gray-100 px-4 rounded-lg mb-4 border border-gray-300 flex-row items-center">
         <TextInput
           className="flex-1"
-          placeholder="Password"
+          placeholder="Password (Min 8 characters)"
           value={password}
           onChangeText={setPassword}
           secureTextEntry={!isPasswordVisible} // Toggle visibility
