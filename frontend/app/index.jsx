@@ -2,10 +2,10 @@ import * as WebBrowser from "expo-web-browser";
 import React, { useState } from "react";
 import { View, Text, Pressable, Image, TextInput } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
-import { Link } from "expo-router";
 import { useNavigation } from "@react-navigation/native";
 
 export default function SignIn() {
+  const navigation = useNavigation(); // Get the navigation object
   const [username, setUsername] = useState(""); // State for username
   const [password, setPassword] = useState(""); // State for password
   const [isPasswordVisible, setIsPasswordVisible] = useState(false); // State for toggling password visibility
