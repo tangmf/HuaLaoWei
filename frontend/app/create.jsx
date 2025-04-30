@@ -10,6 +10,7 @@ import {
   ScrollView,
   Modal,
   Button,
+  Switch,
 } from "react-native";
 import axios from 'axios';
 import * as ImagePicker from "expo-image-picker";
@@ -130,6 +131,7 @@ export default function Create() {
   }); // AI-generated suggestions
   const [loadingSuggestions, setLoadingSuggestions] = useState(false); // Loading state for AI suggestions
   const [severity, setSeverity] = useState("Low"); // Default severity level
+  const [isPublic, setIsPublic] = useState(false); // Default to private
   const [location, setLocation] = useState({
     input: "", // The user input (may not be valid)
     text: "", // The address in text (after validation)
@@ -410,7 +412,10 @@ export default function Create() {
 
       Categories: ${categories.join(", ")}
       
-      Location: ${location.text}, ${location.latitude}, ${location.longitude}`);
+      Location: ${location.text}, ${location.latitude}, ${location.longitude}
+    
+      Private/Public: ${isPublic ? "Public" : "Private"}`
+    );
   };
 
   
@@ -590,6 +595,29 @@ export default function Create() {
             <Text className="text-white text-sm">+ Edit Categories</Text>
           </Pressable>
         </View>
+
+        <View className="flex-row items-center mb-5">
+          <Text className="text-lg font-bold mr-3">Private</Text>
+          <Switch
+            value={isPublic} // State to track if the post is public
+            onValueChange={setIsPublic} // Toggle between private and public
+            thumbColor={isPublic ? "#8B0000" : "#f4f3f4"}
+            trackColor={{ false: "#767577", true: "#8B0000" }}
+          />
+          <Text className="text-lg font-bold ml-3">Public</Text>
+        </View>
+
+        <Pressable
+          onPress={() =>
+            alert(
+              isPublic
+                ? "Public posts are visible to everyone."
+                : "Only you can see your private posts."
+            )
+          }
+        >
+          <Icon name="help" size={20} color="#8B0000" style={{ marginLeft: 5 }} />
+        </Pressable>
 
         {/* Submit Button */}
         <Pressable
