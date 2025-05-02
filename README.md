@@ -62,6 +62,7 @@ Hualaowei enhances citizen engagement with features such as real-time issue repo
 ---
 
 ## System Workflow
+NOTE: This is just a temporary draft of the workflow, the dashboard and the app will be 2 separate components.
 ```
 Citizen (Mobile App)
     ↓
@@ -74,7 +75,7 @@ Storage & Processing
     - OBS (Image/Media Storage)
     - CSS (Embeddings Search)
     ↓
-Optional: AI Model Inference (Chatbot, CV, Forecasting)
+AI Model Inference (Chatbot, CV, Forecasting)
     ↓
 Visualisation (Dashboard)
 ```
