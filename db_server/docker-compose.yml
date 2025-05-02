@@ -1,0 +1,7 @@
+services:
+    backend_functions:
+        image: backend_functions:latest
+        volumes:
+          - .:/app
+        ports:
+          - "5000:5000"
