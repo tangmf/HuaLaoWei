@@ -1,0 +1,137 @@
+us_chicago:
+  fips:
+    - { state: "17", county: "031", cluster: "chicago" }
+
+  custom_regions:
+    downtown:
+      - "17031081200"
+      - "17031081300"
+      - "17031080100"
+      - "17031080200"
+      - "17031080300"
+      - "17031080400"
+    north_side:
+      - "17031211200"
+      - "17031211300"
+      - "17031211400"
+      - "17031211500"
+      - "17031211600"
+    west_side:
+      - "17031090200"
+      - "17031090300"
+      - "17031100100"
+      - "17031100200"
+    south_side:
+      - "17031251400"
+      - "17031251500"
+      - "17031251600"
+      - "17031251700"
+    far_south:
+      - "17031980000"
+      - "17031980100"
+      - "17031980200"
+      - "17031980300"
+
+  dissolve_by: null                          # Optional: dissolve boundaries by the 'region' column
+  skip_unassigned: false                     # Optional: skip rows with no region
+  unassigned_label: "other_chicago_areas"    # Optional: default name to give unassigned region label
+
+  tigerweb:
+    layer_id: 8  # Census Tracts
+
+  output_geo: "us/boundaries_us_chicago.geojson"
+  output_geo_format: "geojson"
+
+  input_csv: "../municipal_reports/us/municipal_us_chicago_311.csv"
+  output_csv: "us/boundaries_us_chicago.csv"
+
+  keep_cols:
+    sr_number: report_id
+    created_date: reported_datetime
+    latitude: latitude
+    longitude: latitude
+  latitude: "latitude"
+  longitude: "longitude"
+
+
+us_newyork:
+  fips:
+    - { state: "36", county: "005", cluster: "central_nyc" }     # Bronx
+    - { state: "36", county: "047", cluster: "central_nyc" }     # Brooklyn
+    - { state: "36", county: "061", cluster: "manhattan" }       # Manhattan
+    - { state: "36", county: "081", cluster: "outer_boroughs" }  # Queens
+    - { state: "36", county: "085", cluster: "outer_boroughs" }  # Staten Island
+
+  custom_regions:
+    harlem:
+      - "36061018300"
+      - "36061018700"
+      - "36061018900"
+    downtown_brooklyn:
+      - "36047000100"
+      - "36047000300"
+    flushing:
+      - "36081024100"
+      - "36081024300"
+
+  dissolve_by: null                                 
+  skip_unassigned: false                     
+  unassigned_label: "other_newyork_areas"   
+
+  tigerweb:
+    layer_id: 8  # Census Tracts
+
+  output_geo: "us/boundaries_us_newyork.geojson"
+  output_geo_format: "geojson"
+
+  input_csv: "../municipal_reports/us/municipal_us_newyork_311.csv"
+  output_csv: "us/boundaries_us_newyork.csv"
+
+  keep_cols:
+    unique_key: report_id
+    created_date: reported_datetime
+    latitude: latitude
+    longitude: latitude
+  latitude: "latitude"
+  longitude: "longitude"
+
+
+us_sanfrancisco:
+  fips:
+    - { state: "06", county: "075", cluster: "san_francisco" }
+
+  custom_regions:
+    downtown_sf:
+      - "06075010400"
+      - "06075010500"
+      - "06075010600"
+    mission_bay:
+      - "06075010800"
+      - "06075010900"
+    inner_richmond:
+      - "06075050200"
+      - "06075050300"
+    outer_sunset:
+      - "06075050500"
+      - "06075050600"
+
+  dissolve_by: null                                     
+  skip_unassigned: false                         
+  unassigned_label: "other_sanfrancisco_areas"   
+
+  tigerweb:
+    layer_id: 8  # Census Tracts
+
+  output_geo: "us/boundaries_us_sanfrancisco.geojson"
+  output_geo_format: "geojson"
+
+  input_csv: "../municipal_reports/us/municipal_us_sanfrancisco_311.csv"
+  output_csv: "us/boundaries_us_sanfrancisco.csv"
+
+  keep_cols:
+    service_request_id: report_id
+    requested_datetime: reported_datetime
+    lat: latitude
+    long: latitude
+  latitude: "lat"
+  longitude: "long"

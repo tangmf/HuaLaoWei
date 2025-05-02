@@ -3,5 +3,6 @@ CREATE TABLE subzones (
     planning_area_id INTEGER REFERENCES planning_areas(planning_area_id),
     name VARCHAR(100) NOT NULL,
     geom TEXT,
+    -- geom GEOGRAPHY(MULTIPOLYGON, 4326),
     area_sq_m DOUBLE PRECISION
 );

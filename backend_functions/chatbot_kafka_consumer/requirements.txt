@@ -1,0 +1,2 @@
+chromadb==1.0.5
+sentence_transformers==4.0.2

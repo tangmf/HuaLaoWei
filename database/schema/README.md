@@ -1,10 +1,10 @@
-# 📦 Database Schema for SmartCity Forum and Analytics Platform
+# Database Schema for SmartCity Forum and Analytics Platform
 
 This folder contains SQL schema definitions for all structured databases used in the SmartCity Forum and Municipal Analytics Platform. The project will eventually be deployed on Huawei Cloud, with GaussDB for structured data and OBS (Object Storage Service) for unstructured media files.
 
 ---
 
-## 📁 Folder Contents
+## Folder Contents
 
 | File Name                | Description |
 |-------------------------|-------------|
@@ -21,7 +21,7 @@ This folder contains SQL schema definitions for all structured databases used in
 
 ---
 
-## 🧠 Schema Design Philosophy
+## Schema Design Philosophy
 
 - **Modular**: Data is broken into logical tables for maintainability and clarity.
 - **Scalable**: Tables are designed to support millions of rows with proper indexing (to be added at deployment).
@@ -30,10 +30,10 @@ This folder contains SQL schema definitions for all structured databases used in
 
 ---
 
-## 🧱 Entity Relationships (Simplified)
+## Entity Relationships (Simplified)
 
 
-## 🔗 Integration Notes
+## Integration Notes
 
 - **Post Visibility**: Only issues marked as `is_public = TRUE` appear in `forum_posts`.
 - **Comments**: Comments support recursive replies via `parent_comment_id`.
@@ -43,7 +43,7 @@ This folder contains SQL schema definitions for all structured databases used in
 
 ---
 
-## 🛠 Deployment Plan
+## Deployment Plan
 
 Once access to Huawei Cloud is granted:
 
@@ -54,13 +54,8 @@ Once access to Huawei Cloud is granted:
 
 ---
 
-## ✍️ Author & Maintainers
-
-- **Lead Architect**: Prism Fifty-five
-- **Team**: AI for Smart City (National AI Student Challenge 2025 - Local Track 5, Huawei)
-
 ---
 
-## ✅ License
+## License
 
 This schema is for academic, research, and innovation purposes. If reused for commercial applications, credit to the original authors is appreciated.

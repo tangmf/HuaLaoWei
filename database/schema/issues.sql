@@ -3,7 +3,7 @@ CREATE TABLE issues (
     user_id INTEGER REFERENCES users(user_id),
 
     issue_type_id INTEGER REFERENCES issue_types(issue_type_id),
-    issue_subcategory_id INTEGER REFERENCES issue_subcategories(subcategory_id),
+    issue_subtype_id INTEGER REFERENCES issue_subtypes(subtype_id),
 
     -- Location Info
     latitude DOUBLE PRECISION NOT NULL,
@@ -25,8 +25,8 @@ CREATE TABLE issues (
     town_council_id INTEGER REFERENCES town_councils(town_council_id),
 
     -- Spatial Context (linked for fast spatial queries)
-    subzone_id INTEGER REFERENCES subzones(subzone_id),
     planning_area_id INTEGER REFERENCES planning_areas(planning_area_id),
+    subzone_id INTEGER REFERENCES subzones(subzone_id),
 
     -- Visibility
     is_public BOOLEAN DEFAULT TRUE

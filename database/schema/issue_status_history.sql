@@ -4,6 +4,5 @@ CREATE TABLE issue_status_history (
     old_status VARCHAR(50),
     new_status VARCHAR(50) NOT NULL,
     changed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    -- changed_by_user_id INTEGER REFERENCES users(user_id), 
     notes TEXT -- optional admin notes
 );

@@ -37,4 +37,4 @@ INSERT INTO issue_subcategories (issue_type_id, name) VALUES
     (9, 'Anywheel'),
     (9, 'HelloRide'),
     (9, 'Others'),
-    (10, 'Others');
+    (10, 'Miscellaneous');

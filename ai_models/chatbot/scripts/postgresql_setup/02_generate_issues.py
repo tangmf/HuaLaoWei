@@ -35,8 +35,8 @@ def fetch_reference_ids():
     subtypes = cur.fetchall()
 
     # Dummy user and town council IDs
-    user_ids = list(range(1, 6))
-    town_council_ids = list(range(1, 4))
+    user_ids = list(range(1, 100))
+    town_council_ids = list(range(1, 17))
 
     cur.close()
     conn.close()

@@ -2,7 +2,7 @@
 
 from modules.voice import WhisperTranscriber
 from modules.language import LanguageDetector, Translator
-from modules.heuristics import HeuristicFilter
+from backend_functions.chatbot.modules.heuristics import HeuristicFilter
 from modules.intent import IntentRouter
 from modules.indexer import ChatbotIndexer
 from modules.query_model import QueryModel
