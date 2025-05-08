@@ -1,0 +1,66 @@
+env: dev
+
+# --------------------------------------------------------
+# AI Model Servers
+# --------------------------------------------------------
+
+ai_models:
+  chatbot:
+    ollama:
+      url: ${OLLAMA_URL}
+    speech:
+      stt:
+        url: ${STT_URL}
+      tts:
+        url: ${TTS_URL}
+    translate:
+      url: ${TRANSLATE_URL}
+    embed:
+      url: ${EMBED_URL}
+    rerank:
+      url: ${RERANK_URL}
+
+  vlm_issue_categoriser:
+    model: "HuggingFaceTB/SmolVLM2-2.2B-Instruct"
+    adapter: "jerick5555/SmolVLM2-2.2B-Instruct-vqav2-vqav3"
+    url: ${VLM_URL}
+
+  forecast_model_issue_count:
+    url: ${FORECAST_URL}
+
+# --------------------------------------------------------
+# Data Stores
+# --------------------------------------------------------
+
+data_stores:
+  vectorstore:
+    url: ${WEAVIATE_URL}
+    webhook_url: ${WEBHOOK_URL}
+    collection:
+      issue:
+        name: ${COLLECTION_ISSUE_NAME}
+
+  relational_db:
+    host: ${POSTGRES_HOST}
+    port: ${POSTGRES_PORT}
+    database: ${POSTGRES_DB}
+    user: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
+
+  object_storage:
+    endpoint: ${MINIO_ENDPOINT}
+    access_key: ${MINIO_ACCESS_KEY}
+    secret_key: ${MINIO_SECRET_KEY}
+    bucket_name: ${MINIO_BUCKET}
+    url: ${MINIO_URL}
+
+# --------------------------------------------------------
+# Backend Services
+# --------------------------------------------------------
+
+mobile_app:
+  port: ${APP_PORT}
+  secret_key: ${SECRET_KEY}
+
+dashboard:
+  port: ${DASHBOARD_PORT}

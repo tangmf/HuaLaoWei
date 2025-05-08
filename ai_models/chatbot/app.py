@@ -1,104 +1,246 @@
-# app.py
+"""
+app.py
 
-from modules.voice import WhisperTranscriber
-from modules.language import LanguageDetector, Translator
-from backend_functions.chatbot.modules.heuristics import HeuristicFilter
-from modules.intent import IntentRouter
-from modules.indexer import ChatbotIndexer
-from modules.query_model import QueryModel
+FastAPI server for to host HuaLaoWei chatbot's speech transcription, translation, embedding, and reranking services.
 
-class ChatbotPipeline:
-    def __init__(self):
-        print("Initializing chatbot pipeline...")
+Author: Fleming Siow
+Date: 3rd May 2025
+"""
 
-        print("Loading Whisper (speech-to-text)...")
-        self.transcriber = WhisperTranscriber()
+# --------------------------------------------------------
+# Imports
+# --------------------------------------------------------
 
-        print("Loading language detection + NLLB translator...")
-        self.lang_detector = LanguageDetector()
-        self.translator = Translator()
+from typing import List
+import io
+import httpx
+import logging
+import torch
+import torchaudio
+from transformers import (
+    AutoTokenizer,
+    AutoModelForSeq2SeqLM,
+    WhisperProcessor,
+    WhisperForConditionalGeneration,
+    pipeline
+)
+from fastapi import FastAPI, UploadFile, File, Request
+from fastapi.responses import JSONResponse, StreamingResponse
+from pydantic import BaseModel
+from sentence_transformers import SentenceTransformer, CrossEncoder
 
-        print("Loading heuristic filters...")
-        self.heuristics = HeuristicFilter()
+# --------------------------------------------------------
+# Logger Setup
+# --------------------------------------------------------
 
-        print("Loading intent routing...")
-        self.intent_router = IntentRouter()
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
-        print("Loading Chroma indexer...")
-        self.indexer = ChatbotIndexer()
+# --------------------------------------------------------
+# Model Loading
+# --------------------------------------------------------
 
-        print("Loading model query...")
-        self.query_model = QueryModel()
+device = "cuda" if torch.cuda.is_available() else "cpu"
 
-        print("Pipeline ready.")
+def load_whisper_model():
+    processor = WhisperProcessor.from_pretrained("models/whisper_tiny", task="transcribe", local_files_only=True)
+    model = WhisperForConditionalGeneration.from_pretrained("models/whisper_tiny", local_files_only=True)
+    model.generation_config.forced_decoder_ids = None
+    model.to(device)
+    return processor, model
 
-    def run(self, input_text=None, input_audio_path=None):
-        original_lang = "en"  # default fallback
+def load_nllb_model():
+    tokenizer = AutoTokenizer.from_pretrained("models/nllb_model", local_files_only=True)
+    model = AutoModelForSeq2SeqLM.from_pretrained("models/nllb_model", local_files_only=True)
+    model.to(device)
+    translator = pipeline("translation", model=model, tokenizer=tokenizer)
+    return translator
 
-        # Step 1: Voice input
-        if input_audio_path:
-            print("Transcribing voice input...")
-            input_text = self.transcriber.transcribe(input_audio_path)
+def load_sentence_embedder():
+    return SentenceTransformer("models/sentence_model")
 
-        if not input_text:
-            return "No input provided."
+def load_flash_reranker():
+    return CrossEncoder("models/flash_reranker")
 
-        # Step 2: Detect language
-        print("Running language detection...")
-        lang, prob = self.lang_detector.detect(input_text)
-        original_lang = lang
+whisper_processor, whisper_model = load_whisper_model()
+nllb_translator = load_nllb_model()
+sentence_embedder = load_sentence_embedder()
+flash_reranker = load_flash_reranker()
 
-        # Step 3: Translate to English if needed
-        if lang != "en":
-            print(f"Detected non-English ({lang}), translating to English...")
-            input_text = self.translator.translate(text=input_text, lang_code=lang)
+# --------------------------------------------------------
+# FastAPI Setup
+# --------------------------------------------------------
 
-        # Step 4: Heuristic gibberish check
-        if self.heuristics.is_gibberish(input_text):
-            return self.translator.translate_back(
-                "Sorry, I couldn't understand that input.", original_lang
-            )
+app = FastAPI()
 
-        # Step 5: Out-of-scope check
-        if not self.intent_router.is_in_scope(input_text):
-            return self.translator.translate_back(
-                "This question seems unrelated to municipal services.",
-                original_lang
-            )
+# --------------------------------------------------------
+# Request Models
+# --------------------------------------------------------
 
-        # Step 6: Intent classification
-        intent = self.intent_router.classify_intent(input_text)
-        print(f"Classified intent: {intent}")
+class TextRequest(BaseModel):
+    text: str
 
-        # Step 7: Handle intent
-        if "DATA_DRIVEN_QUERY" in intent:
-            rag_response = self.indexer.query(input_text)
-            documents = rag_response["documents"][0]
-            metadatas = rag_response["metadatas"][0]
-            
-            rag_context = "\n\n---\n\n".join(documents)
-            response = self.query_model.ask(input_text, rag_context)
+class TranslateRequest(BaseModel):
+    text: str
+    source_lang: str
+    target_lang: str
 
-        elif "NARROW_INTENT" in intent:
-            response = "Opening report form..."
+class Document(BaseModel):
+    id: str
+    score: float
+    combined_text: str
 
-        elif "GENERAL_QUERY" in intent:
-            response = self.query_model.ask(input_text)
+class BatchTextRequest(BaseModel):
+    text: str
+    documents: List[Document]
 
+# --------------------------------------------------------
+# API Endpoints
+# --------------------------------------------------------
+
+@app.post("/transcribe")
+async def transcribe_audio(file: UploadFile = File(...)):
+    """
+    Transcribe an uploaded audio file using Whisper model.
+
+    Args:
+        file (UploadFile): Uploaded audio file (e.g., WAV format).
+
+    Returns:
+        dict: Transcribed text.
+    """
+    audio_bytes = await file.read()
+    waveform, sample_rate = torchaudio.load(io.BytesIO(audio_bytes))
+
+    inputs = whisper_processor(waveform.squeeze(), sampling_rate=sample_rate, return_tensors="pt")
+    inputs = {k: v.to(device) for k, v in inputs.items()}
+
+    predicted_ids = whisper_model.generate(**inputs)
+    transcription = whisper_processor.batch_decode(predicted_ids, skip_special_tokens=True)[0]
+
+    return {"transcription": transcription}
+
+@app.post("/translate")
+async def translate_text(req: TranslateRequest):
+    """
+    Translate input text using NLLB model.
+
+    Args:
+        req (TranslateRequest): Request containing text and language codes.
+
+    Returns:
+        dict: Translated text.
+    """
+    translation = nllb_translator(
+        req.text,
+        src_lang=req.source_lang,
+        tgt_lang=req.target_lang
+    )[0]["translation_text"]
+
+    return {"translation": translation}
+
+@app.post("/embed")
+async def embed_text(req: TextRequest):
+    """
+    Generate embedding vector for input text using SentenceTransformer.
+
+    Args:
+        req (TextRequest): Request containing the input text.
+
+    Returns:
+        dict: Embedding vector.
+    """
+    embedding = sentence_embedder.encode(req.text).tolist()
+    return {"embedding": embedding}
+
+@app.post("/rerank")
+async def rerank_texts(req: BatchTextRequest):
+    """
+    Rerank multiple documents using FlashReranker model.
+
+    Args:
+        req (BatchTextRequest): Request containing query text and documents.
+
+    Returns:
+        dict: Top reranked documents.
+    """
+    input_docs = [{"text": doc.combined_text} for doc in req.documents]
+
+    if not any(doc["text"] for doc in input_docs):
+        return {"rerank": []}
+
+    try:
+        scores = flash_reranker.score(req.text, input_docs)
+    except Exception as e:
+        logger.error(f"Reranker model scoring failed: {e}")
+        return {"rerank": []}
+
+    scored_docs = []
+    for doc, score in zip(req.documents, scores):
+        scored_docs.append({
+            "id": doc.id,
+            "original_score": doc.score,
+            "rerank_score": score,
+            "combined_text": doc.combined_text
+        })
+
+    return {"rerank": scored_docs}
+
+@app.api_route("/ollama/{path:path}", methods=["GET", "POST"])
+async def proxy_to_ollama(path: str, request: Request):
+    """
+    Forward any /ollama/* request to the Ollama server running inside container.
+    """
+    url = f"http://localhost:11434/{path}"
+
+    try:
+        # Copy headers except for host
+        headers = dict(request.headers)
+        headers.pop("host", None)
+
+        # Create a new client session
+        async with httpx.AsyncClient() as client:
+            if request.method == "GET":
+                response = await client.get(url, headers=headers, params=request.query_params)
+            elif request.method == "POST":
+                body = await request.body()
+                response = await client.post(url, headers=headers, content=body)
+
+        # Stream response back
+        if "stream" in response.headers.get("content-type", ""):
+            return StreamingResponse(response.aiter_raw(), status_code=response.status_code, headers=response.headers)
         else:
-            response = "Unhandled intent."
+            return JSONResponse(content=response.json(), status_code=response.status_code)
 
-        # Step 8: Translate response back to original language (if needed)
-        if original_lang != "en":
-            print(f"Translating response back to {original_lang}")
-            response = self.translator.translate_back(response, original_lang)
+    except Exception as e:
+        logger.error(f"Error forwarding request to Ollama: {e}")
+        return JSONResponse(content={"error": "Failed to forward request to Ollama."}, status_code=500)
 
-        return response
+@app.get("/health")
+async def health_check():
+    """
+    Basic health check endpoint.
+    Returns 200 OK if server process is alive.
+    """
+    return {"status": "ok"}
 
-
-if __name__ == "__main__":
-    pipeline = ChatbotPipeline()
-
-    # For voice input: pipeline.run(input_audio_path="mic_input.wav")
-    result = pipeline.run(input_text="这个垃圾桶已经满了")
-    print("Chatbot Reply:", result)
+@app.get("/ready")
+async def readiness_check():
+    """
+    Readiness check endpoint.
+    Verifies that all critical models are loaded and application is ready.
+    """
+    try:
+        if not all([
+            whisper_model,
+            whisper_processor,
+            nllb_translator,
+            sentence_embedder,
+            flash_reranker
+        ]):
+            raise ValueError("One or more models are not loaded.")
+        
+        return {"status": "ready"}
+    except Exception as e:
+        logger.error(f"Readiness check failed: {e}")
+        return JSONResponse(status_code=500, content={"status": "not ready", "detail": str(e)})

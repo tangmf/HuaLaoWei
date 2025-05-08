@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hualaowei-vectorstore-webhook"
+version = "0.1.0"
+description = "Webhook server to update the vectorstore with embeddings from issue descriptions."
+authors = [
+    { name = "Fleming Siow", email = "flemingsiow@gmail.com" }
+]
+dependencies = [
+    "fastapi",
+    "uvicorn",
+    "psycopg[binary]",
+    "requests",
+    "sentence-transformers",
+    "python-dotenv",
+    "pydantic",
+    "PyYAML"
+]
+requires-python = ">=3.9"

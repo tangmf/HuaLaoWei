@@ -1,127 +1,181 @@
-# Municipal Services Chatbot
+# HuaLaoWei Chatbot Service
 
-This project is a modular AI-powered chatbot designed to support citizen engagement and civic services reporting in smart cities. It includes voice input, multilingual understanding, document search via RAG, and structured municipal issue tracking with full Docker-based automation.
+FastAPI server hosting core AI capabilities for the HuaLaoWei platform, including:
 
-## Table of Contents
+* Speech Transcription (Whisper tiny model)
+* Text Translation (NLLB-200 distilled model)
+* Text Embedding (MiniLM SentenceTransformer)
+* Text Reranking (FlashRank model)
+* Backed by Ollama server for large language model inference
 
-- [Overview](#overview)
-- [Project Structure](#project-structure)
-- [Quickstart](#quickstart)
-- [Usage](#usage)
-- [Development Notes](#development-notes)
-- [Environment Variables](#environment-variables)
-- [License](#license)
+Author: Fleming Siow
+Date: 3rd May 2025
 
-## Overview
+---
 
-Key capabilities include:
+## Features
 
-- Speech-to-text transcription via Whisper
-- Intent classification (LLMs, Hybrid Embeddings)
-- Multimodal document retrieval via vector search (ChromaDB)
-- PostgreSQL with PostGIS support for spatial issues
-- Persistent issue database with mock data generation
-- FastAPI backend with full Docker and Ollama support
+* **Speech-to-Text**: Transcribe user-uploaded audio files.
+* **Translation**: Translate multilingual text into a target language.
+* **Embeddings**: Generate dense embeddings for any text input.
+* **Reranking**: Re-rank candidate documents based on relevance to a query.
+
+---
+
+## API Endpoints
+
+| Endpoint      | Method | Description                               |
+| ------------- | ------ | ----------------------------------------- |
+| `/transcribe` | POST   | Transcribe audio input (UploadFile)       |
+| `/translate`  | POST   | Translate text between languages          |
+| `/embed`      | POST   | Generate embedding for a single text      |
+| `/rerank`     | POST   | Rerank multiple documents against a query |
+
+---
+
+## Installation
+
+### Requirements
+
+* Python 3.9 or higher
+* Ollama server (for LLM support)
+* Docker (recommended for deployment)
+
+### Local Setup (For Development)
+
+```bash
+# Create and activate a virtual environment (recommended)
+python3 -m venv venv
+source venv/bin/activate
+
+# Install project dependencies
+pip install .
+```
+
+You must also ensure an **Ollama server** is running locally:
+
+```bash
+ollama serve &
+```
+
+and that required models (e.g., `deepseek:7b`) are available.
+
+---
+
+## Running the Server
+
+```bash
+# Manually start Ollama if not started
+ollama serve &
+
+# Cache models if needed
+python save_cache.py
+
+# Launch FastAPI server
+uvicorn app:app --host 0.0.0.0 --port 8005 --reload
+```
+
+---
+
+## Docker Deployment
+
+You can build and deploy the server easily using Docker:
+
+```bash
+# Build the Docker image
+docker build -t hualaowei-chatbot .
+
+# Run the container
+docker run -p 11434:11434 -p 8100:8100 hualaowei-chatbot
+docker run -p 11434:11434 -p 8100:8100 -v $(pwd)/ai_models/chatbot:/app hualaowei-chatbot
+docker run -p 11434:11434 -p 8100:8100 -v %cd%/ai_models/chatbot:/app hualaowei-chatbot
+docker run -p 11434:11434 -p 8100:8100 -v ${PWD}/ai_models/chatbot:/app hualaowei-chatbot
+
+```
+
+The container will:
+
+* Start Ollama server
+* Pull Ollama models (deepseek-r1:7b and deepseek-r1:14b)
+* Cache HuggingFace models (Whisper, NLLB, MiniLM, FlashRank)
+* Launch the FastAPI service automatically
+
+---
+
+## Model Caching
+
+At container startup or manual setup, the system will:
+
+* Check if models exist inside `/app/models`
+* If missing, it will **download** and **cache**:
+
+  * Whisper tiny (`openai/whisper-tiny`)
+  * NLLB-200 distilled (`facebook/nllb-200-distilled-600M`)
+  * MiniLM for embeddings (`sentence-transformers/all-MiniLM-L6-v2`)
+  * FlashReranker (`ms-marco-MiniLM-L-12-v2`)
+
+You can manually trigger model caching:
+
+```bash
+python save_cache.py --force
+```
+
+Cached models will be saved inside `/app/models`.
+
+---
 
 ## Project Structure
 
-```
-chatbot/
-├── api.py
-├── app.py
-├── main.py
-├── config.py
-├── data/
-│   ├── assets/
-│   ├── inputs/
-│   ├── outputs/
-│   ├── rag_sources/
-│   └── train_val_data/
-├── models/
-├── modules/
-├── notebooks/
-├── scripts/
-│   ├── postgresql_setup/
-│   └── save_cache.py
-├── vector_stores/
-├── .env
-├── Dockerfile
-├── docker-compose.yml
-├── Makefile
+```plaintext
+/app
+ ├── app.py             # Main FastAPI app (API endpoints)
+ ├── server.py          # Uvicorn server launcher
+ ├── save_cache.py      # HuggingFace model caching script
+ ├── entrypoint.sh      # Full startup script including Ollama initialisation
+ ├── healthcheck.sh     # Script to perform multiple healthchecks (for docker-compose)
+ ├── pyproject.toml     # Project metadata and dependencies
+ ├── README.md          # Documentation
+ └── models/            # Downloaded models cache (Whisper, NLLB, MiniLM, FlashReranker)
 ```
 
-## Quickstart
+---
 
-### 1. Setup `.env`
+## Notes on Ollama Integration
 
-```
-ENV=dev
-DB_NAME=municipaldb
-DB_USER=municipaluser
-DB_PASSWORD=municipalpass
-DB_HOST=db
-DB_PORT=5432
-OLLAMA_API_BASE=http://ollama:11434
-```
+* Ollama serves LLM models (`deepseek-r1:7b` and `deepseek-r1:14b`) used for higher-order chatbot tasks.
+* `save_cache.py` handles HuggingFace model caching separately.
+* Ollama must be running for the chatbot to function properly.
 
-### 2. Start Services
+---
+
+## Useful Commands
 
 ```bash
-docker-compose up --build
+docker login
+docker tag hualaowei-chatbot flemingsiow/hualaowei-chatbot:latest
+docker push flemingsiow/hualaowei-chatbot:latest
+
+docker pull flemingsiow/hualaowei-chatbot:latest
+
 ```
-or if you have `make` installed:
 
-```bash
-make build
-```
+---
 
-On first run, this will (on development):
-
-- Wait for PostgreSQL
-- Create DB schema and mock issues
-- Populate ChromaDB
-- Download required libraries and models
-- Launch FastAPI at http://localhost:8000
-
-## Usage
-
-### API Server Access
-
-Visit http://localhost:8000 or use curl/Postman.
-
-## Development Notes
-
-### Notebooks
-
-### Vector Store
-
-- Stored in `vector_stores/` via ChromaDB
-- Populated with `scripts/seed_vector_store.py`
-
-### Model Caching
-
-- `scripts/save_cache.py` downloads:
-  - NLLB (translation)
-  - Whisper (transcription)
-  - MiniLM (embedding)
-- Skipped if `.cache_complete` is found unless `--force`
-
-### Database
-
-- PostgreSQL with PostGIS
-- `01_setup_db.py`: Creates tables
-- `02_generate_issues.py`: Inserts mock data
-
-## Environment Variables
-
-| Variable         | Description                     |
-|------------------|---------------------------------|
-| ENV              | dev or test                     |
-| DB_NAME          | PostgreSQL database name        |
-| DB_USER          | Database username               |
-| DB_PASSWORD      | Database password               |
-| DB_HOST          | Hostname of the DB container    |
-| DB_PORT          | PostgreSQL port (usually 5432)  |
-| OLLAMA_API_BASE  | Ollama base URL (e.g. :11434)   |
+---
 
 ## License
+
+This project is licensed under the [MIT License](https://opensource.org/licenses/MIT).
+
+---
+
+## Acknowledgements
+
+* Meta AI for the NLLB-200 translation model
+* OpenAI for the Whisper speech recognition model
+* Sentence-Transformers for MiniLM embeddings
+* FlashRank team for reranking capabilities
+* Ollama for efficient LLM management
+* FastAPI for API server framework
+
+---

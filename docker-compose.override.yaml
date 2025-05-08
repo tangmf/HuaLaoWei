@@ -1,0 +1,265 @@
+version: "3.9"
+
+# --------------------------------------------------------
+# SERVICES
+# --------------------------------------------------------
+
+services:
+  # --------------------------------------------------------
+  # Data Stores
+  # --------------------------------------------------------
+
+  minio:
+    # Object Storage Service (MinIO)
+    container_name: object_storage
+    image: minio/minio
+    env_file:
+      - ../../.env.dev
+    environment:
+      MINIO_ROOT_USER: hualaowei_admin
+      MINIO_ROOT_PASSWORD: hualaowei_pass
+    command: server /data --console-address ":9001"
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - minio_data:/data
+    healthcheck:
+      test: ["CMD", "mc", "ready", "local"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+    networks:
+      - hualaowei
+
+  init_os:
+    # One-time MinIO Bucket Setup
+    container_name: init_os
+    image: minio/mc
+    depends_on:
+      minio:
+        condition: service_healthy
+    volumes:
+      - ./data_stores/object_storage:/data_stores/object_storage
+    entrypoint: ["/bin/sh", "/data_stores/object_storage/entrypoint_init_os.sh"]
+    restart: "no"
+    networks:
+      - hualaowei
+
+  postgres:
+    # Relational Database
+    container_name: database
+    build:
+      context: .
+      dockerfile: data_stores/relational_db/Dockerfile.db
+    env_file:
+      - .env.dev
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "PGPASSWORD=$${POSTGRES_PASSWORD} pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+    networks:
+      - hualaowei
+
+  init_db:
+    # One-time Database Schema Initializer
+    container_name: init_db
+    build:
+      context: .
+      dockerfile: data_stores/relational_db/Dockerfile.init_db
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./data_stores/relational_db:/data_stores/relational_db
+    entrypoint: ["/bin/bash", "/data_stores/relational_db/entrypoint_init_db.sh"]
+    restart: "no"
+    networks:
+      - hualaowei
+
+  weaviate:
+    # Vectorstore for RAG Embeddings
+    container_name: vectorstore
+    image: semitechnologies/weaviate:latest
+    ports:
+      - "8080:8080"
+    environment:
+      QUERY_DEFAULTS_LIMIT: 25
+      AUTHENTICATION_ANONYMOUS_ACCESS_ENABLED: "true"
+      PERSISTENCE_DATA_PATH: "/var/lib/weaviate"
+    volumes:
+      - weaviate_data:/var/lib/weaviate
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/v1/.well-known/ready"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+    networks:
+      - hualaowei
+
+  init_vs:
+    # One-time Weaviate Schema and Webhook Setup
+    container_name: init_vs
+    build:
+      context: .
+      dockerfile: data_stores/vectorstore/Dockerfile.init_vs
+    env_file:
+      - .env.dev
+    depends_on:
+      weaviate:
+        condition: service_healthy
+    volumes:
+      - ./data_stores/vectorstore:/data_stores/vectorstore
+    entrypoint: ["/bin/bash", "/data_stores/vectorstore/entrypoint_init_vs.sh"]
+    ports:
+    - "5005:5005"
+    restart: "no"
+    networks:
+      - hualaowei
+
+  # --------------------------------------------------------
+  # AI Model Servers
+  # --------------------------------------------------------
+
+  chatbot:
+    # Chatbot Server (Speech, Translation, RAG)
+    container_name: chatbot
+    build: 
+      context: .
+      dockerfile: ai_models/chatbot/Dockerfile
+    env_file:
+      - .env.dev
+    ports:
+      - "11434:11434"
+      - "6001:8100"
+    volumes:
+      - ollama_data:/root/.ollama
+      - ./config:/app/config
+    gpus: all
+    entrypoint: ["/bin/sh", "-c", "./ai_models/chatbot/entrypoint.sh"]
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8100/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+    networks:
+      - hualaowei
+
+  vlm_issue_categoriser:
+    # Visual Language Model for Issue Categorisation
+    container_name: vlm_issue_categoriser
+    build: 
+      context: .
+      dockerfile: ai_models/vlm_issue_categoriser/Dockerfile
+    env_file:
+      - .env.dev
+    environment:
+      - HF_HOME=/app/cache/huggingface
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=compute,utility
+    ports:
+      - "6010:8101"
+    volumes:
+      - ./config:/app/config
+      - model_weights:/app/cache/huggingface
+    gpus: all
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8101/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+    networks:
+      - hualaowei
+
+  forecast_issue_count:
+    # Forecasting Model for Issue Count Predictions
+    container_name: forecast_issue_count
+    build: 
+      context: .
+      dockerfile: ai_models/forecast_issue_count/Dockerfile
+    env_file:
+      - .env.dev
+    ports:
+      - "6011:8102"
+    volumes:
+      - ./config:/app/config
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8102/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+    networks:
+      - hualaowei
+
+  # --------------------------------------------------------
+  # Backend Servers
+  # --------------------------------------------------------
+
+  mobile_app:
+    # Mobile App Backend (Citizen Portal)
+    container_name: mobile_app
+    build: 
+      context: .
+      dockerfile: mobile_app/backend/Dockerfile
+    env_file:
+      - .env.dev
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./config:/app/config
+    depends_on:
+      chatbot:
+        condition: service_healthy
+      vlm_issue_categoriser:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - hualaowei
+
+  dashboard:
+    # Dashboard Backend (Admin Portal)
+    container_name: dashboard
+    build: 
+      context: .
+      dockerfile: dashboard/backend/Dockerfile
+    env_file:
+      - .env.dev
+    ports:
+      - "8001:7000"
+    volumes:
+      - ./config:/app/config
+    depends_on:
+      forecast_issue_count:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - hualaowei
+
+# --------------------------------------------------------
+# Volumes
+# --------------------------------------------------------
+
+volumes:
+  pgdata:
+  weaviate_data:
+  ollama_data:
+  minio_data:
+
+# --------------------------------------------------------
+# Networks
+# --------------------------------------------------------
+
+networks:
+  hualaowei:
+    driver: bridge

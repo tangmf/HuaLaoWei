@@ -1,0 +1,30 @@
+[project]
+name = "hualaowei-chatbot"
+version = "0.1.0"
+description = "HuaLaoWei Chatbot Service for municipal services in Singapore."
+authors = [{ name = "Fleming Siow", email = "flemingsiow@gmail.com" }]
+license = { text = "MIT" }
+readme = "README.md"
+requires-python = ">=3.9"
+
+dependencies = [
+    "fastapi>=0.110.0",
+    "uvicorn[standard]>=0.29.0",
+    "torch>=2.2.2",
+    "torchaudio>=2.2.2",
+    "transformers>=4.40.0",
+    "sentence-transformers>=2.6.0",
+    "langid>=1.1.6",
+    "flashrank>=0.1.9",
+    "requests>=2.31.0",
+    "ffmpeg-python>=0.2.0",
+    "python-multipart>=0.0.5",
+    "httpx>=0.27.0",
+]
+
+[build-system]
+requires = ["hatchling>=1.0.0"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+only-include = ["."]

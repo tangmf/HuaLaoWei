@@ -1,1 +1,0 @@
-Place your pre-downloaded sentence-transformers model files here.

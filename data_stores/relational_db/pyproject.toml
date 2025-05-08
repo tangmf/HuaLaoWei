@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hualaowei-relational-db"
+version = "0.1.0"
+description = "Seeder and configuration scripts for HuaLaoWei relational database."
+authors = [
+    { name = "Fleming Siow", email = "flemingsiow@gmail.com" }
+]
+dependencies = [
+    "psycopg>=3.1", 
+    "faker>=24.8", 
+    "shapely>=2.0", 
+    "pyyaml>=6.0", 
+    "pydantic>=2.7", 
+    "python-dotenv>=1.0"
+]
+requires-python = ">=3.9"

@@ -1,0 +1,24 @@
+# Use official slim Python image
+FROM python:3.11-slim
+
+# Environment variables to make Python behave better inside containers
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    curl \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set working directory
+WORKDIR /data_stores/vectorstore
+
+# Copy the full application code
+COPY ./data_stores/vectorstore/ .
+
+# Install project dependencies
+RUN pip install --upgrade pip && pip install .
+
+# Expose FastAPI server port
+EXPOSE 5005

@@ -1,26 +1,65 @@
-FROM python:3.10-slim
+# --------------------------------------------------------
+# Base image (Ubuntu + Ollama + Python)
+# --------------------------------------------------------
+FROM ubuntu:22.04
 
+# --------------------------------------------------------
+# Set environment variables
+# --------------------------------------------------------
+ENV DEBIAN_FRONTEND=noninteractive
+ENV PYTHONUNBUFFERED=1
+ENV PATH="/root/.local/bin:$PATH"
+
+# --------------------------------------------------------
+# Set working directory
+# --------------------------------------------------------
 WORKDIR /app
 
-ENV ENV=dev
-
-# System dependencies
-RUN apt-get update && \
-    apt-get install -y ffmpeg libsndfile1 build-essential netcat-openbsd dos2unix && \
+# --------------------------------------------------------
+# Install base system dependencies
+# --------------------------------------------------------
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    curl ffmpeg libsndfile1 build-essential \
+    python3.11 python3.11-venv python3.11-distutils python3-pip \
+    ca-certificates gnupg && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
+# Symlink python3.11
+RUN ln -sf /usr/bin/python3.11 /usr/bin/python3 && ln -sf /usr/bin/pip3 /usr/bin/pip
+
+# --------------------------------------------------------
+# Install Ollama
+# --------------------------------------------------------
+RUN curl -fsSL https://ollama.com/install.sh | bash
+
+# Confirm Ollama install
+RUN ollama --version || true
+
+# --------------------------------------------------------
+# Copy application files & install dependencies 
+# --------------------------------------------------------
+
+# Copy only pyproject first (leverage Docker layer caching)
+COPY ./ai_models/chatbot/pyproject.toml ./ai_models/chatbot/README.md /app/
+
 # Install Python dependencies
-COPY requirements.txt .
-RUN pip install --no-cache-dir --upgrade pip && \
-    pip install --no-cache-dir -r requirements.txt
+RUN pip install --upgrade pip && pip install --default-timeout=300 .
 
-# App source
-COPY ./scripts /app/scripts/
-# Convert the scripts to Unix line endings to ensure they run correctly on Linux:
-RUN find /app/scripts -type f -name "*.sh" -exec dos2unix {} \;
+# Copy rest of app
+COPY ./config ./config
+COPY ./ai_models/chatbot/app.py ./entrypoint.sh
+COPY ./ai_models/chatbot/app.py ./app.py
+COPY ./ai_models/chatbot/server.py ./server.py
+COPY ./ai_models/chatbot/server.py ./save_cache.py
+COPY ./ai_models/chatbot/models ./models
 
-COPY api.py app.py main.py config.py /app/
-COPY modules/ /app/modules/
+# --------------------------------------------------------
+# Expose API Port
+# --------------------------------------------------------
+# EXPOSE 11434 # Not needed anymore as port :8100/ollama directs requests to Ollama API
+EXPOSE 8100
 
-EXPOSE 8000
-CMD ["python", "main.py"]
+# --------------------------------------------------------
+# Entrypoint script
+# --------------------------------------------------------
+ENTRYPOINT ["/app/entrypoint.sh"]

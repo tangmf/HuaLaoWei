@@ -1,9 +1,0 @@
-flask
-pandas
-numpy
-requests
-osmnx
-torch
-pytorch_forecasting
-geopandas
-scikit-learn
