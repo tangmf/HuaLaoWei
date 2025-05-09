@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Request, Depends
-from mobile_app.backend.core.security import verify_token
-from mobile_app.backend.crud import posts as crud_posts
+from backend.core.security import verify_token
+from backend.crud import posts as crud_posts
 
 router = APIRouter()
 

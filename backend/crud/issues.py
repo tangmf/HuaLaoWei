@@ -1,12 +1,14 @@
-from mobile_app.backend.data_stores.resources import Resources
-from mobile_app.backend.models.issues import IssueReport
+from backend.data_stores.resources import Resources
+from backend.models.issues import IssueReport
 from psycopg.rows import dict_row
+from typing import Optional
+from datetime import date, timedelta
 
 async def get_issues(resources: Resources, params: dict):
     filters, values = [], []
 
     def add_filter(condition: str, value):
-        filters.append(condition.replace("{}", f"${len(values)+1}"))
+        filters.append(condition.replace("{}", f"%s"))
         values.append(value)
 
     if params.get("subzoneName"): add_filter("sz.name = {}", params["subzoneName"])
@@ -17,7 +19,7 @@ async def get_issues(resources: Resources, params: dict):
 
     if params.get("types"):
         types = params["types"].split(",")
-        placeholders = ','.join(f"${len(values)+i+1}" for i in range(len(types)))
+        placeholders = ",".join(["%s"] * len(types))
         filters.append(f"""EXISTS (
             SELECT 1 FROM issue_type_to_issue_mapping itim
             JOIN issue_types it ON itim.issue_type_id = it.issue_type_id
@@ -27,7 +29,7 @@ async def get_issues(resources: Resources, params: dict):
 
     if params.get("subtypes"):
         subtypes = params["subtypes"].split(",")
-        placeholders = ','.join(f"${len(values)+i+1}" for i in range(len(subtypes)))
+        placeholders = ",".join(["%s"] * len(subtypes))
         filters.append(f"""EXISTS (
             SELECT 1 FROM issue_subtype_to_issue_mapping iscm
             JOIN issue_subtypes isc ON iscm.issue_subtype_id = isc.issue_subtype_id
@@ -60,10 +62,13 @@ async def get_issues(resources: Resources, params: dict):
         {where_clause}
         GROUP BY i.issue_id, sz.name, auth.name, auth.authority_type, auth.authority_ref_id
         ORDER BY i.datetime_updated DESC
-        LIMIT ${len(values)-1} OFFSET ${len(values)}
+        LIMIT %s OFFSET %s
     """
-    async with pool.acquire() as conn:
-        return await conn.fetch(query, *values)
+
+    async with resources.db_client.connection() as conn:
+        async with conn.cursor(row_factory=dict_row) as cur:
+            await cur.execute(query, values)
+            return await cur.fetchall()
     
 
 async def fetch_issue_type_info_from_name(resources: Resources, name: str) -> int | None:
@@ -86,24 +91,38 @@ async def fetch_issue_subtype_info_from_name(resources: Resources, name: str) ->
             return await cur.fetchone()
         
 
-async def fetch_issue_subtype(resources: Resources, ):
-    async with resources.db_client.acquire() as conn:
-        return await conn.fetch("""
-            SELECT ist.issue_subtype_id, ist.name, ist.description, ist.issue_type_id
+async def get_issue_type_and_subtype(resources: Resources, params: dict):
+    category = params.get("category", "both")
+
+    query = {
+        "type": """
+            SELECT issue_type_id, name AS type_name, description AS type_description
+            FROM issue_types
+            ORDER BY issue_type_id
+        """,
+        "subtype": """
+            SELECT ist.issue_subtype_id, ist.name AS subtype_name, ist.description AS subtype_description,
+                   ist.issue_type_id, it.name AS parent_type_name
             FROM issue_subtypes ist
-            ORDER BY ist.issue_subtype_id
-        """)
-
-
-async def get_issue_type_and_subtype(resources: Resources, ):
-    async with resources.db_client.acquire() as conn:
-        return await conn.fetch("""
+            LEFT JOIN issue_types it ON ist.issue_type_id = it.issue_type_id
+            ORDER BY ist.issue_type_id, ist.issue_subtype_id
+        """,
+        "both": """
             SELECT it.issue_type_id, it.name AS type_name, it.description AS type_description,
                    ist.issue_subtype_id, ist.name AS subtype_name, ist.description AS subtype_description
             FROM issue_types it
             LEFT JOIN issue_subtypes ist ON it.issue_type_id = ist.issue_type_id
             ORDER BY it.issue_type_id, ist.issue_subtype_id
-        """)
+        """
+    }.get(category, query := None)
+
+    if query is None:
+        raise ValueError("Invalid category value. Must be one of: 'type', 'subtype', or 'both'.")
+
+    async with resources.db_client.connection() as conn:
+        async with conn.cursor(row_factory=dict_row) as cur:
+            await cur.execute(query)
+            return await cur.fetchall()
 
 
 async def get_issues_nearby(resources: Resources, lat: float, lon: float, radius: int):
@@ -174,3 +193,77 @@ async def create_issue(resources: Resources, issue: IssueReport):
                 )
 
             return {"issue_id": issue_id}
+
+
+async def get_daily_issue_counts_by_subzone(
+    resources: Resources,
+    days: int,
+    issue_types: Optional[list[str]] = None,
+    issue_subtypes: Optional[list[str]] = None,
+    authority_name: Optional[str] = None,
+    subzone_name: Optional[str] = None
+):
+    today = date.today()
+    start_date = today - timedelta(days=days - 1)
+
+    filters = ["i.datetime_reported::date >= %s"]
+    values = [start_date]
+
+    if issue_types:
+        placeholders = ','.join(['%s'] * len(issue_types))
+        filters.append(f"""EXISTS (
+            SELECT 1 FROM issue_type_to_issue_mapping itim
+            JOIN issue_types it ON itim.issue_type_id = it.issue_type_id
+            WHERE itim.issue_id = i.issue_id AND it.name IN ({placeholders})
+        )""")
+        values.extend(issue_types)
+
+    if issue_subtypes:
+        placeholders = ','.join(['%s'] * len(issue_subtypes))
+        filters.append(f"""EXISTS (
+            SELECT 1 FROM issue_subtype_to_issue_mapping iscm
+            JOIN issue_subtypes isc ON iscm.issue_subtype_id = isc.issue_subtype_id
+            WHERE iscm.issue_id = i.issue_id AND isc.name IN ({placeholders})
+        )""")
+        values.extend(issue_subtypes)
+
+    if authority_name:
+        filters.append("auth.name = %s")
+        values.append(authority_name)
+
+    if subzone_name:
+        filters.append("sz.name = %s")
+        values.append(subzone_name)
+
+    where_clause = "WHERE " + " AND ".join(filters)
+
+    async with resources.db_client.connection() as conn:
+        async with conn.cursor(row_factory=dict_row) as cur:
+            await cur.execute(
+                f"""
+                SELECT 
+                    i.datetime_reported::date AS date, 
+                    COUNT(*) AS count
+                FROM issues i
+                LEFT JOIN authorities auth ON i.authority_id = auth.authority_id
+                LEFT JOIN subzones sz ON i.subzone_id = sz.subzone_id
+                {where_clause}
+                GROUP BY date
+                ORDER BY date DESC
+                """,
+                tuple(values)
+            )
+            rows = await cur.fetchall()
+
+    # Fill missing dates with 0
+    result_map = {row["date"]: row["count"] for row in rows}
+    result = []
+    for i in range(days):
+        day = today - timedelta(days=i)
+        result.append({
+            "date": day.isoformat(),
+            "count": result_map.get(day, 0)
+        })
+
+    return result
+

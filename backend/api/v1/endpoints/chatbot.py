@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Request, Depends
-from mobile_app.backend.models.chatbot import ChatbotInput
-from mobile_app.backend.services.chatbot.service import ChatbotService
-from mobile_app.backend.core.security import verify_token
+from backend.models.chatbot import ChatbotInput
+from backend.services.chatbot.service import ChatbotService
+from backend.core.security import verify_token
 
 router = APIRouter()
 

@@ -10,13 +10,13 @@ authors = [
     { name = "Fleming Siow", email = "flemingsiow@gmail.com" }
 ]
 dependencies = [
-    "fastapi",
-    "uvicorn",
-    "psycopg[binary]",
-    "requests",
-    "sentence-transformers",
-    "python-dotenv",
-    "pydantic",
-    "PyYAML"
+    "fastapi>=0.115.12",
+    "uvicorn>=0.34.2",
+    "psycopg>=3.2.7",
+    "requests>=2.32.3",
+    "sentence-transformers>=4.1.0",
+    "python-dotenv>=1.1.0",
+    "pydantic>=2.11.4", 
+    "python-dotenv>=1.1.0"
 ]
 requires-python = ">=3.9"

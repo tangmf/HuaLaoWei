@@ -14,8 +14,8 @@ Date: 3rd May 2025
 
 import logging
 from datetime import datetime, timezone
-from mobile_app.backend.data_stores.resources import Resources
-from mobile_app.backend.crud import chatbot as crud_chatbot
+from backend.data_stores.resources import Resources
+from backend.crud import chatbot as crud_chatbot
 
 # --------------------------------------------------------
 # Logger Setup

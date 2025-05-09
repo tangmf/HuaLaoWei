@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Request
-from mobile_app.backend.crud import users as crud_users
+from backend.crud import users as crud_users
 
 router = APIRouter()
 

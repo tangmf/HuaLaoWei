@@ -11,18 +11,18 @@ readme = "README.md"
 requires-python = ">=3.9"
 
 dependencies = [
-    "torch",
-    "transformers",
-    "peft",
-    "accelerate",
-    "fastapi",
-    "uvicorn",
-    "num2words>=0.5.10",
-    "pyyaml>=6.0", 
-    "pydantic>=2.7", 
-    "python-dotenv>=1.0",
-    "python-multipart>=0.0.5",
-    "huggingface_hub[hf_xet]",
+    "torch>=2.7.0",
+    "transformers>=4.51.3",
+    "peft>=0.15.2",
+    "accelerate>=1.6.0",
+    "fastapi>=0.115.12",
+    "uvicorn>=0.34.2",
+    "num2words>=0.5.14",
+    "pyyaml>=6.0.2", 
+    "pydantic>=2.11.4", 
+    "python-dotenv>=1.1.0",
+    "python-multipart>=0.0.20",
+    "huggingface_hub>=0.31.1",
 ]
 
 [build-system]

@@ -1,5 +1,5 @@
 import json
-from mobile_app.backend.data_stores.resources import Resources
+from backend.data_stores.resources import Resources
 from psycopg.rows import dict_row
 from datetime import datetime, timezone
 

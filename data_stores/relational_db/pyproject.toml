@@ -10,11 +10,11 @@ authors = [
     { name = "Fleming Siow", email = "flemingsiow@gmail.com" }
 ]
 dependencies = [
-    "psycopg>=3.1", 
-    "faker>=24.8", 
-    "shapely>=2.0", 
-    "pyyaml>=6.0", 
-    "pydantic>=2.7", 
-    "python-dotenv>=1.0"
+    "psycopg>=3.2.7", 
+    "Faker>=37.1.0", 
+    "shapely>=2.1.0", 
+    "PyYAML>=6.0.2", 
+    "pydantic>=2.11.4", 
+    "python-dotenv>=1.1.0"
 ]
 requires-python = ">=3.9"

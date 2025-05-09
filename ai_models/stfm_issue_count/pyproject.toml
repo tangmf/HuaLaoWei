@@ -1,7 +1,7 @@
 [project]
-name = "hualaowei-chatbot"
+name = "hualaowei-forecast-issue-count"
 version = "0.1.0"
-description = "HuaLaoWei Chatbot Service for municipal services in Singapore."
+description = "HuaLaoWei's Forecasting Model (forecasting issue counts based on region and issue type) using TCN models."
 authors = [{ name = "Fleming Siow", email = "flemingsiow@gmail.com" }]
 license = { text = "MIT" }
 readme = "README.md"
@@ -11,15 +11,8 @@ dependencies = [
     "fastapi>=0.115.12",
     "uvicorn>=0.34.2",
     "torch>=2.7.0",
-    "torchaudio>=2.7.0",
-    "transformers>=4.51.3",
-    "sentence-transformers>=4.1.0",
-    "langid>=1.1.6",
-    "FlashRank>=0.2.10",
-    "requests>=2.32.3",
-    "ffmpeg-python>=0.2.0",
-    "python-multipart>=0.0.20",
-    "httpx>=0.27.0",
+    "numpy>=2.2.5", 
+    "pydantic>=2.11.4"
 ]
 
 [build-system]

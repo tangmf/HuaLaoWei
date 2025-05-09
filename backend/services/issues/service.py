@@ -1,7 +1,7 @@
-from mobile_app.backend.data_stores.resources import Resources
-from mobile_app.backend.crud import issues as crud_issues
-from mobile_app.backend.models.posts import Post
-from mobile_app.backend.models.issues import IssueReport, IssueFilter
+from backend.data_stores.resources import Resources
+from backend.crud import issues as crud_issues
+from backend.models.posts import Post
+from backend.models.issues import IssueReport, IssueFilter
 
 async def fetch_issue_types_and_subtypes(resources: Resources):
 

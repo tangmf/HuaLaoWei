@@ -16,12 +16,12 @@ Date: 3rd May 2025
 import logging
 import uuid
 from config.config import config
-from mobile_app.backend.services.vlm_issue_categoriser.service import VLMIssueCategoriserPipeline
-from mobile_app.backend.crud import posts as crud_posts
-from mobile_app.backend.crud import issues as crud_issues
-from mobile_app.backend.crud import authorities as crud_authorities
-from mobile_app.backend.crud import regions as crud_regions
-from mobile_app.backend.crud import media as crud_media
+from backend.services.vlm_issue_categoriser.service import VLMIssueCategoriserService
+from backend.crud import posts as crud_posts
+from backend.crud import issues as crud_issues
+from backend.crud import authorities as crud_authorities
+from backend.crud import regions as crud_regions
+from backend.crud import media as crud_media
 
 # --------------------------------------------------------
 # Logger Setup
@@ -34,7 +34,7 @@ logger = logging.getLogger(__name__)
 # VLM Issue Categoriser Pipeline Setup
 # --------------------------------------------------------
 
-vlm_pipeline = VLMIssueCategoriserPipeline()
+vlm_pipeline = VLMIssueCategoriserService()
 vlm_pipeline.setup()
 
 # --------------------------------------------------------

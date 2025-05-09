@@ -20,7 +20,7 @@ import logging
 from typing import Optional, Tuple, List
 from PIL import Image
 
-from mobile_app.backend.data_stores.resources import Resources
+from backend.data_stores.resources import Resources
 from modules.extract_location import GPSExtractor
 from modules.geo_tagger import GeoTagger
 from modules.query import QueryVLMIssueCategoriser
@@ -57,10 +57,10 @@ class VLMIssueCategoriserService:
         await self.query_service.create_prompt()
     
     async def run(self, resources: Resources, input: dict) -> dict:
-         # Extracts the input, text and location (lat, lng) are a must, while images are optional
-        input_text = input.get("text") if isinstance(input, dict) else None
+         # Extracts the input: descriptiom and location (lat, lng, addr) are a must, while images are optional
+        input_description = input.get("description") if isinstance(input, dict) else None
+        input_location = input.get("location") if isinstance(input, dict) else None
         input_images = input.get("images") if isinstance(input, dict) else None
-        input_coordinates = input.get("coordinates") if isinstance(input, dict) else None
 
         # Validate and load the images if any
         allowed_types = ["image/jpeg", "image/jpg", "image/png"]
@@ -73,12 +73,13 @@ class VLMIssueCategoriserService:
                     images.append(image)
 
         # --------------------------------------------------------
-        # LOCATION EXTRACTOR: If for some reason, location is not provided, extract the coordinates from image metadata
+        # LOCATION EXTRACTOR: If for some reason, location is not provided, extract the location information from image metadata
         # --------------------------------------------------------
-        if input_coordinates:
-            latitude, longitude = input_coordinates.lat, input_coordinates.lon
+        if input_location:
+            latitude, longitude, address = input_location.latitude, input_location.longitude, input_location.address
         elif images:
             latitude, longitude = self.location_extractor.extract_location(images[0])
+            # TODO: Add logic to reverse geocode the address from the latitude and longitude
         else:
             latitude, longitude = None, None
 
@@ -93,7 +94,7 @@ class VLMIssueCategoriserService:
         else:
             tag_text = ""
 
-        full_text = input_text + tag_text
+        full_text = input_description + tag_text
 
         # --------------------------------------------------------
         # VLM QUERY: Performs categorisation of issue subtype and severity, as well as title generation

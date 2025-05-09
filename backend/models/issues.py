@@ -1,6 +1,7 @@
 
 from pydantic import BaseModel, Field, validator
-from typing import Optional
+from typing import Optional, List
+from fastapi import UploadFile
 
 class IssueReport(BaseModel):
     user_id: int
@@ -77,3 +78,9 @@ class IssueFilter(BaseModel):
     page: Optional[int] = 1
     limit: Optional[int] = 10000
     proximity: Optional[Proximity] = None
+
+
+# class VLMIssueCategoriserInput(BaseModel):
+#     text: str
+#     location: Location
+#     images: Optional[List[UploadFile]] = None

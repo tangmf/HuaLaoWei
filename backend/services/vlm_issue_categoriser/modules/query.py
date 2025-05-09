@@ -18,8 +18,8 @@ import json
 import textwrap
 from typing import Tuple, List, Optional
 from config.config import config
-from mobile_app.backend.crud import issues as crud_issues
-from mobile_app.backend.models.location import Location 
+from backend.crud import issues as crud_issues
+from backend.models.issues import Location 
 # --------------------------------------------------------
 # Logger Setup
 # --------------------------------------------------------

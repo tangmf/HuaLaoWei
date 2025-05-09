@@ -1,6 +1,6 @@
 import io
 import mimetypes
-from mobile_app.backend.data_stores.resources import Resources
+from backend.data_stores.resources import Resources
 from psycopg.rows import dict_row
 from config.config import config
 

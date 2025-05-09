@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Request, Depends
-from mobile_app.backend.models.comments import CommentRequest
-from mobile_app.backend.core.security import verify_token
-from mobile_app.backend.crud import comments as crud_comments
+from backend.models.comments import CommentRequest
+from backend.core.security import verify_token
+from backend.crud import comments as crud_comments
 
 router = APIRouter()
 

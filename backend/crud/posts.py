@@ -1,4 +1,4 @@
-from mobile_app.backend.data_stores.resources import Resources
+from backend.data_stores.resources import Resources
 from psycopg.rows import dict_row
 
 async def like_post(resources: Resources, user_id: int, post_id: int):

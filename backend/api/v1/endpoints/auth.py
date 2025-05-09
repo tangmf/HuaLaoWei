@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Request
-from mobile_app.backend.core.security import create_access_token
-from mobile_app.backend.crud import auth as crud_auth
+from backend.core.security import create_access_token
+from backend.crud import auth as crud_auth
 
 router = APIRouter()
 

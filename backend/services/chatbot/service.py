@@ -19,7 +19,7 @@ Date: 3rd May 2025
 import uuid
 import logging
 
-from mobile_app.backend.data_stores.resources import Resources
+from backend.data_stores.resources import Resources
 from modules.speech import SpeechModule
 from modules.language import LanguageModule
 from modules.heuristics import HeuristicFilter
