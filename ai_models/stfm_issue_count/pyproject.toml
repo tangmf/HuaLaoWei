@@ -5,7 +5,7 @@ description = "HuaLaoWei's Forecasting Model (forecasting issue counts based on 
 authors = [{ name = "Fleming Siow", email = "flemingsiow@gmail.com" }]
 license = { text = "MIT" }
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.11"
 
 dependencies = [
     "fastapi>=0.115.12",

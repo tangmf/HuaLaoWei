@@ -19,4 +19,4 @@ dependencies = [
     "pydantic>=2.11.4", 
     "python-dotenv>=1.1.0"
 ]
-requires-python = ">=3.9"
+requires-python = ">=3.11"
