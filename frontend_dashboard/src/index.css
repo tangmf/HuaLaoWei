@@ -1,0 +1,101 @@
+@import "tailwindcss";
+@import 'leaflet/dist/leaflet.css';
+@import 'leaflet-draw/dist/leaflet.draw.css';
+
+.leaflet-left .leaflet-control {
+    margin-left: 0 !important;
+}
+
+.leaflet-bottom.leaflet-left {
+    margin-left: calc(var(--sidebar-width, 0px) + 16px) !important;
+}
+
+.leaflet-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 0;
+    pointer-events: auto;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: rgba(100, 100, 100, 0.4);
+    border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.custom-subscrollbar::-webkit-scrollbar {
+    width: 4px;
+}
+
+.custom-subscrollbar::-webkit-scrollbar-thumb {
+    background-color: rgba(85, 85, 85, 0.4);
+    border-radius: 3px;
+}
+
+.custom-subscrollbar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+@layer utilities {
+    @keyframes pulseArc {
+
+        0%,
+        100% {
+            transform: scaleX(1);
+        }
+
+        50% {
+            transform: scaleX(1.15);
+        }
+    }
+
+    .animate-pulseArc {
+        animation: pulseArc 5s ease-in-out infinite;
+    }
+}
+
+@layer utilities {
+    @keyframes twinkle {
+
+        0%,
+        100% {
+            opacity: 0.2;
+        }
+
+        50% {
+            opacity: 1;
+        }
+    }
+
+    .animate-twinkle {
+        animation: twinkle 2s ease-in-out infinite;
+    }
+}
+
+@keyframes cloudFloat {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-4px);
+    }
+}
+
+@layer utilities {
+    .animate-cloud-float {
+        animation: cloudFloat 6s ease-in-out infinite;
+    }
+}

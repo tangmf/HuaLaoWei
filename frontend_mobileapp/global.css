@@ -1,0 +1,8 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    --primary-color: #8B0000; /* Medium dark red */
+    --secondary-color: #d1e7ff; /* Light blue */
+}

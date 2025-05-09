@@ -1,0 +1,23 @@
+[project]
+name = "hualaowei-forecast-issue-count"
+version = "0.1.0"
+description = "HuaLaoWei's Forecasting Model (forecasting issue counts based on region and issue type) using TCN models."
+authors = [{ name = "Fleming Siow", email = "flemingsiow@gmail.com" }]
+license = { text = "MIT" }
+readme = "README.md"
+requires-python = ">=3.9"
+
+dependencies = [
+    "fastapi>=0.110.0",
+    "uvicorn[standard]>=0.29.0",
+    "torch>=2.2.2",
+    "numpy", 
+    "pydantic"
+]
+
+[build-system]
+requires = ["hatchling>=1.0.0"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+only-include = ["."]

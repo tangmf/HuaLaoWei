@@ -1,0 +1,19 @@
+FROM postgres:15
+
+# Install system packages: bash, Python, pip, venv
+RUN apt-get update && apt-get install -y python3 python3-pip && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Set working directory
+WORKDIR /data_stores/relational_db
+
+# Copy application code
+COPY data_stores/relational_db/ .
+
+# Create a virtual environment
+RUN python3 -m venv /venv
+
+# Activate virtual environment and install project
+RUN /venv/bin/pip install --upgrade pip setuptools && /venv/bin/pip install .
+
+# Set environment PATH so that Python inside container always uses /venv
+ENV PATH="/venv/bin:$PATH"

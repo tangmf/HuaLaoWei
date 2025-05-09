@@ -1,0 +1,43 @@
+[
+    {
+        "filename": "Notice_CCKImplementationOfEPS.jpg",
+        "type": "notice",
+        "agency": "HDB",
+        "category": "electronic_parking_system",
+        "doc_date": "2024-01-01",
+        "summary": "Notice of Electronic Parking System (EPS) implementation at Choa Chu Kang estate.",
+        "tags": [
+            "EPS",
+            "notice",
+            "parking"
+        ],
+        "filetype": "image"
+    },
+    {
+        "filename": "Notice_HougangImplementationOfEPS.jpg",
+        "type": "notice",
+        "agency": "HDB",
+        "category": "electronic_parking_system",
+        "doc_date": "2024-01-01",
+        "summary": "Notice of Electronic Parking System (EPS) implementation in Hougang estate car parks.",
+        "tags": [
+            "EPS",
+            "notice",
+            "parking"
+        ],
+        "filetype": "image"
+    },
+    {
+        "filename": "Notice_RenovationWorks.png",
+        "type": "notice",
+        "agency": "Town Council",
+        "category": "renovation",
+        "doc_date": "2024-03-01",
+        "summary": "Public notice on approved renovation works in the block.",
+        "tags": [
+            "renovation",
+            "notice"
+        ],
+        "filetype": "image"
+    }
+]

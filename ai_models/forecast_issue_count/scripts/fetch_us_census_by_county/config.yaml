@@ -1,0 +1,35 @@
+us_chicago:
+  input_csv: "../../data/datasets/boundaries/us/boundaries_us_chicago.csv"
+  output_csv: "../../data/datasets/socioeconomic/us/socioeconomic_us_chicago.csv"
+
+  keep_cols:
+    sr_number: report_id
+    created_date: reported_datetime
+    GEOID: GEOID
+  datetime: "created_date"
+  geoid_col: "GEOID"
+
+
+us_newyork:
+  input_csv: "../../data/datasets/boundaries/us/boundaries_us_newyork.csv"
+  output_csv: "../../data/datasets/socioeconomic/us/socioeconomic_us_newyork.csv"
+
+  keep_cols:
+    unique_key: report_id
+    created_date: reported_datetime
+    GEOID: GEOID
+  datetime: "created_date"
+  geoid_col: "GEOID"
+
+
+us_sanfrancisco:
+  input_csv: "../../data/datasets/boundaries/us/boundaries_us_sanfrancisco.csv"
+  output_csv: "../../data/datasets/socioeconomic/us/socioeconomic_us_sanfrancisco.csv"
+
+  keep_cols:
+    service_request_id: report_id
+    requested_datetime: reported_datetime
+    GEOID: GEOID
+  datetime: "requested_datetime"
+  geoid_col: "GEOID"
+

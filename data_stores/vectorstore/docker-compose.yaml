@@ -1,0 +1,50 @@
+version: "3.9"
+
+services:
+  weaviate:
+    container_name: vectorstore
+    image: semitechnologies/weaviate:latest
+    ports:
+      - "8080:8080"
+    environment:
+      QUERY_DEFAULTS_LIMIT: 25
+      AUTHENTICATION_ANONYMOUS_ACCESS_ENABLED: "true"
+      PERSISTENCE_DATA_PATH: "/var/lib/weaviate"
+    volumes:
+      - weaviate_data:/var/lib/weaviate
+    healthcheck:
+      test: ["CMD", "wget", "--tries=3", "--spider", "http://localhost:8080/v1/.well-known/ready"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 60s
+    restart: unless-stopped
+    networks:
+      - vectorstore_network
+
+  init_vs:
+    container_name: init_vs
+    build:
+      context: ../../
+      dockerfile: data_stores/vectorstore/Dockerfile.init_vs
+    env_file:
+      - ../../.env.dev
+    depends_on:
+      weaviate:
+        condition: service_healthy
+    volumes:
+      - .:/data_stores/vectorstore
+      - ../../config:/data_stores/vectorstore/config
+    working_dir: /data_stores/vectorstore
+    entrypoint: ["/bin/bash", "/data_stores/vectorstore/entrypoint_init_vs.sh"]
+    ports:
+      - "5005:5005"
+    restart: "no"
+    networks:
+      - vectorstore_network
+
+volumes:
+  weaviate_data:
+
+networks:
+  vectorstore_network:
