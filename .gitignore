@@ -28,7 +28,7 @@ yarn-error.*
 *.pem
 
 # local env files
-.env.dev
+# .env.dev
 .env*/
 .env*.local
 venv*/

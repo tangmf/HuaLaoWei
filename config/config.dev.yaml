@@ -58,9 +58,6 @@ data_stores:
 # Backend Services
 # --------------------------------------------------------
 
-mobile_app:
-  port: ${APP_PORT}
+backend:
+  port: ${BACKEND_PORT}
   secret_key: ${SECRET_KEY}
-
-dashboard:
-  port: ${DASHBOARD_PORT}

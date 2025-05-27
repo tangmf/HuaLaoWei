@@ -17,7 +17,7 @@ import re
 import difflib
 import textwrap
 from langchain_core.prompts import PromptTemplate
-from ollama_loader import OllamaLoader
+from backend.services.chatbot.modules.ollama_loader import OllamaLoader
 
 # --------------------------------------------------------
 # IntentRouter

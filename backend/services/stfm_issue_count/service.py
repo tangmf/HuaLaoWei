@@ -17,13 +17,13 @@ Date: 5th May 2025
 import logging
 
 from backend.data_stores.resources import Resources
-from modules.region import RegionInfoModule
-from modules.weather import OpenMeteoWeatherModule
-from modules.geospatial import OSMGeospatialModule
-from modules.socioeconomic import OneMapAPISocioeconomicModule
-from modules.temporal import TemporalGenerationModule
-from modules.matrix import FeatureMatrixModule
-from modules.forecaster import ModelForecaster
+from backend.services.stfm_issue_count.modules.region import RegionInfoModule
+from backend.services.stfm_issue_count.modules.weather import OpenMeteoWeatherModule
+from backend.services.stfm_issue_count.modules.geospatial import OSMGeospatialModule
+from backend.services.stfm_issue_count.modules.socioeconomic import OneMapAPISocioeconomicModule
+from backend.services.stfm_issue_count.modules.temporal import TemporalGenerationModule
+from backend.services.stfm_issue_count.modules.matrix import FeatureMatrixModule
+from backend.services.stfm_issue_count.modules.forecaster import ModelForecaster
 
 # --------------------------------------------------------
 # Logger Configuration

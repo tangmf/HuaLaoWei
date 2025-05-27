@@ -1,5 +1,5 @@
-from database import db_client
-from object_storage import os_client
+from backend.data_stores.database import db_client
+from backend.data_stores.object_storage import os_client
 
 class Resources:
     def __init__(self):

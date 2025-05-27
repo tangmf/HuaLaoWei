@@ -1,43 +1,50 @@
-# ----------------------------------------
-# Base Image
-# ----------------------------------------
+# --------------------------------------------------------
+# Base Image: Python 3.11 (Slim)
+# Lightweight base for FastAPI + Uvicorn backend
+# --------------------------------------------------------
 FROM python:3.11-slim
 
-# ----------------------------------------
-# Environment Settings
-# ----------------------------------------
-ENV PYTHONDONTWRITEBYTECODE=1
-ENV PYTHONUNBUFFERED=1
+# --------------------------------------------------------
+# Install system dependencies for psycopg
+# --------------------------------------------------------
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libpq-dev gcc \
+ && rm -rf /var/lib/apt/lists/*
 
-# ----------------------------------------
-# Set Workdir
-# ----------------------------------------
+# --------------------------------------------------------
+# Environment Variables
+# --------------------------------------------------------
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1
+
+# --------------------------------------------------------
+# Set Working Directory
+# --------------------------------------------------------
 WORKDIR /app
 
-# ----------------------------------------
-# Install Hatch
-# ----------------------------------------
+# --------------------------------------------------------
+# Install Python Dependencies
+# --------------------------------------------------------
+
+# Copy lockfiles early for better layer caching
+COPY ./backend/pyproject.toml ./backend/README.md ./
+
+# Make sure psycopg[pool] is in your pyproject.toml
 RUN pip install --upgrade pip \
-    && pip install hatch
+ && pip install --default-timeout=300 .
 
-# ----------------------------------------
-# Copy Only Relevant Files
-# ----------------------------------------
-COPY mobile_app/backend/pyproject.toml /app/pyproject.toml
+# --------------------------------------------------------
+# Copy Application Code
+# --------------------------------------------------------
+COPY ./config ./config
+COPY ./backend ./backend
 
-# Install dependencies
-RUN hatch env create
-
-# Now copy application code
-COPY mobile_app/backend /app
-
-# ----------------------------------------
-# Expose Port
-# ----------------------------------------
+# --------------------------------------------------------
+# Expose API Port
+# --------------------------------------------------------
 EXPOSE 8000
 
-# ----------------------------------------
-# Startup Command
-# ----------------------------------------
-CMD ["uvicorn", "mobile_app.backend.main:app", "--host", "0.0.0.0", "--port", "8000"]
-    
+# --------------------------------------------------------
+# Start Uvicorn Server (FastAPI)
+# --------------------------------------------------------
+CMD ["uvicorn", "backend.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]

@@ -17,13 +17,15 @@ Date: 4th May 2025
 import io
 import logging
 
-from typing import Optional, Tuple, List
+from fastapi import UploadFile
+from typing import Optional, List
 from PIL import Image
 
 from backend.data_stores.resources import Resources
-from modules.extract_location import GPSExtractor
-from modules.geo_tagger import GeoTagger
-from modules.query import QueryVLMIssueCategoriser
+from backend.models.issues import Location
+from backend.services.vlm_issue_categoriser.modules.extract_location import GPSExtractor
+from backend.services.vlm_issue_categoriser.modules.geo_tagger import GeoTagger
+from backend.services.vlm_issue_categoriser.modules.query import QueryVLMIssueCategoriser
 
 # --------------------------------------------------------
 # Logger Configuration
@@ -56,27 +58,23 @@ class VLMIssueCategoriserService:
         await self.query_service.load_context_data()
         await self.query_service.create_prompt()
     
-    async def run(self, resources: Resources, input: dict) -> dict:
-         # Extracts the input: descriptiom and location (lat, lng, addr) are a must, while images are optional
-        input_description = input.get("description") if isinstance(input, dict) else None
-        input_location = input.get("location") if isinstance(input, dict) else None
-        input_images = input.get("images") if isinstance(input, dict) else None
+    async def run(self, resources: Resources, description: str, location: Optional[Location] = None, images: Optional[List[UploadFile]] = None) -> dict:
 
         # Validate and load the images if any
         allowed_types = ["image/jpeg", "image/jpg", "image/png"]
-        images = []
-        if input_images:
-            for file in input_images:
+        if images:
+            for i, file in enumerate(images):
                 if file.content_type in allowed_types:
                     data = file.file.read()
                     image = Image.open(io.BytesIO(data)).convert("RGB")
+                    images[i] = image
                     images.append(image)
 
         # --------------------------------------------------------
         # LOCATION EXTRACTOR: If for some reason, location is not provided, extract the location information from image metadata
         # --------------------------------------------------------
-        if input_location:
-            latitude, longitude, address = input_location.latitude, input_location.longitude, input_location.address
+        if location:
+            latitude, longitude, address = location.latitude, location.longitude, location.address
         elif images:
             latitude, longitude = self.location_extractor.extract_location(images[0])
             # TODO: Add logic to reverse geocode the address from the latitude and longitude
@@ -94,7 +92,7 @@ class VLMIssueCategoriserService:
         else:
             tag_text = ""
 
-        full_text = input_description + tag_text
+        full_text = description + tag_text
 
         # --------------------------------------------------------
         # VLM QUERY: Performs categorisation of issue subtype and severity, as well as title generation
@@ -106,7 +104,7 @@ class VLMIssueCategoriserService:
             buf.seek(0)
             image_buffers.append(("files", (f"image{idx}.jpeg", buf, "image/jpeg")))
 
-        response = await self.query_service.categorise(full_text, image_buffers)
+        response = await self.query_service.categorise(text=full_text, location=location, images=image_buffers)
 
         return self._finalise_response(response)
 

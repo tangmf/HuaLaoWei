@@ -32,6 +32,7 @@ class IssueReport(BaseModel):
             raise ValueError('Longitude must be between -180 and 180')
         return v
 
+
 class Location(BaseModel):
     latitude: float
     longitude: float
@@ -67,6 +68,7 @@ class Proximity(BaseModel):
             raise ValueError('Longitude must be between -180 and 180')
         return v
     
+    
 class IssueFilter(BaseModel):
     from_: Optional[str] = Field(None, alias="from")
     to: Optional[str] = None
@@ -78,9 +80,3 @@ class IssueFilter(BaseModel):
     page: Optional[int] = 1
     limit: Optional[int] = 10000
     proximity: Optional[Proximity] = None
-
-
-# class VLMIssueCategoriserInput(BaseModel):
-#     text: str
-#     location: Location
-#     images: Optional[List[UploadFile]] = None

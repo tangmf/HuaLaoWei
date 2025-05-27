@@ -52,8 +52,7 @@ yaml_config = inject_env_variables(yaml_config)
 # --------------------------------------------------------
 
 yaml_config["data_stores"]["relational_db"]["port"] = int(yaml_config["data_stores"]["relational_db"]["port"])
-yaml_config["app"]["port"] = int(yaml_config["app"]["port"])
-yaml_config["dashboard"]["port"] = int(yaml_config["dashboard"]["port"])
+yaml_config["backend"]["port"] = int(yaml_config["backend"]["port"])
 
 # --------------------------------------------------------
 # Define Pydantic Models
@@ -119,15 +118,15 @@ class DataStoresConfig(BaseModel):
     object_storage: ObjectStorageConfig
     vectorstore: VectorstoreConfig
 
-class AppServiceConfig(BaseModel):
+class BackendConfig(BaseModel):
     port: int
+    secret_key: str
 
 class Config(BaseModel):
     env: str
     ai_models: AIModelsConfig
     data_stores: DataStoresConfig
-    app: AppServiceConfig
-    dashboard: AppServiceConfig
+    backend: BackendConfig
 
 # --------------------------------------------------------
 # Build Final Config Object

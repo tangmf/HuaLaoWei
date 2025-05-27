@@ -1,43 +1,42 @@
 # --------------------------------------------------------
-# Base image (optimised for Transformers + Torch + CUDA)
+# Base Image: PyTorch 2.7 + CUDA 11.8 + cuDNN 9
+# Optimised for HuggingFace Transformers and Torch
 # --------------------------------------------------------
 FROM pytorch/pytorch:2.7.0-cuda11.8-cudnn9-runtime
 
 # --------------------------------------------------------
-# Set working directory
+# Set Working Directory
 # --------------------------------------------------------
 WORKDIR /app
 
 # --------------------------------------------------------
-# Install base system dependencies
+# Install System Dependencies
 # --------------------------------------------------------
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    ffmpeg \
-    curl \
-    && rm -rf /var/lib/apt/lists/*
+    ffmpeg curl && \
+    rm -rf /var/lib/apt/lists/*
 
 # --------------------------------------------------------
-# Copy application files & install dependencies 
+# Python Dependency Installation
 # --------------------------------------------------------
 
-# Copy only pyproject.toml and README.md first (leverage Docker layer caching)
-COPY ./ai_models/vlm_issue_categoriser/pyproject.toml ./ai_models/vlm_issue_categoriser/README.md /app/
+# Copy lockfiles first to enable Docker layer caching
+COPY ./ai_models/vlm_issue_categoriser/pyproject.toml ./ai_models/vlm_issue_categoriser/README.md ./
 
-# Install Python dependencies
 RUN pip install --upgrade pip && pip install --default-timeout=300 .
 
-# Copy rest of app
+# --------------------------------------------------------
+# Copy Application Files
+# --------------------------------------------------------
 COPY ./config ./config
 COPY ./ai_models/vlm_issue_categoriser/app.py ./app.py
-COPY ./ai_models/vlm_issue_categoriser/server.py ./server.py
 
 # --------------------------------------------------------
-# Expose ports
+# Expose API Port
 # --------------------------------------------------------
 EXPOSE 8101
 
 # --------------------------------------------------------
-# Entrypoint
+# Start FastAPI Server
 # --------------------------------------------------------
-CMD ["python", "server.py"]
-    
+CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8101"]

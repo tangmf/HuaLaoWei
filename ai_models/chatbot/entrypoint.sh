@@ -38,9 +38,9 @@ wait $pid1
 wait $pid2
 
 log "Saving chatbot service models into cache..."
-python3 /app/save_cache.py
+python3 /app/save_cache.py --force
 
 log "Starting chatbot FastAPI server..."
-python3 /app/server.py
+uvicorn app:app --host 0.0.0.0 --port 8100
 
 wait

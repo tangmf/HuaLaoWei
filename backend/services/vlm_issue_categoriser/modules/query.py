@@ -163,7 +163,7 @@ class QueryVLMIssueCategoriser:
     async def categorise(
         self,
         text: str,
-        location: Location,
+        location: Optional[Location],
         images: Optional[List[Tuple[str, Tuple[str, bytes, str]]]] = None,
     ) -> dict:
         try:

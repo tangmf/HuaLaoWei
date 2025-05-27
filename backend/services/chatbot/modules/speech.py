@@ -36,7 +36,7 @@ class SpeechModule:
         self.env = config.env
 
         try:
-            self.stt_url = config.ai_models.chatbot.speech.sst.url
+            self.stt_url = config.ai_models.chatbot.speech.stt.url
         except AttributeError:
             raise ValueError("Speech to Text model url missing in config")
 
