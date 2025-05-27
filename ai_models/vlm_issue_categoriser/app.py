@@ -20,7 +20,7 @@ from accelerate import Accelerator
 from fastapi import FastAPI, Form, File, UploadFile
 from pydantic import BaseModel
 from peft import PeftModel
-from transformers import AutoProcessor, Idefics3ForConditionalGeneration
+from transformers import AutoProcessor, AutoModelForImageTextToText
 
 from config.config import config
 
@@ -61,7 +61,7 @@ def preload_vlm_model():
         raise ValueError("VLM Issue Categoriser model or adapter missing in config")
 
     vlm_processor = AutoProcessor.from_pretrained(model_name)
-    base_model = Idefics3ForConditionalGeneration.from_pretrained(
+    base_model = AutoModelForImageTextToText.from_pretrained(
         model_name,
         torch_dtype=torch.bfloat16,
     )

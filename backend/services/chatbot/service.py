@@ -19,15 +19,18 @@ Date: 3rd May 2025
 import uuid
 import logging
 
+from fastapi import UploadFile
+from typing import List, Optional
+
 from backend.data_stores.resources import Resources
-from modules.speech import SpeechModule
-from modules.language import LanguageModule
-from modules.heuristics import HeuristicFilter
-from modules.intent import IntentRouter
-from modules.indexer import ChatbotIndexer
-from modules.query import QueryService
-from modules.session import ChatSessionLogger
-from modules.report_form import ReportFormManager
+from backend.services.chatbot.modules.speech import SpeechModule
+from backend.services.chatbot.modules.language import LanguageModule
+from backend.services.chatbot.modules.heuristics import HeuristicFilter
+from backend.services.chatbot.modules.intent import IntentRouter
+from backend.services.chatbot.modules.indexer import ChatbotIndexer
+from backend.services.chatbot.modules.query import QueryService
+from backend.services.chatbot.modules.session import ChatSessionLogger
+from backend.services.chatbot.modules.report_form import ReportFormManager
 
 # --------------------------------------------------------
 # Logger Configuration
@@ -82,16 +85,18 @@ class ChatbotService:
 
         logger.info("\nPIPELINE INITIALISED")
 
-    def run(self, resources: Resources, input: dict = None, user_id: str = None, session_id: str = None):
+    def run(self, resources: Resources, text: str = None, audio: Optional[UploadFile] = None, user_id: str = None, session_id: str = None, files: Optional[List[UploadFile]] = None):
         """
         Process user input (text or audio) through the chatbot pipeline
         and return the chatbot's response.
 
         Args:
-            input (dict, optional): Dict containing the user's input in text, voice or/and any added files.
+            text (str, optional): Containing the user's input in text
+            audio
             session_id (str, optional): Session identifier for the conversation.
             user_id (str, optional): User identifier.
-
+            files
+            
         Returns:
             str: Chatbot response.
         """
@@ -99,36 +104,31 @@ class ChatbotService:
         if not session_id:
             session_id = str(uuid.uuid4())
 
-        # Extracts the input, could either be text, audio or a file
-        input_text = input.get("text") if isinstance(input, dict) else None
-        input_audio = input.get("audio") if isinstance(input, dict) else None
-        input_files = input.get("files") if isinstance(input, dict) else None
-
         # --------------------------------------------------------
         # SPEECH TO TEXT: Converts audio to text if provided
         # --------------------------------------------------------
-        if input_audio:
+        if audio:
             logger.info("Transcribing voice input...")
-            input_text = self.speech.transcribe(input_audio)
+            text = self.speech.transcribe(audio)
 
-        if not input_text:
+        if not text:
             return self._finalise_response("No input provided.", "en", session_id, user_id)
 
         # --------------------------------------------------------
         # LANGUAGE DETECTION & TRANSLATION: Detects the language of the input, and translate if not english
         # --------------------------------------------------------
         logger.info("Running language detection...")
-        original_lang, _ = self.language.detect(input_text)
+        original_lang, _ = self.language.detect(text)
 
         if original_lang != "en":
             logger.info(f"Detected language '{original_lang}', translating to English...")
-            input_text = self.language.translate(text=input_text, lang_code=original_lang)
+            text = self.language.translate(text=text, lang_code=original_lang)
 
         # --------------------------------------------------------
         # FORM FILLING STATE: Custom form filling conversation for report submission
         # --------------------------------------------------------
         if self.report_form_manager.active:
-            text = input_text.lower()
+            text = text.lower()
 
             # If user presses the cancel button, terminate the process
             if text == "cancel":
@@ -150,7 +150,7 @@ class ChatbotService:
                 return self._finalise_response("Sorry, I did not understand what you want to change.", original_lang, session_id, user_id)
 
             # A button was not pressed (not a fixed input), so the input needs to be processed
-            form_response = self.report_form_manager.receive_input(input_text, input_files)
+            form_response = self.report_form_manager.receive_input(text, files)
 
             # If the user provides the updated data after requesting for a change
             if form_response == "updated":
@@ -168,7 +168,7 @@ class ChatbotService:
         # CHAT SESSION RETRIEVAL: Fetch existing structured chat history (based on session_id and user_id)
         # --------------------------------------------------------
         chat_messages = self.session.get_structured_messages(resources=resources, session_id=session_id, user_id=user_id)
-        chat_messages.append({"role": "user", "content": input_text})
+        chat_messages.append({"role": "user", "content": text})
 
         # --------------------------------------------------------
         # LAYER 0 [FOLLOW-UP CHECK]: Check if the input is a follow-up query
@@ -179,30 +179,30 @@ class ChatbotService:
         # --------------------------------------------------------
         # LAYER 1 [HEURISTIC FILTER]: If not a follow-up, check for gibberish input
         # --------------------------------------------------------
-        if self.heuristics.is_gibberish(input_text) and not is_follow_up:
+        if self.heuristics.is_gibberish(text) and not is_follow_up:
             return self._finalise_response("Sorry, I could not understand that input.", original_lang, session_id, user_id)
         
         # --------------------------------------------------------
         # LAYER 2 [OUT OF SCOPE]: If not a follow-up, check if the input is out of scope (unrelated to municipal services)
         # --------------------------------------------------------
-        if not self.intent_router.is_in_scope(input_text) and not is_follow_up:
+        if not self.intent_router.is_in_scope(text) and not is_follow_up:
             return self._finalise_response("This question seems unrelated to municipal services.", original_lang, session_id, user_id)
         
         # --------------------------------------------------------
         # CHAT SESSION LOGGING: If input is valid (related or a follow-up), log the user message
         # --------------------------------------------------------
-        self.session.log_message(resources=resources, session_id=session_id, user_id=user_id, sender="user", message=input_text)
+        self.session.log_message(resources=resources, session_id=session_id, user_id=user_id, sender="user", message=text)
 
         # --------------------------------------------------------
         # LAYER 3 [INTENT CLASSIFICATION]: Classifies and routes the intent of the input text
         # --------------------------------------------------------
-        intent = self.intent_router.classify_intent(input_text)
+        intent = self.intent_router.classify_intent(text)
         logger.info(f"Classified intent: {intent}")
 
         # If the user requests for real-time data, or data only known to us
         if intent == "data_driven_query":
             logger.info("Running vector search with ChatbotIndexer...")
-            rag_response = self.indexer.query(input_text)
+            rag_response = self.indexer.query(text)
             if isinstance(rag_response, str):
                 logger.warning(f"RAG response error: {rag_response}")
                 return self._finalise_response("Sorry, I could not retrieve related information at the moment.", original_lang, session_id, user_id)

@@ -8,14 +8,16 @@
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
-    "ios": {
-      "supportsTablet": true
-    },
+    "jsEngine": "hermes",
+    "entryPoint": "./node_modules/expo-router/entry",
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       }
+    },
+    "ios": {
+      "supportsTablet": true
     },
     "web": {
       "bundler": "metro",
@@ -34,8 +36,12 @@
         }
       ]
     ],
+    "router": {
+      "origin": "expo"
+    },
     "experiments": {
-      "typedRoutes": true
+      "typedRoutes": true,
+      "exportFallthrough": true
     }
   }
 }

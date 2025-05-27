@@ -3,20 +3,26 @@
 # ---------------------------
 
 ENV_FILE := .env
+COMPOSE_FILE := docker-compose.dev.yaml
 
-.PHONY: help setup-dev setup-prod up down restart logs
+.PHONY: help setup-dev setup-prod build up down restart logs prune rebuild nuke
 
 help:
 	@echo "Usage:"
 	@echo "  make setup-dev   -> Copy .env.dev to .env"
 	@echo "  make setup-prod  -> Copy .env.prod to .env"
-	@echo "  make build       -> docker-compose build"
-	@echo "  make up          -> docker-compose up"
-	@echo "  make down        -> docker-compose down"
+	@echo "  make build       -> docker compose build"
+	@echo "  make up          -> docker compose up"
+	@echo "  make down        -> docker compose down"
 	@echo "  make restart     -> Restart all containers"
-	@echo "  make rebuild     -> Rebuild image, remove old containers, and run fresh"
-	@echo "  make prune       -> Remove everything: images, volumes, stopped containers, cache"
+	@echo "  make rebuild     -> Rebuild images and restart cleanly"
+	@echo "  make prune       -> Remove all Docker volumes, images, cache"
 	@echo "  make logs        -> Show logs"
+
+prefix-vars:
+	@echo "Prefixing variables in frontend_mobileapp/.env..."
+	sed -i.bak -E '/^EXPO_PUBLIC_/! s/^([A-Z_][A-Z0-9_]*)=(.*)/EXPO_PUBLIC_\1=\2/' frontend_mobileapp/.env
+	rm -f frontend_mobileapp/.env.bak
 
 # ---------------------------
 # Setup Environment
@@ -24,41 +30,47 @@ help:
 
 setup-dev:
 	cp .env.dev $(ENV_FILE)
+	cp $(ENV_FILE) frontend_dashboard/.env
+	cp $(ENV_FILE) frontend_mobileapp/.env
+	make prefix-vars
 	@echo "Switched to DEV environment."
 
 setup-prod:
-	cp .env.prod $(ENV_FILE)
-	@echo "Switched to PROD environment."
+	cp .env.dev $(ENV_FILE)
+	cp $(ENV_FILE) frontend_dashboard/.env
+	cp $(ENV_FILE) frontend_mobileapp/.env
+	make prefix-vars
+	@echo "Switched to DEV environment."
 
 # ---------------------------
 # Docker Compose Commands
 # ---------------------------
 
 build:
-	docker-compose build
+	docker compose -f $(COMPOSE_FILE) build
 
 up:
-	docker-compose up -d
+# docker compose -f $(COMPOSE_FILE) up -d || true
+	docker compose -f $(COMPOSE_FILE) up -d
 
 down:
-	docker-compose down
+	docker compose -f $(COMPOSE_FILE) down
 
 restart:
-	docker-compose down
-	docker-compose up -d
+	docker compose -f $(COMPOSE_FILE) down
+	docker compose -f $(COMPOSE_FILE) up -d
 
 rebuild:
-	-
-	docker-compose down --volumes --remove-orphans
-	docker-compose build --no-cache
-	docker-compose up
+	docker compose -f $(COMPOSE_FILE) down --volumes --remove-orphans
+	docker compose -f $(COMPOSE_FILE) build --no-cache
+	docker compose -f $(COMPOSE_FILE) up -d
 
 prune:
 	docker system prune -af --volumes
 
 nuke:
 	@echo "This will DELETE all Docker Desktop data. Proceed with caution."
-	@powershell -Command "Start-Process 'cmd.exe' -ArgumentList '/k %windir%\\Sysnative\\wsl.exe --shutdown && %windir%\\Sysnative\\wsl.exe --unregister docker-desktop && %windir%\\Sysnative\\wsl.exe --unregister docker-desktop-data && pause' -Verb RunAs"
+	@powershell -Command "Start-Process 'cmd.exe' -ArgumentList '/k wsl.exe --shutdown && wsl.exe --unregister docker-desktop && wsl.exe --unregister docker-desktop-data && pause' -Verb RunAs"
 
 logs:
-	docker-compose logs --follow
+	docker compose -f $(COMPOSE_FILE) logs --follow

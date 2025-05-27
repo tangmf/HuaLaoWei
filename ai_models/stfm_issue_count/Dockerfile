@@ -1,28 +1,30 @@
 # --------------------------------------------------------
-# Base image (PyTorch + CUDA 11.8 runtime)
+# Base Image: PyTorch 2.7 + CUDA 11.8 + cuDNN 9
+# Optimised for HuggingFace Transformers and Torch
 # --------------------------------------------------------
-FROM pytorch/pytorch:2.1.0-cuda11.8-cudnn8-runtime
+FROM pytorch/pytorch:2.7.0-cuda11.8-cudnn9-runtime
 
 # --------------------------------------------------------
-# Set working directory
+# Set Working Directory
 # --------------------------------------------------------
 WORKDIR /app
 
 # --------------------------------------------------------
-# Copy application files & install dependencies 
+# Python Dependencies Setup
 # --------------------------------------------------------
 
-# Copy only pyproject.toml and README.md first (leverage Docker layer caching)
-COPY ./ai_models/forecast_issue_count/pyproject.toml ./ai_models/forecast_issue_count/README.md /app/
+# Copy lockfiles first to leverage Docker cache
+COPY ./ai_models/stfm_issue_count/pyproject.toml ./ai_models/stfm_issue_count/README.md ./
 
-# Install Python dependencies
+# Install dependencies
 RUN pip install --upgrade pip && pip install --default-timeout=300 .
 
-# Copy rest of app
+# --------------------------------------------------------
+# Copy Application Code
+# --------------------------------------------------------
 COPY ./config ./config
-COPY ./ai_models/forecast_issue_count/app.py ./app.py
-COPY ./ai_models/forecast_issue_count/server.py ./server.py
-COPY ./ai_models/forecast_issue_count/models ./models
+COPY ./ai_models/stfm_issue_count/app.py ./app.py
+COPY ./ai_models/stfm_issue_count/models ./models
 
 # --------------------------------------------------------
 # Expose API Port
@@ -30,6 +32,7 @@ COPY ./ai_models/forecast_issue_count/models ./models
 EXPOSE 8102
 
 # --------------------------------------------------------
-# Launch FastAPI server
+# Start FastAPI Server
 # --------------------------------------------------------
-CMD ["python", "server.py"]
+CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8102"]
+

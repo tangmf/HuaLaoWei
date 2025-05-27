@@ -1,18 +1,6 @@
-"""
-webhook.py
-
-FastAPI server to update the Vectorstore with sentence embeddings based on PostgreSQL issue records.
-
-Author: Fleming Siow
-Date: 5th May 2025
-"""
-
-# --------------------------------------------------------
-# Imports
-# --------------------------------------------------------
-
 import logging
 import os
+import uuid
 import uvicorn
 import psycopg
 import requests
@@ -21,20 +9,12 @@ from fastapi.responses import JSONResponse
 from sentence_transformers import SentenceTransformer
 from config.config import config
 
-# --------------------------------------------------------
-# Logger Setup
-# --------------------------------------------------------
-
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 logger = logging.getLogger(__name__)
 
-# --------------------------------------------------------
-# Configuration
-# --------------------------------------------------------
-
 ENV = config.env
 VECTORSTORE_URL = config.data_stores.vectorstore.url
-COLLECTION_NAME = config.data_stores.vectorstore.collection["issue"]["name"]
+COLLECTION_NAME = config.data_stores.vectorstore.collection["issue"].name
 
 DB_CONFIG = config.data_stores.relational_db
 DB_CONN_PARAMS = {
@@ -45,47 +25,40 @@ DB_CONN_PARAMS = {
     "password": DB_CONFIG.password,
 }
 
-# --------------------------------------------------------
-# Sentence Transformer Model
-# --------------------------------------------------------
-
 model = SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2")
-
-# --------------------------------------------------------
-# FastAPI App Setup
-# --------------------------------------------------------
 
 app = FastAPI()
 
-# --------------------------------------------------------
-# Helper Functions
-# --------------------------------------------------------
-
 def get_issue_details(issue_id: int):
+    query = """
+    SELECT 
+        i.issue_id, i.description, i.severity, i.address, i.status, sz.name AS subzone_name,
+        i.datetime_reported, i.datetime_acknowledged, 
+        ARRAY_AGG(DISTINCT it.name) AS issue_types,
+        ARRAY_AGG(DISTINCT ist.name) AS issue_subtypes,
+        a.name AS agency_name, tc.name AS town_council_name
+    FROM issues i
+    JOIN subzones sz ON i.subzone_id = sz.subzone_id
+    LEFT JOIN issue_type_to_issue_mapping itim ON i.issue_id = itim.issue_id
+    LEFT JOIN issue_types it ON itim.issue_type_id = it.issue_type_id
+    LEFT JOIN issue_subtype_to_issue_mapping istim ON i.issue_id = istim.issue_id
+    LEFT JOIN issue_subtypes ist ON istim.issue_subtype_id = ist.issue_subtype_id
+    LEFT JOIN authorities auth ON i.authority_id = auth.authority_id
+    LEFT JOIN agencies a ON auth.authority_type = 'agency' AND auth.authority_ref_id = a.agency_id
+    LEFT JOIN town_councils tc ON auth.authority_type = 'town_council' AND auth.authority_ref_id = tc.town_council_id
+    WHERE i.description IS NOT NULL 
+    AND (i.status != 'Resolved' OR i.datetime_closed IS NULL) 
+    AND i.issue_id = %s
+    GROUP BY i.issue_id, sz.name, a.name, tc.name
     """
-    Retrieves issue details from the database.
-    """
-    query = """SELECT i.issue_id, i.description, i.severity, i.address, i.status, sz.name AS subzone_name,
-        i.datetime_reported, i.datetime_acknowledged, it.name AS issue_type, ist.name AS issue_subtype,
-        a.name AS agency_name, tc.name AS town_council_name FROM issues i JOIN subzones sz ON i.subzone_id = sz.subzone_id
-        JOIN issue_types it ON i.issue_type_id = it.issue_type_id JOIN issue_subtypes ist ON i.issue_subtype_id = ist.issue_subtype_id
-        JOIN agencies a ON i.agency_id = a.agency_id JOIN town_councils tc ON i.town_council_id = tc.town_council_id
-        WHERE i.description IS NOT NULL AND (i.status != 'Resolved' OR i.datetime_closed IS NULL) AND i.issue_id = %s
-        ORDER BY i.datetime_updated ASC"""
+
     with psycopg.connect(**DB_CONN_PARAMS) as conn:
         with conn.cursor() as cursor:
             cursor.execute(query, (issue_id,))
             return cursor.fetchone()
 
-# --------------------------------------------------------
-# API Endpoints
-# --------------------------------------------------------
-
 @app.post("/webhook/issue")
 async def issue_webhook(request: Request):
-    """
-    Webhook endpoint to handle incoming issue updates and embed into the Vectorstore.
-    """
     try:
         data = await request.json()
         issue_id = data.get("issue_id")
@@ -100,13 +73,13 @@ async def issue_webhook(request: Request):
         (
             _issue_id, description, severity, address, status,
             subzone_name, datetime_reported, datetime_acknowledged,
-            issue_type, issue_subtype, agency_name, town_council_name
+            issue_types, issue_subtypes, agency_name, town_council_name
         ) = issue
 
         vector = model.encode(description).tolist()
 
         combined_text = (
-            f"Issue Type: {issue_type} > {issue_subtype}\n"
+            f"Issue Types: {', '.join(issue_types or [])} > {', '.join(issue_subtypes or [])}\n"
             f"Description: {description}\n"
             f"Severity: {severity}, Status: {status}\n"
             f"Location: {address or 'N/A'}, Subzone: {subzone_name}\n"
@@ -117,17 +90,17 @@ async def issue_webhook(request: Request):
 
         payload = {
             "class": COLLECTION_NAME,
-            "id": str(issue_id),
+            "id": str(uuid.uuid5(uuid.NAMESPACE_URL, f"issue:{issue_id}")),
             "properties": {
-                "description": description,
-                "severity": severity,
-                "status": status,
-                "address": address,
-                "subzone": subzone_name,
-                "issue_type": issue_type,
-                "issue_subtype": issue_subtype,
-                "agency": agency_name,
-                "town_council": town_council_name,
+                "description": description or "",
+                "severity": severity or "",
+                "status": status or "",
+                "address": address or "",
+                "subzone": subzone_name or "",
+                "issue_type": issue_types or [],
+                "issue_subtype": issue_subtypes or [],
+                "agency": agency_name or "",
+                "town_council": town_council_name or "",
                 "datetime_reported": datetime_reported.isoformat() if datetime_reported else None,
                 "datetime_acknowledged": datetime_acknowledged.isoformat() if datetime_acknowledged else None,
                 "combined_text": combined_text
@@ -146,9 +119,5 @@ async def issue_webhook(request: Request):
         logger.exception("Webhook processing failed.")
         return JSONResponse(content={"error": str(e)}, status_code=500)
 
-# --------------------------------------------------------
-# Entrypoint
-# --------------------------------------------------------
-
 if __name__ == "__main__":
-    uvicorn.run("webhook:app", host="0.0.0.0", port=5005, reload=False)
+    uvicorn.run("webhook_init_vs:app", host="0.0.0.0", port=5005, reload=False)

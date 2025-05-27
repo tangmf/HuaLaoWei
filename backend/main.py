@@ -1,14 +1,13 @@
 from fastapi import FastAPI
 from contextlib import asynccontextmanager
-from data_stores.resources import resources  
-from api.v1.endpoints import auth, posts, users, comments, issues, chatbot
+from backend.data_stores.resources import resources  
+from backend.api.v1.endpoints import auth, posts, users, comments, issues, chatbot
 
 @asynccontextmanager
 async def lifespan(app):
     app.state.resources = resources
     yield
-    await resources.pool.close()    
-
+    await resources.db_client.close()
 
 app = FastAPI(lifespan=lifespan)
 

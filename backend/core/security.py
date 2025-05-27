@@ -3,7 +3,7 @@ from datetime import datetime, timedelta, timezone
 from fastapi import HTTPException
 from config.config import config
 
-SECRET_KEY = config.mobile_app.secret_key
+SECRET_KEY = config.backend.secret_key
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 120
 

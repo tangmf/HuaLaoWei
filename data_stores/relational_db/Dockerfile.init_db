@@ -1,19 +1,35 @@
+# --------------------------------------------------------
+# Base Image: PostgreSQL 15
+# Used for One-Time Schema Initialization
+# --------------------------------------------------------
 FROM postgres:15
 
-# Install system packages: bash, Python, pip, venv
-RUN apt-get update && apt-get install -y python3 python3-pip && apt-get clean && rm -rf /var/lib/apt/lists/*
+# --------------------------------------------------------
+# Install Python and pip
+# Required for schema setup script
+# --------------------------------------------------------
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    python3 python3-pip python3-venv && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Set working directory
-WORKDIR /data_stores/relational_db
+# --------------------------------------------------------
+# Set Working Directory
+# --------------------------------------------------------
+WORKDIR /app
 
-# Copy application code
-COPY data_stores/relational_db/ .
+# --------------------------------------------------------
+# Copy Initialization Scripts and Dependencies
+# --------------------------------------------------------
+COPY ./data_stores/relational_db/ .
 
-# Create a virtual environment
-RUN python3 -m venv /venv
+# --------------------------------------------------------
+# Set Up Python Virtual Environment and Install Package
+# --------------------------------------------------------
+RUN python3 -m venv /venv && \
+    /venv/bin/pip install --upgrade pip setuptools && \
+    /venv/bin/pip install .
 
-# Activate virtual environment and install project
-RUN /venv/bin/pip install --upgrade pip setuptools && /venv/bin/pip install .
-
-# Set environment PATH so that Python inside container always uses /venv
+# --------------------------------------------------------
+# Ensure Venv Python Is Default
+# --------------------------------------------------------
 ENV PATH="/venv/bin:$PATH"

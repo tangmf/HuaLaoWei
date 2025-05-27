@@ -13,7 +13,7 @@ Date: 3rd May 2025
 # --------------------------------------------------------
 
 import textwrap
-from ollama_loader import OllamaLoader
+from backend.services.chatbot.modules.ollama_loader import OllamaLoader
 
 # --------------------------------------------------------
 # Query Service

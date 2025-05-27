@@ -2,9 +2,13 @@ import React from "react";
 import { Text, View, Dimensions, Animated, ScrollView, Image, Pressable } from "react-native";
 import SlidingUpPanel from "rn-sliding-up-panel";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+import Constants from "expo-constants";
 
 const { height } = Dimensions.get("window");
 
+const host = Constants.expoConfig?.hostUri?.split(":")[0];
+const MINIO_BASE_API = `http://${host}:${process.env.EXPO_PUBLIC_MINIO_PORT}/${process.env.EXPO_PUBLIC_MINIO_BUCKET}`;
+console.log(MINIO_BASE_API)
 class BottomSheet extends React.Component {
   static defaultProps = {
     draggableRange: { top: height / 2, bottom: 0 }, // Reduce the top height to 50% of the screen
@@ -13,6 +17,7 @@ class BottomSheet extends React.Component {
   _draggedValue = new Animated.Value(0);
 
   scrollViewRef = React.createRef(); // Create a ref for the ScrollView
+  
 
   componentDidUpdate(prevProps) {
     // Check if the selectedTicket has changed
@@ -103,22 +108,25 @@ class BottomSheet extends React.Component {
             {selectedTicket.title || "N/A"}
           </Text>
           <Text className="text-gray-600 mb-1">
-            Location: {selectedTicket.latitude + "," + selectedTicket.longitude || "N/A"}
+            Location:{" "}
+            {selectedTicket.latitude && selectedTicket.longitude
+              ? `${selectedTicket.latitude}, ${selectedTicket.longitude}`
+              : "N/A"}
           </Text>
           <Text className="text-gray-600 mb-1">
             Severity: {selectedTicket.severity || "N/A"}
           </Text>
           <Text className="text-gray-600 mb-1">
-            Status: {selectedTicket.status || "N/A"}
+            Status: {String(selectedTicket.status || "N/A")}
           </Text>
           {/* Image Section */}
         <View className="mb-4">
           <Image
             source={
-                selectedTicket.image
-                  ? { uri: selectedTicket.image } // Remote image
-                  : require("@/assets/images/bgimg.png") // Local fallback image
-              }
+              selectedTicket.image
+                ? { uri: `${MINIO_BASE_API}${selectedTicket.image}` }
+                : require("@/assets/images/bgimg.png")
+            }
             className="w-full h-40 rounded-lg"
             resizeMode="cover"
           />

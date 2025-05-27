@@ -1,8 +1,9 @@
-import * as WebBrowser from "expo-web-browser";
 import React, { useEffect, useState } from "react";
 import { View, Text, Pressable, Image, TextInput } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { useNavigation } from "@react-navigation/native";
+import Constants from "expo-constants";
+import * as Crypto from "expo-crypto";
 import axios from "axios";
 
 export default function SignUp() {
@@ -12,11 +13,14 @@ export default function SignUp() {
   const [password, setPassword] = useState(""); // State for password
   const [confirmPassword, setConfirmPassword] = useState(""); // State for password
   const [isPasswordVisible, setIsPasswordVisible] = useState(false); // State for toggling password visibility
+
+  // Dynamically extract LAN IP from Expo
+  const host = Constants.expoConfig?.hostUri?.split(":")[0];
+  const API_BASE_URL = `http://${host}:${process.env.EXPO_PUBLIC_BACKEND_PORT}`;
   
   const validateForm = () => {
     let errorMessage = ""; // Initialize error message
     if (username.trim() === "") errorMessage = "Username is required"; // Check if username is empty
-    else if (username.trim() === "") errorMessage = "Username is required"; // Check if username is empty
     else if (email.trim() === "") errorMessage = "Email is required";
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) errorMessage = "Invalid email format";
     else if (password !== confirmPassword) errorMessage = "Passwords do not match"; // Initialize error message
@@ -28,36 +32,45 @@ export default function SignUp() {
     return errorMessage === "";
   }
 
-  const handleSignUp = async () => {
-    if (!validateForm()) return; // Validate the form before proceeding
+  const hashPassword = async (password) => {
+    return await Crypto.digestStringAsync(Crypto.CryptoDigestAlgorithm.SHA256, password);
+  };
 
-    // Prepare the user data
-    const formData = {
+  const handleSignUp = async () => {
+    if (!validateForm()) return;
+    
+    const password_hash = await hashPassword(password);
+
+    const payload = {
       username,
       email,
-      password, // Send the plain password (hashing should be done on the backend for security)
+      password_hash,
     };
-    console.log("2")
-  
+
+    console.log(payload)
+
     try {
-      console.log("3")
-      // Make the POST request to the signup endpoint
-      const { data } = await axios.post("http://localhost:5000/user", formData, {
-        headers: {
-          "Content-Type": "application/json", // Specify JSON content type
-        },
+      console.log(`${API_BASE_URL}/v1/auth/signup`)
+      const response = await fetch(`${API_BASE_URL}/v1/auth/signup`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
       });
-  
-      // Handle the response
-      console.log("User created successfully:", data);
-      alert("Signup successful! Welcome to HuaLaoWei.");
-      navigation.navigate("home"); // Navigate to the SignIn screen after successful signup
+
+      const data = await response.json();
+
+      if (response.ok && data.access_token) {
+        alert("Account created. You are now signed in.");
+        navigation.navigate("home");
+        setPassword("");
+      } else {
+        alert(data.message || "Signup failed");
+      }
     } catch (error) {
-      // Handle errors
-      console.error("Error creating user:", error);
-      alert("Error creating user. Please try again. Error: " + error.message);
+      console.error("Signup error:", error);
+      alert("Network error. Please try again later.");
     }
-  }
+  };
 
   return (
       <View className="flex-1 justify-center items-center px-6 bg-white">
@@ -141,7 +154,7 @@ export default function SignUp() {
 
         {/* Footer */}
         <Text className="text-sm text-gray-500 mt-10 text-center">
-          By signing up, you agree to our{" "}
+          By signing up, you agree to our{" "}{"\n"}
           <Text className="text-primary font-medium">Terms of Service</Text>{" "}
           and{" "}
           <Text className="text-primary font-medium">Privacy Policy</Text>.

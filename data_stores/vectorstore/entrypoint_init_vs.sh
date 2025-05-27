@@ -16,11 +16,11 @@ done
 echo "Weaviate is up. Running vectorstore setup..."
 
 # One-time vectorstore setup
-python3 /data_stores/vectorstore/save_cache_init_vs.py
-python3 /data_stores/vectorstore/setup_init_vs.py
+python3 /app/data_stores/vectorstore/save_cache_init_vs.py
+python3 /app/data_stores/vectorstore/setup_init_vs.py
 
 echo "Vectorstore setup completed."
 
 # Start the webhook server
 echo "Starting Vectorstore Webhook Server..."
-exec python3 /data_stores/vectorstore/webhook_init_vs.py
+exec python3 /app/data_stores/vectorstore/webhook_init_vs.py

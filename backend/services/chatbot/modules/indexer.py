@@ -54,7 +54,11 @@ class ChatbotIndexer:
             except AttributeError:
                 raise ValueError("Vectorstore url missing in config")
         
-            self.client = weaviate.Client(url=self.vectorstore_url)
+            # self.client = weaviate.Client(url=self.vectorstore_url)
+
+            self.client = weaviate.connect_to_local(
+                port=8080,
+            )
 
             try:
                 self.collection_name = config.data_stores.vectorstore.collection["issue"].name
@@ -110,27 +114,31 @@ class ChatbotIndexer:
 
     def _query_local(self, embedding, k):
         """
-        Query the local Weaviate instance.
+        Query Weaviate for similar issues using the embedded vector.
         """
         try:
             logger.info("Querying Weaviate...")
+
             result = (
                 self.client.query
-                .get(self.collection_name, ["combined_text", "issue_id", "issue_type", "issue_subtype"])
+                .get(self.collection_name, [
+                    "combined_text", "description", "severity", "status",
+                    "issue_type", "issue_subtype", "address", "subzone", "agency", "town_council"
+                ])
                 .with_near_vector({"vector": embedding})
                 .with_limit(k)
+                .with_additional(["id", "certainty", "distance"])  # Optional for debug
                 .do()
             )
 
             docs = result.get("data", {}).get("Get", {}).get(self.collection_name, [])
-
             if not docs:
                 logger.warning("Weaviate returned no similar issues.")
                 return "[Weaviate] No similar issues found."
 
             final_texts = []
             for doc in docs:
-                text = doc.get("combined_text", "[Missing text]")[:2000]
+                text = doc.get("combined_text", "[Missing combined_text]")[:2000]
                 final_texts.append(text)
 
             return {

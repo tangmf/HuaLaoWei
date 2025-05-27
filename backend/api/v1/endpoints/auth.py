@@ -29,3 +29,7 @@ async def signin(request: Request, user: dict):
         }
     else:
         return {"message": "Invalid username or password"}
+
+@router.get("/health")
+async def health():
+    return {"status": "ok"}

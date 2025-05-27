@@ -6,6 +6,7 @@ import Navbar from "@/components/Navbar";
 import Chatbot from "@/components/Chatbot";
 import BottomSheet from "@/components/BottomSheet";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons"; // Import icons from Expo
+import Constants from "expo-constants";
 
 const { height } = Dimensions.get("window");
 
@@ -21,55 +22,34 @@ export default function Home() {
   const [isFilterPanelVisible, setIsFilterPanelVisible] = useState(true);
   const filterAnim = useRef(new Animated.Value(-height * 2)).current; // Start off-screen
 
+  // Dynamically extract LAN IP from Expo
+  const host = Constants.expoConfig?.hostUri?.split(":")[0];
+  const API_BASE_URL = `http://${host}:${process.env.EXPO_PUBLIC_BACKEND_PORT}`;
+
   // Fetch tickets from the database
   useEffect(() => {
+    if (!location) return;
+
     const fetchTickets = async () => {
       try {
-        // TODO change the api url and handling of response
-        const response = await fetch("https://your-api-url.com/api/tickets"); // Replace with your API URL
+        const response = await fetch(
+          `${API_BASE_URL}/v1/posts/forum-posts?lat=${location.coords.latitude}&lon=${location.coords.longitude}`
+        );
         const data = await response.json();
 
-        if (data && Array.isArray(data) && data.length > 0) {
-          setTickets(data); // Set tickets if data is valid
+        if (data && Array.isArray(data.posts) && data.posts.length > 0) {
+          setTickets(data.posts);
         } else {
-          console.warn("No tickets found or data is invalid.");
-          setTickets([]); // Fallback to an empty array if data is null or invalid
+          console.warn("No posts found or data is invalid.");
+          setTickets([]);
         }
       } catch (error) {
         console.error("Error fetching tickets:", error);
-
-        // Create fallback tickets
-        const fallbackTicket1 = {
-          id: 1,
-          title: "Public Disturbance",
-          description: "There is a public disturbance.",
-          latitude: 1.4521,
-          longitude: 103.8198,
-          severity: "High",
-        };
-        const fallbackTicket2 = {
-          id: 2,
-          title: "Public Disturbance",
-          description: "There is a public disturbance.",
-          latitude: 1.3421,
-          longitude: 103.8298,
-          severity: "Medium",
-        };
-        const fallbackTicket3 = {
-          id: 3,
-          title: "Public Disturbance",
-          description: "There is a public disturbance.",
-          latitude: 1.4441,
-          longitude: 103.8048,
-          severity: "Medium",
-        };
-
-        setTickets([fallbackTicket1, fallbackTicket2, fallbackTicket3]);
       }
     };
 
     fetchTickets();
-  }, []);
+  }, [location]);
 
   // Get user location and heading
   useEffect(() => {
@@ -409,8 +389,7 @@ export default function Home() {
     </View>
   </View>
 </Animated.View>
-<BottomSheet selectedTicket ={selectedTicket} >
-        </BottomSheet>
+<BottomSheet selectedTicket ={selectedTicket} ></BottomSheet>
       </View>
       <Navbar />
     </View>

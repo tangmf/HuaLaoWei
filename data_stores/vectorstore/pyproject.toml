@@ -1,7 +1,3 @@
-[build-system]
-requires = ["setuptools>=61.0"]
-build-backend = "setuptools.build_meta"
-
 [project]
 name = "hualaowei-vectorstore-webhook"
 version = "0.1.0"
@@ -20,3 +16,10 @@ dependencies = [
     "python-dotenv>=1.1.0"
 ]
 requires-python = ">=3.11"
+
+[build-system]
+requires = ["hatchling>=1.0.0"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+only-include = ["."]

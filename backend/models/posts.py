@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 from typing import List, Optional
-from comments import Comment
+from backend.models.comments import Comment
 
 class Post(BaseModel):
     issue_id: int
