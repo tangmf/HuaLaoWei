@@ -29,10 +29,17 @@ def main():
     with psycopg.connect(**db_params) as conn:
         with conn.cursor() as cursor:
             try:
-                cursor.execute('TRUNCATE TABLE issues RESTART IDENTITY CASCADE')
-                print("Issues table truncated.")
-                cursor.execute('TRUNCATE TABLE issue_type_to_issue_mapping RESTART IDENTITY CASCADE')
-                cursor.execute('TRUNCATE TABLE issue_subtype_to_issue_mapping RESTART IDENTITY CASCADE')
+                # cursor.execute('TRUNCATE TABLE issues RESTART IDENTITY CASCADE')
+                # print("Issues table truncated.")
+                # cursor.execute('TRUNCATE TABLE issue_type_to_issue_mapping RESTART IDENTITY CASCADE')
+                # cursor.execute('TRUNCATE TABLE issue_subtype_to_issue_mapping RESTART IDENTITY CASCADE')
+
+                # Check if issues table has data
+                cursor.execute("SELECT COUNT(*) FROM issues")
+                count = cursor.fetchone()[0]
+                if count > 0:
+                    print(f"Issues table already has {count} records. Skipping seeding.")
+                    return
 
                 cursor.execute('SELECT user_id FROM users')
                 users = [row[0] for row in cursor.fetchall()]

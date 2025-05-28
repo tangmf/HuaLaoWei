@@ -24,6 +24,10 @@ prefix-vars:
 	sed -i.bak -E '/^EXPO_PUBLIC_/! s/^([A-Z_][A-Z0-9_]*)=(.*)/EXPO_PUBLIC_\1=\2/' frontend_mobileapp/.env
 	rm -f frontend_mobileapp/.env.bak
 
+prefix-vars-windows:
+	powershell -Command "$$envFile = 'frontend_mobileapp/.env'; $$tmpFile = 'frontend_mobileapp/.env.tmp'; Get-Content $$envFile | ForEach-Object { if ($$_ -notmatch '^EXPO_PUBLIC_') { if ($$_ -match '^([A-Z_][A-Z0-9_]*)=(.*)') { 'EXPO_PUBLIC_{0}={1}' -f $$matches[1], $$matches[2] } else { $$_ } } else { $$_ } } | Set-Content $$tmpFile; Move-Item -Force $$tmpFile $$envFile"
+	@echo "Prefixing variables in frontend_mobileapp/.env (Windows)..."
+
 # ---------------------------
 # Setup Environment
 # ---------------------------
@@ -33,6 +37,13 @@ setup-dev:
 	cp $(ENV_FILE) frontend_dashboard/.env
 	cp $(ENV_FILE) frontend_mobileapp/.env
 	make prefix-vars
+	@echo "Switched to DEV environment."
+
+setup-dev-windows:
+	copy /Y .env.dev $(ENV_FILE)
+	copy /Y $(ENV_FILE) frontend_dashboard\.env
+	copy /Y $(ENV_FILE) frontend_mobileapp\.env
+	make prefix-vars-windows
 	@echo "Switched to DEV environment."
 
 setup-prod:

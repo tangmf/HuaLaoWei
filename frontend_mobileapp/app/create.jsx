@@ -140,6 +140,10 @@ export default function Create() {
   }); // Location
   const [errorMsg, setErrorMsg] = useState(""); // Error message for location
 
+  // Dynamically extract LAN IP from Expo
+  const host = Constants.expoConfig?.hostUri?.split(":")[0];
+  const API_BASE_URL = `http://${host}:${process.env.EXPO_PUBLIC_BACKEND_PORT}`;
+
   const handleSeverityChange = (level) => {
     setSeverity(level);
   };
@@ -183,19 +187,14 @@ export default function Create() {
 
   const fetchAISuggestions = async () => {
     if (!title || !description) {
-      alert("Please fill in both title and description before using AI suggestions.");
+      alert("Please description before using AI suggestions.");
       return;
     }
-    
-    // else if (!image) {
-    //   alert("Please add an image before using AI suggestions.");
-    //   return;
-    // }
 
     setLoadingSuggestions(true);
     try {
       const formData = new FormData();
-      formData.append("text", title + " " + description);
+      formData.append("description", description);
 
       if (location.latitude && location.longitude) {
         formData.append("coordinates", JSON.stringify({ "lat": location.latitude, "lon": location.longitude }));
@@ -209,45 +208,40 @@ export default function Create() {
         });
       }
 
-      // const response = await fetch("https://your-api-url.com/generate-suggestions", {
-      //   method: "POST",
-      //   body: formData,
-      //   headers: {
-      //     "Content-Type": "multipart/form-data",
-      //   },
-      // });
+      // Call your backend endpoint
+      const response = await fetch(`${API_BASE_URL}/v1/issues/categorise`, {
+        method: "POST",
+        body: formData,
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
 
-      // const data = await response.json();
-
-      // send POST api request to vlm model
-      // try {
-      //   const { data } = await axios.post("http://localhost:8080/infer", formData, {
-      //     headers: {
-      //       "Content-Type": "multipart/form-data",
-      //     },
-      //   })
-      //   console.log("AI Suggestions: ", data);
-      // } catch (error) {
-      //   console.error("Error fetching AI suggestions:", error);
-      // }
-
-
-      // For Testing
-      const data = {
-        categories: ["Illegal Parking - Road", "Facilities in HDB Estates - Playground & Fitness Facilities Maintenance"],
-        severity: "Medium",
+      if (!response.ok) {
+        throw new Error("Failed to fetch AI suggestions");
       }
 
-      let tempSuggestedCategoriesList = data.categories.filter(category => !categories.includes(category))
+      const result = await response.json();
+      // The backend returns: { response: { title, categories, severity, ... } }
+      const ai = result.response;
 
+      // For Testing
+      // const data = {
+      //   categories: ["Illegal Parking - Road", "Facilities in HDB Estates - Playground & Fitness Facilities Maintenance"],
+      //   severity: "Medium",
+      // }
+
+      // let tempSuggestedCategoriesList = data.categories.filter(category => !categories.includes(category))
+
+      // Fill in the form with AI suggestions
       setSuggestions({
-        title: data.title || "",
-        description: data.description || "",
-        suggestedCategories: data.categories || [],
-        suggestedCategoriesList: tempSuggestedCategoriesList || [],
-        categories: Array.from(categories) || [],
-        severity: data.severity || "",
-      });
+      title: ai.title || "",
+      description: ai.description || "",
+      suggestedCategories: ai.categories || [],
+      suggestedCategoriesList: (ai.categories || []).filter(category => !categories.includes(category)),
+      categories: Array.from(categories) || [],
+      severity: ai.severity || "",
+    });
       setIsAISuggestionsVisible(true);
     } catch (error) {
       console.error("Error fetching AI suggestions:", error);

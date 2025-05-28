@@ -109,7 +109,8 @@ class VLMIssueCategoriserService:
         return self._finalise_response(response)
 
     async def _finalise_response(self, response: dict) -> dict: 
+        title = response.get("title")
         categories = response.get("categories", [])
         severity = response.get("severity")
 
-        return {"categories": categories, "severity": severity}
+        return {"title": title, "categories": categories, "severity": severity}

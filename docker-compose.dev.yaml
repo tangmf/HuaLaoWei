@@ -191,6 +191,7 @@ services:
     volumes:
       - ./config:/app/config
       - ./ai_models/vlm_issue_categoriser:/app/ai_models/vlm_issue_categoriser
+      - vlm_hf_cache:/app/cache/huggingface
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8101/health"]
       interval: 30s
@@ -257,6 +258,7 @@ volumes:
   weaviate_data:
   ollama_data:
   minio_data:
+  vlm_hf_cache:
 
 # --------------------------------------------------------
 # Networks

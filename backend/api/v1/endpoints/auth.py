@@ -20,6 +20,7 @@ async def signup(request: Request, user: dict):
 async def signin(request: Request, user: dict):
     resources = request.app.state.resources
     user_data = await crud_auth.authenticate_user(resources=resources, user=user)
+    print(user_data)
     if user_data:
         access_token = create_access_token(data={"sub": user_data["user_id"]})
         return {

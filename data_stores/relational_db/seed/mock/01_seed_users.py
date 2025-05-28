@@ -22,8 +22,25 @@ def main():
         with conn.cursor() as cursor:
             try:
                 # Truncate users table
-                cursor.execute('TRUNCATE TABLE users RESTART IDENTITY CASCADE')
-                print("Users table truncated.")
+                # cursor.execute('TRUNCATE TABLE users RESTART IDENTITY CASCADE')
+                # print("Users table truncated.")
+
+                # Check if users table has data
+                cursor.execute("SELECT COUNT(*) FROM users")
+                count = cursor.fetchone()[0]
+                if count > 0:
+                    print(f"Users table already has {count} records. Skipping seeding.")
+                    return
+
+                # Generate test user
+                # password is testpassword
+                test_user = ("testuser", "testuser@example.com", "9f735e0df9a1ddc702bf0a1a7b83033f9f7153a00c29de82cedadc9957289b05", faker.date_time_between(start_date='-1d', end_date='now'))
+                cursor.execute("""
+                    INSERT INTO users (username, email, password_hash, last_login)
+                    VALUES (%s, %s, %s, %s)
+                    ON CONFLICT DO NOTHING
+                """, test_user)
+                print("Test user inserted.")
 
                 # Generate 20 users
                 faker = Faker()

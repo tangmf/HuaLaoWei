@@ -22,7 +22,7 @@ ai_models:
 
   vlm_issue_categoriser:
     model: "HuggingFaceTB/SmolVLM2-2.2B-Instruct"
-    adapter: "jerick5555/SmolVLM2-2.2B-Instruct-vqav2-vqav3"
+    adapter: "jerick5555/SmolVLM2-2.2B-Instruct-vqav2"
     url: ${VLM_URL}
 
   forecast_model_issue_count:

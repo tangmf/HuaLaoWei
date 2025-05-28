@@ -45,8 +45,17 @@ export default function SignIn() {
         body: JSON.stringify({ username, password_hash }),
       });
 
-      const data = await response.json();
-
+      const text = await response.text();
+      console.log("Raw response:", text);
+      let data;
+      try {
+        data = JSON.parse(text);
+      } catch (e) {
+        console.error("Failed to parse JSON:", e);
+        alert("Server error: " + text);
+        return;
+      }
+      
       if (response.ok && data.access_token) {
         // Save token to AsyncStorage here if needed
         await AsyncStorage.setItem("token", data.access_token);

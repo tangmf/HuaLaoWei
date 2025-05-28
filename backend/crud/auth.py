@@ -14,6 +14,12 @@ async def create_user(resources: Resources, user: dict):
 async def authenticate_user(resources: Resources, user: dict):
     async with resources.db_client.connection() as conn:
         async with conn.cursor(row_factory=dict_row) as cur:
+            # DEBUG: get all users to see if the user exists
+            await cur.execute("SELECT * FROM users")
+            all_users = await cur.fetchall()
+            print("DEBUG, all users: ", all_users)
+
+            print("DEBUG, getting user: ", user)
             await cur.execute(
                 "SELECT * FROM users WHERE username = %s AND password_hash = %s",
                 (user["username"], user["password_hash"])

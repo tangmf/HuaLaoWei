@@ -55,8 +55,6 @@ class QueryVLMIssueCategoriser:
             raise ValueError("Static data not loaded. Please call load_context_data() first.")
 
         categories_text = "\n".join(f"- {entry}" for entry in self.categories)
-        agencies_text = "\n".join(f"- {entry}" for entry in self.agencies)
-        town_council_text = "\n".join(f"- {entry}" for entry in self.town_councils)
 
         self.base_prompt_content = textwrap.dedent(f"""
             You are an expert in municipal services issues for Singapore.
@@ -67,48 +65,34 @@ class QueryVLMIssueCategoriser:
             - One or more images of the issue.
 
             After analysing, you must perform four sub-tasks:
+                                                   
+            1. **Title**:
+            - Generate a short, clear, and descriptive title between 5 to 12 words.
+            - Title must be suitable for a forum post headline.
+            - Include the location (block number, park name, road name) in the title only if it improves clarity.
+            - Prioritise clarity and precision. Do not be overly creative.
 
-            1. **Categories**:
+            2. **Categories**:
             - Categorise the issue into one or more predefined categories.
             - Use only the exact provided category names (case sensitive).
             - Do not invent new categories.
 
-            2. **Severity**:
+            3. **Severity**:
             - Assess the severity of the issue as one of: Low, Medium, High.
             - Follow these guidelines:
                 - Low: Minor inconvenience or cosmetic issue (e.g., dirty floor, faded paint).
                 - Medium: Noticeable impact needing attention but not urgent (e.g., pothole, broken railing).
                 - High: Critical issue requiring urgent action, public danger (e.g., exposed electrical wiring, large sinkhole).
 
-            3. **Authority**:
-            - Select the most appropriate authority responsible for handling the issue.
-            - Choose either an Agency or a Town Council, not both.
-            - Guidelines:
-                - If the issue occurs near HDB residential blocks, playgrounds, common corridors, or neighbourhood surroundings, prefer Town Councils.
-                - If the issue occurs in parks, public transport facilities, roads, expressways, rivers, public beaches, or national infrastructure, prefer Agencies.
-
-            4. **Title**:
-            - Generate a short, clear, and descriptive title between 5 to 12 words.
-            - Title must be suitable for a forum post headline.
-            - Include the location (block number, park name, road name) in the title only if it improves clarity.
-            - Prioritise clarity and precision. Do not be overly creative.
-
             You must respond strictly in the following JSON format:
             {{
                 "title": "string",
                 "categories": ["list of selected categories as strings"],
-                "severity": "Low" or "Medium" or "High",
-                "authority": "Name of Agency or Town Council as string"
+                "severity": "Low" or "Medium" or "High"
             }}
 
             Predefined Categories:
             {categories_text}
-
-            Predefined Agencies:
-            {agencies_text}
-
-            Predefined Town Councils:
-            {town_council_text}
 
             ----------------------------------------------------------
             Here are a few examples to guide you:
@@ -122,8 +106,7 @@ class QueryVLMIssueCategoriser:
             {{
                 "title": "Cracked Floor at Corridor of Block 20",
                 "categories": ["Common area maintenance"],
-                "severity": "Medium",
-                "authority": "Tanjong Pagar Town Council"
+                "severity": "Medium"
             }}
 
             **Example 2:**
@@ -135,8 +118,7 @@ class QueryVLMIssueCategoriser:
             {{
                 "title": "Fallen Tree Branch Blocking Footpath Near Bishan Park",
                 "categories": ["Fallen trees or tree branches"],
-                "severity": "High",
-                "authority": "National Parks Board (NParks)"
+                "severity": "High"
             }}
 
             **Example 3:**
@@ -148,14 +130,12 @@ class QueryVLMIssueCategoriser:
             {{
                 "title": "Faulty Traffic Light at Clementi Ave 2 Junction",
                 "categories": ["Faulty streetlights"],
-                "severity": "High",
-                "authority": "Land Transport Authority (LTA)"
+                "severity": "High"
             }}
             ----------------------------------------------------------
 
             Important Notes:
-            - Always match category and authority names exactly.
-            - Select the most logical and relevant authority based on the context.
+            - Always match category names exactly.
             - Do not leave any fields blank.
             - If the images are unclear or missing, rely on the text description more.
         """)
@@ -197,7 +177,7 @@ class QueryVLMIssueCategoriser:
 
     async def load_context_data(self):
         """
-        Preloads issue categories, agencies, and town councils into memory.
+        Preloads issue categories into memory.
         This should be called once at app startup.
         """
         # Load categories
@@ -208,23 +188,7 @@ class QueryVLMIssueCategoriser:
         ]
         self.category_names = [subtype['name'] for subtype in issue_subtypes]  # pure names, no description
 
-        # Load agencies
-        agencies = await crud_issues.fetch_agencies()
-        self.agencies = [
-            f"{agency['name']}: {agency.get('description', 'No description provided')}"
-            for agency in agencies
-        ]
-        self.agency_names = [agency['name'] for agency in agencies]
-
-        # Load town councils
-        town_councils = await crud_issues.fetch_town_councils()
-        self.town_councils = [
-            f"{council['name']}: {council.get('description', 'No description provided')}"
-            for council in town_councils
-        ]
-        self.town_council_names = [council['name'] for council in town_councils]
-
-        logger.info("Static data loaded successfully: Categories, Agencies, Town Councils.")
+        logger.info("Static data loaded successfully: Categories.")
 
     async def _validate_response(self, response: dict) -> dict:
         """
@@ -233,8 +197,7 @@ class QueryVLMIssueCategoriser:
         fallback_response = {
             "title": "Uncategorised Municipal Issue",
             "categories": ["Miscellaneous"],
-            "severity": "Medium",
-            "authority": "Unassigned"
+            "severity": "Medium"
         }
 
         try:
@@ -244,7 +207,6 @@ class QueryVLMIssueCategoriser:
             title = response.get("title")
             categories = response.get("categories")
             severity = response.get("severity")
-            authority = response.get("authority")
 
             if not title or not isinstance(title, str):
                 raise ValueError("Missing or invalid title")
@@ -254,9 +216,6 @@ class QueryVLMIssueCategoriser:
 
             if severity not in ["Low", "Medium", "High"]:
                 raise ValueError("Invalid severity")
-
-            if not authority or not isinstance(authority, str):
-                raise ValueError("Missing or invalid authority")
 
             return response 
 
